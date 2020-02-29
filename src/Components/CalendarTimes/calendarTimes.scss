@@ -1,0 +1,14 @@
+.full-cal-times {
+  width: 100px;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(64, 25px);
+}
+.cal-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 10pt;
+  margin-right: 10px;
+}

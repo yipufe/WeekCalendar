@@ -1,0 +1,11 @@
+.full-cal-cell-background {
+  width: 100%;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(65, 25px);
+  background: darkgray;
+}
+.full-cal-cell {
+  background: white;
+}

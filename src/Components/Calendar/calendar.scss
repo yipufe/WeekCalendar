@@ -1,8 +1,9 @@
 .calendar-wrap {
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   position: relative;
+  margin-bottom: 50px;
 }
 .dayname-row {
   width: 100%;
@@ -29,27 +30,9 @@
   display: flex;
   position: relative;
 }
-.full-cal-times {
-  width: 100px;
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(64, 25px);
-}
-.cal-time {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: 10pt;
-}
+
 .full-cal-body {
   width: 100%;
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(64, 25px);
-  background: darkgray;
-}
-.full-cal-date-time-box {
-  background: white;
+  position: relative;
+  border: 1px solid gray;
 }
