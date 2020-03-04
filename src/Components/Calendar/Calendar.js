@@ -4,8 +4,13 @@ import './calendar.scss';
 import CalendarCells from '../CalendarCells/CalendarCells';
 import CalendarTimes from '../CalendarTimes/CalendarTimes';
 import CalendarFront from '../CalendarFront/CalendarFront';
+// import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 
 function Calendar() {
+  // const addEvent = () => {
+
+  // }
+
   return (
     <div className="calendar-wrap">
       <div className="dayname-row">

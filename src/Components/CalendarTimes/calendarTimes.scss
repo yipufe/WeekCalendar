@@ -3,11 +3,11 @@
   display: grid;
   gap: 1px;
   grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(64, 25px);
+  grid-template-rows: repeat(17, 119px);
 }
 .cal-time {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-end;
   font-size: 10pt;
   margin-right: 10px;
