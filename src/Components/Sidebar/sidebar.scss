@@ -1,0 +1,64 @@
+.sidebar {
+  width: 18%;
+  height: 100vh;
+  background: #263238;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-top: 40px;
+  margin-bottom: 100px;
+}
+.selects {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+.select {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.btns {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  width: 100%;
+  height: 40px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+  margin-bottom: 20px;
+  font-size: 12pt;
+}
+.new-event-btn {
+  background: #1976d2;
+  &:hover {
+    background: darken(#1976d2, 10%);
+  }
+}
+.upload-btn {
+  background: #9ca1a4;
+  &:hover {
+    background: darken(#9ca1a4, 10%);
+  }
+}
+.clear-btn {
+  background: #b71c1c;
+  &:hover {
+    background: darken(#b71c1c, 10%);
+  }
+}
