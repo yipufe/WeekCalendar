@@ -1,11 +1,11 @@
 import React from 'react';
 import './calendarFront.scss';
-import testData from '../../testCalData';
 import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 
-function CalendarFront() {
-  const displayData = testData.map(event => {
-    const index = event['Building and Room'];
+function CalendarFront(props) {
+  const { initialData, setInitialData, displayData, setDisplayData } = props;
+  const eventData = displayData.map(event => {
+    const index = event.Section;
     const dayArray = event['Meeting Pattern'].split(' ')[0].split('');
     const startTime = event['Meeting Pattern'].split(' ')[1].split('-')[0];
     const endTime = event['Meeting Pattern'].split(' ')[1].split('-')[1];
@@ -19,7 +19,7 @@ function CalendarFront() {
           }}
           key={`${ev}-${index}`}
         >
-          {event['Class Title']}
+          {event['Course Title']}
           <br />
           {event['Building and Room']}
           <br />
@@ -32,7 +32,7 @@ function CalendarFront() {
     return displayEvents;
   });
 
-  return <div className="calendar-front">{displayData}</div>;
+  return <div className="calendar-front">{eventData}</div>;
 }
 
 export default CalendarFront;

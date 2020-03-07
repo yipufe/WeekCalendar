@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .calendar-front {
   width: 100%;
   display: grid;
@@ -10,7 +12,7 @@
 
 .cal-front-item {
   width: 85%;
-  background-color: #1976d2;
+  background-color: $blue;
   color: white;
   border-radius: 5px;
   padding: 5px;

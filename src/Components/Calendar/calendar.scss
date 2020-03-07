@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .calendar-wrap {
   width: 75%;
   display: flex;
@@ -6,6 +8,7 @@
   margin-bottom: 50px;
   top: 50px;
   left: 20%;
+  background: $darkMid;
 }
 .dayname-row {
   width: 100%;
@@ -27,6 +30,8 @@
   justify-content: flex-start;
   margin-left: 10px;
   font-size: 16pt;
+  font-family: $font;
+  color: white;
 }
 .full-cal {
   display: flex;
@@ -37,5 +42,5 @@
 .full-cal-body {
   width: 100%;
   position: relative;
-  border: 1px solid gray;
+  border-top: 1px solid lighten($darkLight, 15%);
 }

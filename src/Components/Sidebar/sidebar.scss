@@ -1,7 +1,9 @@
+@import '../../variables';
+
 .sidebar {
   width: 18%;
   height: 100vh;
-  background: #263238;
+  background: $darkLight;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,9 +11,10 @@
   top: 0;
   left: 0;
   z-index: 1000;
+  border-right: solid 2px $darkDark;
 }
 h1 {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: $font;
   margin-top: 40px;
   margin-bottom: 100px;
 }
@@ -20,17 +23,21 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 .select {
   width: 100%;
   margin-bottom: 40px;
+  font-family: $font;
 }
 .btns {
   width: 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  h3 {
+    font-family: $font;
+  }
 }
 
 button {
@@ -43,22 +50,24 @@ button {
   transition: ease-in-out 0.2s;
   margin-bottom: 20px;
   font-size: 12pt;
+  font-family: $font;
 }
 .new-event-btn {
-  background: #1976d2;
+  background: $blue;
   &:hover {
-    background: darken(#1976d2, 10%);
+    background: darken($blue, 10%);
   }
 }
 .upload-btn {
-  background: #9ca1a4;
+  background: $blue;
+  margin-top: 10px;
   &:hover {
-    background: darken(#9ca1a4, 10%);
+    background: darken($blue, 10%);
   }
 }
 .clear-btn {
-  background: #b71c1c;
+  background: $red;
   &:hover {
-    background: darken(#b71c1c, 10%);
+    background: darken($red, 10%);
   }
 }

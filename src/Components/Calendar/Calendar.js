@@ -6,11 +6,8 @@ import CalendarTimes from '../CalendarTimes/CalendarTimes';
 import CalendarFront from '../CalendarFront/CalendarFront';
 // import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 
-function Calendar() {
-  // const addEvent = () => {
-
-  // }
-
+function Calendar(props) {
+  const { eventData } = props;
   return (
     <div className="calendar-wrap">
       <div className="dayname-row">
@@ -28,7 +25,12 @@ function Calendar() {
         <CalendarTimes />
         <div className="full-cal-body">
           <CalendarCells />
-          <CalendarFront />
+          <CalendarFront
+            initialData={props.initialData}
+            setInitialData={props.setInitialData}
+            displayData={props.displayData}
+            setDisplayData={props.setDisplayData}
+          />
         </div>
       </div>
     </div>

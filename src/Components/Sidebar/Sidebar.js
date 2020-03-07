@@ -23,7 +23,7 @@ const roomOptions = testData.map(room => {
   };
 });
 
-function Sidebar() {
+function Sidebar(props) {
   const [block, setBlock] = useState();
   const [instructor, setInstructor] = useState();
   const [room, setRoom] = useState();
@@ -41,9 +41,11 @@ function Sidebar() {
     console.log(`Option selected:`, selectedOption);
   };
 
+  console.log(block, instructor, room);
+
   return (
     <div className="sidebar">
-      <h1 style={{ color: 'white' }}>Calendar Week</h1>
+      <h1 style={{ color: 'white', fontWeight: '600' }}>Calendar Week</h1>
       <div className="selects">
         <Select
           placeholder="Filter Room..."
@@ -66,8 +68,29 @@ function Sidebar() {
       </div>
       <div className="btns">
         <button className="new-event-btn">New Event</button>
-        <button className="upload-btn">Upload CSV</button>
         <button className="clear-btn">Clear Calendar</button>
+        <h3 style={{ width: '100%', color: 'white', marginTop: '40px' }}>
+          Upload CSV File
+        </h3>
+        <input
+          type="file"
+          name="csvfile"
+          id="csvfile"
+          onChange={props.handleChange}
+          style={{
+            width: '100%',
+            height: '30px',
+            color: 'white',
+            fontSize: '11pt'
+          }}
+        />
+        <button
+          type="submit"
+          onClick={props.fileHandler}
+          className="upload-btn"
+        >
+          Upload
+        </button>
       </div>
     </div>
   );
