@@ -121,6 +121,9 @@ function App() {
 
   const clearFilters = () => {
     setDisplayData(initialData);
+    setRoomValue({ label: 'Filter Room...', value: 0 });
+    setInstructorValue({ label: 'Filter Instructor...', value: 0 });
+    setBlockValue({ label: 'Filter Block...', value: 0 });
   };
 
   console.log(initialData);
