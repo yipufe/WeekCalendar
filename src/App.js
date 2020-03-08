@@ -10,6 +10,9 @@ function App() {
   const [block, setBlock] = useState([]);
   const [instructor, setInstructor] = useState([]);
   const [room, setRoom] = useState([]);
+  const [blockValue, setBlockValue] = useState([]);
+  const [instructorValue, setInstructorValue] = useState([]);
+  const [roomValue, setRoomValue] = useState([]);
 
   const handleChange = e => {
     const file = e.target.files[0]; // accesing file
@@ -91,6 +94,9 @@ function App() {
       item => item['Part of Term'] === selectedOption.value
     );
     setDisplayData(blockFilteredData);
+    setBlockValue(selectedOption);
+    setInstructorValue({ label: 'Filter Instructor...', value: 0 });
+    setRoomValue({ label: 'Filter Room...', value: 0 });
   };
   const handleInstructorChange = selectedOption => {
     console.log(`Option selected:`, selectedOption);
@@ -98,6 +104,9 @@ function App() {
       item => item.Instructor === selectedOption.value
     );
     setDisplayData(instructorFilteredData);
+    setInstructorValue(selectedOption);
+    setBlockValue({ label: 'Filter Block...', value: 0 });
+    setRoomValue({ label: 'Filter Room...', value: 0 });
   };
   const handleRoomChange = selectedOption => {
     console.log(`Option selected:`, selectedOption);
@@ -105,11 +114,10 @@ function App() {
       item => item['Building and Room'] === selectedOption.value
     );
     setDisplayData(roomFilteredData);
+    setRoomValue(selectedOption);
+    setInstructorValue({ label: 'Filter Instructor...', value: 0 });
+    setBlockValue({ label: 'Filter Block...', value: 0 });
   };
-
-  const clearRoomValue = () => null;
-  const clearInstructorValue = () => null;
-  const clearBlockValue = () => null;
 
   const clearFilters = () => {
     setDisplayData(initialData);
@@ -130,9 +138,9 @@ function App() {
         handleInstructorChange={handleInstructorChange}
         handleRoomChange={handleRoomChange}
         clearFilters={clearFilters}
-        clearRoomValue={clearRoomValue}
-        clearInstructorValue={clearInstructorValue}
-        clearBlockValue={clearBlockValue}
+        blockValue={blockValue}
+        instructorValue={instructorValue}
+        roomValue={roomValue}
       />
       <Calendar
         initialData={initialData}

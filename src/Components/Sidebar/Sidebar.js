@@ -9,19 +9,22 @@ function Sidebar(props) {
       <div className="selects">
         <Select
           className="select"
-          defaultValue={{ label: 'Filter Room...', value: 0 }}
+          placeholder="Filter Room..."
+          value={props.roomValue}
           options={props.room}
           onChange={props.handleRoomChange}
         />
         <Select
           className="select"
-          defaultValue={{ label: 'Filter Instructor...', value: 0 }}
+          placeholder="Filter Instructor..."
+          value={props.instructorValue}
           options={props.instructor}
           onChange={props.handleInstructorChange}
         />
         <Select
           className="select"
-          defaultValue={{ label: 'Filter Block...', value: 0 }}
+          placeholder="Filter Block..."
+          value={props.blockValue}
           options={props.block}
           onChange={props.handleBlockChange}
         />
