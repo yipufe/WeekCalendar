@@ -7,9 +7,9 @@ function App() {
   const [displayData, setDisplayData] = useState([]);
   const [initialData, setInitialData] = useState([]);
   const [file, setFile] = useState('');
-  const [block, setBlock] = useState();
-  const [instructor, setInstructor] = useState();
-  const [room, setRoom] = useState();
+  const [block, setBlock] = useState([]);
+  const [instructor, setInstructor] = useState([]);
+  const [room, setRoom] = useState([]);
 
   const handleBlockChange = selectedOption => {
     setBlock({ selectedOption });
@@ -51,6 +51,27 @@ function App() {
         console.log(resData);
         setInitialData(resData);
         setDisplayData(resData);
+        const roomArray = resData.map(item => {
+          return {
+            value: item['Building and Room'],
+            label: item['Building and Room']
+          };
+        });
+        const instructorArray = resData.map(item => {
+          return {
+            value: item.Instructor,
+            label: item.Instructor
+          };
+        });
+        const blockArray = resData.map(item => {
+          return {
+            value: item['Part of Term'],
+            label: item['Part of Term']
+          };
+        });
+        setRoom(roomArray);
+        setInstructor(instructorArray);
+        setBlock(blockArray);
       })
       .catch(err => console.log(err));
   };
