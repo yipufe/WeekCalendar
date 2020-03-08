@@ -1,70 +1,33 @@
 import React, { useState } from 'react';
 import './sidebar.scss';
 import Select from 'react-select';
-import testData from '../../testCalData';
-
-const blockOptions = [
-  { value: 'full', label: 'Full Semester' },
-  { value: 'first', label: '1st Block' },
-  { value: 'second', label: '2nd Block' }
-];
-
-const instructorOptions = testData.map(item => {
-  return {
-    value: item.Instructor.split(',')[0],
-    label: item.Instructor.split(' (')[0]
-  };
-});
-
-const roomOptions = testData.map(room => {
-  return {
-    value: room['Building and Room'],
-    label: room['Building and Room']
-  };
-});
 
 function Sidebar(props) {
-  const [block, setBlock] = useState();
-  const [instructor, setInstructor] = useState();
-  const [room, setRoom] = useState();
-
-  const handleBlockChange = selectedOption => {
-    setBlock({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-  const handleInstructorChange = selectedOption => {
-    setInstructor({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-  const handleRoomChange = selectedOption => {
-    setRoom({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-
-  console.log(block, instructor, room);
-
   return (
     <div className="sidebar">
       <h1 style={{ color: 'white', fontWeight: '600' }}>Calendar Week</h1>
       <div className="selects">
         <Select
-          placeholder="Filter Room..."
           className="select"
-          options={roomOptions}
-          onChange={handleRoomChange}
+          defaultValue={{ label: 'Filter Room...', value: 0 }}
+          options={props.room}
+          onChange={props.handleRoomChange}
         />
         <Select
-          placeholder="Filter Instructor..."
           className="select"
-          options={instructorOptions}
-          onChange={handleInstructorChange}
+          defaultValue={{ label: 'Filter Instructor...', value: 0 }}
+          options={props.instructor}
+          onChange={props.handleInstructorChange}
         />
         <Select
-          placeholder="Filter Block..."
           className="select"
-          options={blockOptions}
-          onChange={handleBlockChange}
+          defaultValue={{ label: 'Filter Block...', value: 0 }}
+          options={props.block}
+          onChange={props.handleBlockChange}
         />
+        <button onClick={props.clearFilters} className="clear-filters-btn">
+          Clear Filters
+        </button>
       </div>
       <div className="btns">
         <button className="new-event-btn">New Event</button>

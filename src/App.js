@@ -11,22 +11,8 @@ function App() {
   const [instructor, setInstructor] = useState([]);
   const [room, setRoom] = useState([]);
 
-  const handleBlockChange = selectedOption => {
-    setBlock({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-  const handleInstructorChange = selectedOption => {
-    setInstructor({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-  const handleRoomChange = selectedOption => {
-    setRoom({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
-  };
-
   const handleChange = e => {
     const file = e.target.files[0]; // accesing file
-    // console.log(file);
     setFile(file); // storing file
   };
 
@@ -51,36 +37,103 @@ function App() {
         console.log(resData);
         setInitialData(resData);
         setDisplayData(resData);
-        const roomArray = resData.map(item => {
+        const roomArray = [];
+        const instructorArray = [];
+        const blockArray = [];
+        for (let item of resData) {
+          if (roomArray.length <= 0) {
+            roomArray.push(item['Building and Room']);
+          }
+          if (!roomArray.includes(item['Building and Room'])) {
+            roomArray.push(item['Building and Room']);
+          }
+          if (instructorArray.length <= 0) {
+            instructorArray.push(item.Instructor);
+          }
+          if (!instructorArray.includes(item.Instructor)) {
+            instructorArray.push(item.Instructor);
+          }
+          if (blockArray.length <= 0) {
+            blockArray.push(item['Part of Term']);
+          }
+          if (!blockArray.includes(item['Part of Term'])) {
+            blockArray.push(item['Part of Term']);
+          }
+        }
+        const roomOptions = roomArray.sort().map(item => {
           return {
-            value: item['Building and Room'],
-            label: item['Building and Room']
+            value: item,
+            label: item
           };
         });
-        const instructorArray = resData.map(item => {
+        const instructorOptions = instructorArray.sort().map(item => {
           return {
-            value: item.Instructor,
-            label: item.Instructor
+            value: item,
+            label: item
           };
         });
-        const blockArray = resData.map(item => {
+        const blockOptions = blockArray.sort().map(item => {
           return {
-            value: item['Part of Term'],
-            label: item['Part of Term']
+            value: item,
+            label: item
           };
         });
-        setRoom(roomArray);
-        setInstructor(instructorArray);
-        setBlock(blockArray);
+        setRoom(roomOptions);
+        setInstructor(instructorOptions);
+        setBlock(blockOptions);
       })
       .catch(err => console.log(err));
   };
 
+  const handleBlockChange = selectedOption => {
+    console.log(`Option selected:`, selectedOption);
+    const blockFilteredData = initialData.filter(
+      item => item['Part of Term'] === selectedOption.value
+    );
+    setDisplayData(blockFilteredData);
+  };
+  const handleInstructorChange = selectedOption => {
+    console.log(`Option selected:`, selectedOption);
+    const instructorFilteredData = initialData.filter(
+      item => item.Instructor === selectedOption.value
+    );
+    setDisplayData(instructorFilteredData);
+  };
+  const handleRoomChange = selectedOption => {
+    console.log(`Option selected:`, selectedOption);
+    const roomFilteredData = initialData.filter(
+      item => item['Building and Room'] === selectedOption.value
+    );
+    setDisplayData(roomFilteredData);
+  };
+
+  const clearRoomValue = () => null;
+  const clearInstructorValue = () => null;
+  const clearBlockValue = () => null;
+
+  const clearFilters = () => {
+    setDisplayData(initialData);
+  };
+
   console.log(initialData);
+  console.log(block, instructor, room);
 
   return (
     <div className="App">
-      <Sidebar fileHandler={csvFileHandler} handleChange={handleChange} />
+      <Sidebar
+        fileHandler={csvFileHandler}
+        handleChange={handleChange}
+        block={block}
+        instructor={instructor}
+        room={room}
+        handleBlockChange={handleBlockChange}
+        handleInstructorChange={handleInstructorChange}
+        handleRoomChange={handleRoomChange}
+        clearFilters={clearFilters}
+        clearRoomValue={clearRoomValue}
+        clearInstructorValue={clearInstructorValue}
+        clearBlockValue={clearBlockValue}
+      />
       <Calendar
         initialData={initialData}
         setInitialData={setInitialData}
