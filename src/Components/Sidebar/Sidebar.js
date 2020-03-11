@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import './sidebar.scss';
 import Select from 'react-select';
+import Logo from '../../images/SchedgeLogo.svg';
 
 function Sidebar(props) {
   return (
     <div className="sidebar">
-      <h1 style={{ color: 'white', fontWeight: '600' }}>Calendar Week</h1>
+      <img
+        src={Logo}
+        alt="Schedge Logo"
+        className="logo"
+        style={{ width: '120px', height: '120px' }}
+      />
       <div className="selects">
         <Select
           className="select"
