@@ -4,7 +4,7 @@ export const calDays = {
   W: 3,
   R: 4,
   F: 5,
-  S: 6
+  Sa: 6
 };
 
 export const calTimes = {

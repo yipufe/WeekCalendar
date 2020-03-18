@@ -38,29 +38,42 @@ function App() {
       })
       .then(resData => {
         console.log(resData);
-        setInitialData(resData);
-        setDisplayData(resData);
+        const dataArray = [];
         const roomArray = [];
         const instructorArray = [];
         const blockArray = [];
         for (let item of resData) {
-          if (roomArray.length <= 0) {
-            roomArray.push(item['Building and Room']);
+          if (item.field2 && item.field2 !== 'CLSS ID') {
+            dataArray.push({
+              courseTitle: item.field11,
+              instructor: item.field16.split(' (')[0],
+              meetingPattern: item.field14,
+              location: item.field17,
+              block: item.field19,
+              creditHours: item.field27,
+              classId: item.field2
+            });
           }
-          if (!roomArray.includes(item['Building and Room'])) {
-            roomArray.push(item['Building and Room']);
+        }
+        console.log(dataArray);
+        for (let item of dataArray) {
+          if (roomArray.length <= 0) {
+            roomArray.push(item.location);
+          }
+          if (!roomArray.includes(item.location)) {
+            roomArray.push(item.location);
           }
           if (instructorArray.length <= 0) {
-            instructorArray.push(item.Instructor);
+            instructorArray.push(item.instructor);
           }
-          if (!instructorArray.includes(item.Instructor)) {
-            instructorArray.push(item.Instructor);
+          if (!instructorArray.includes(item.instructor)) {
+            instructorArray.push(item.instructor);
           }
           if (blockArray.length <= 0) {
-            blockArray.push(item['Part of Term']);
+            blockArray.push(item.block);
           }
-          if (!blockArray.includes(item['Part of Term'])) {
-            blockArray.push(item['Part of Term']);
+          if (!blockArray.includes(item.block)) {
+            blockArray.push(item.block);
           }
         }
         const roomOptions = roomArray.sort().map(item => {
@@ -81,6 +94,8 @@ function App() {
             label: item
           };
         });
+        setInitialData(dataArray);
+        setDisplayData(dataArray);
         setRoom(roomOptions);
         setInstructor(instructorOptions);
         setBlock(blockOptions);
@@ -91,7 +106,7 @@ function App() {
   const handleBlockChange = selectedOption => {
     console.log(`Option selected:`, selectedOption);
     const blockFilteredData = initialData.filter(
-      item => item['Part of Term'] === selectedOption.value
+      item => item.block === selectedOption.value
     );
     setDisplayData(blockFilteredData);
     setBlockValue(selectedOption);
@@ -101,7 +116,7 @@ function App() {
   const handleInstructorChange = selectedOption => {
     console.log(`Option selected:`, selectedOption);
     const instructorFilteredData = initialData.filter(
-      item => item.Instructor === selectedOption.value
+      item => item.instructor === selectedOption.value
     );
     setDisplayData(instructorFilteredData);
     setInstructorValue(selectedOption);
@@ -111,7 +126,7 @@ function App() {
   const handleRoomChange = selectedOption => {
     console.log(`Option selected:`, selectedOption);
     const roomFilteredData = initialData.filter(
-      item => item['Building and Room'] === selectedOption.value
+      item => item.location === selectedOption.value
     );
     setDisplayData(roomFilteredData);
     setRoomValue(selectedOption);
@@ -126,8 +141,8 @@ function App() {
     setBlockValue({ label: 'Filter Block...', value: 0 });
   };
 
-  console.log(initialData);
-  console.log(block, instructor, room);
+  // console.log(initialData);
+  // console.log(block, instructor, room);
 
   return (
     <div className="App">

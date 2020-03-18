@@ -16,4 +16,51 @@
   color: white;
   border-radius: 5px;
   padding: 5px;
+  cursor: pointer;
+  p {
+    margin: 0;
+    font-size: 9pt;
+  }
+}
+
+.course-modal {
+  width: 100vw;
+  border: none;
+  outline: none;
+  font-family: $font;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // position: absolute;
+  // top: 40px;
+  // left: 40px;
+  // right: 40px;
+  // bottom: 40px;
+}
+
+.course-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-modal-wrap {
+  width: 1vw;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $darkDark;
+  z-index: inherit;
+  border-radius: 5px;
+  p {
+    color: white;
+  }
 }
