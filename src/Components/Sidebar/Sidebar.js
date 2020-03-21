@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './sidebar.scss';
 import Select from 'react-select';
 import Logo from '../../images/SchedgeLogo.svg';

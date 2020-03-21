@@ -7,7 +7,7 @@ import CalendarFront from '../CalendarFront/CalendarFront';
 // import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 
 function Calendar(props) {
-  const { eventData } = props;
+  // const { eventData } = props;
   return (
     <div className="calendar-wrap">
       <div className="dayname-row">

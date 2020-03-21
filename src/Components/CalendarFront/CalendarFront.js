@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './calendarFront.scss';
-import { calDays, calTimes } from '../../calendarDaysAndTimesData';
-import Modal from 'react-modal';
+import CalendarFrontEvent from './CalendarFrontEvent';
 
 function CalendarFront(props) {
-  const { initialData, setInitialData, displayData, setDisplayData } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { displayData } = props;
   let meetingPatternArr = displayData.filter(
     course => course.meetingPattern !== 'Does Not Meet'
   );
@@ -16,51 +14,21 @@ function CalendarFront(props) {
     const dayArray = days !== 'Sa' ? days.split('') : ['Sa'];
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
     const endTime = event.meetingPattern.split(' ')[1].split('-')[1];
-    const handleEditCourse = () => {
-      console.log(event);
-    };
-    const openModal = () => {
-      setIsModalOpen(true);
-    };
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
+
     const displayEvents = dayArray.map(day => {
       return (
-        <div
-          className="cal-front-item"
-          style={{
-            gridColumn: `${calDays[day]}`,
-            gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`
-          }}
+        <CalendarFrontEvent
+          {...props}
           key={`${day}-${index}`}
-          onClick={openModal}
-        >
-          <p>{event.courseTitle}</p>
-          <p>{event.location}</p>
-          <p>{event.instructor}</p>
-          <p>{event.meetingPattern}</p>
-          <Modal
-            isOpen={isModalOpen}
-            onRequestClose={closeModal}
-            contentLabel="Course Details"
-            className="course-modal"
-            overlayClassName="course-modal-overlay"
-            ariaHideApp={false}
-          >
-            <div className="course-modal-wrap">
-              <p>{event.courseTitle}</p>
-              <p>{event.instructor}</p>
-              <p>{event.location}</p>
-              <p>{event.meetingPattern}</p>
-              <p>{event.block}</p>
-              <p>{event.creditHours}</p>
-              <p>{event.courseId}</p>
-            </div>
-          </Modal>
-        </div>
+          index={index}
+          startTime={startTime}
+          endTime={endTime}
+          event={event}
+          day={day}
+        />
       );
     });
+
     return displayEvents;
   });
 
