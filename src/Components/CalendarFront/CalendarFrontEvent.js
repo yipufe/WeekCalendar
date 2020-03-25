@@ -23,8 +23,9 @@ function CalendarFrontEvent(props) {
   };
   const closeModal = () => {
     setIsModalOpen(false);
+    console.log(isModalOpen);
   };
-
+  // console.log(isModalOpen);
   return (
     <div
       className="cal-front-item"
@@ -41,12 +42,18 @@ function CalendarFrontEvent(props) {
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
         contentLabel="Course Details"
         className="course-modal"
         overlayClassName="course-modal-overlay"
         ariaHideApp={false}
       >
         <div className="course-modal-wrap">
+          <div className="modal-header">
+            <button className="modal-close-x" onClick={closeModal}>
+              X
+            </button>
+          </div>
           <p>Course Title: {event.courseTitle}</p>
           <p>Instructor: {event.instructor}</p>
           <p>Location: {event.location}</p>
