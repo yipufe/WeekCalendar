@@ -4,7 +4,7 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(204, 10px);
+  grid-template-rows: repeat(204, 5px);
   position: absolute;
   top: 0;
   left: 0;
@@ -27,7 +27,7 @@
   width: 100vw;
   border: none;
   outline: none;
-  font-family: $font;
+  font-family: $Raleway;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +56,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: $darkMid;
+  background-color: $gray;
   z-index: inherit;
   border-radius: 5px;
   box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 1);
@@ -78,7 +78,7 @@
   height: 30px;
   background: none;
   color: white;
-  font-family: $font;
+  font-family: $Raleway;
   font-size: 14pt;
   cursor: pointer;
   transition: ease-in-out 0.2s;
@@ -144,11 +144,11 @@
 .cancel-btn {
   width: 120px;
   height: 35px;
-  font-family: $font;
+  font-family: $Rajdhani;
   background: $gray;
   transition: ease-in-out 0.2s;
   cursor: pointer;
-  color: $darkDark;
+  color: $darkGray;
   &:hover {
     background: darken($gray, 10%);
   }
@@ -156,7 +156,7 @@
 .save-btn {
   width: 120px;
   height: 35px;
-  font-family: $font;
+  font-family: $Rajdhani;
   background: $blue;
   color: white;
   margin-left: 20px;

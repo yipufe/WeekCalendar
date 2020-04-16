@@ -13,12 +13,12 @@ function Calendar(props) {
       <div className="dayname-row">
         <div className="dayname-left"></div>
         <div className="dayname-wrap">
-          <div className="dayname">MON</div>
-          <div className="dayname">TUE</div>
-          <div className="dayname">WED</div>
-          <div className="dayname">THUR</div>
-          <div className="dayname">FRI</div>
-          <div className="dayname">SAT</div>
+          <div className="dayname">Monday</div>
+          <div className="dayname">Tuesday</div>
+          <div className="dayname">Wednesday</div>
+          <div className="dayname">Thursday</div>
+          <div className="dayname">Friday</div>
+          <div className="dayname">Saturday</div>
         </div>
       </div>
       <div className="full-cal">

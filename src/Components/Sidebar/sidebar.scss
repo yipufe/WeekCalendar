@@ -1,77 +1,88 @@
 @import '../../variables';
 
 .sidebar {
-  width: 18%;
-  height: 100vh;
-  background: $darkLight;
+  width: 300px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  border-right: solid 2px $darkDark;
-}
-h1 {
-  font-family: $font;
-  margin-top: 40px;
-  margin-bottom: 100px;
-}
-.selects {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 40px;
-}
-.select {
-  width: 100%;
-  margin-bottom: 40px;
-  font-family: $font;
-}
-.clear-filters-btn {
-  background: $green;
+  justify-content: space-between;
+  margin-top: 50px;
+  h1 {
+    font-family: $Rajdhani;
+    font-weight: 600;
+    font-size: 29px;
+    margin: 0;
+    margin-bottom: 10px;
+  }
 }
 .btns {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   h3 {
-    font-family: $font;
-  }
-}
-
-button {
-  width: 100%;
-  height: 40px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: ease-in-out 0.2s;
-  margin-bottom: 20px;
-  font-size: 12pt;
-  font-family: $font;
-}
-.new-event-btn {
-  background: $blue;
-  &:hover {
-    background: darken($blue, 10%);
+    font-family: $Rajdhani;
   }
 }
 .upload-btn {
-  background: $blue;
+  width: 100%;
+  height: 50px;
+  background: white;
+  border: solid 2px $green1;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  margin-bottom: 20px;
+  font-size: 14pt;
+  font-family: $Rajdhani;
+  font-weight: 600;
   margin-top: 10px;
   &:hover {
-    background: darken($blue, 10%);
+    background: $green1;
+    color: white;
   }
 }
-.clear-btn {
-  background: $red;
-  &:hover {
-    background: darken($red, 10%);
+.filters {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 1px gray;
+}
+.filter-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: $darkGray;
+  h3 {
+    color: white;
+    font-size: 22px;
   }
+}
+.clear-filters-btn {
+  width: 110px;
+  height: 30px;
+  color: $darkGray;
+  border: none;
+  border-radius: 12pc;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+  font-size: 11pt;
+  font-family: $Rajdhani;
+  font-weight: 600;
+  background: white;
+  &:hover {
+    background: $green3;
+    color: white;
+  }
+}
+.select {
+  width: 100%;
+  font-family: $Raleway;
+}
+.css-yk16xz-control {
+  border-radius: 0px !important;
 }
