@@ -28,7 +28,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'http://157.245.166.248:8080/calendar/postcsv';
+    let url = 'https://schedge.dev/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
