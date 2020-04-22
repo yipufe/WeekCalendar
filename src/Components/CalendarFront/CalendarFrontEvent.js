@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './calendarFront.scss';
 import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 
 function CalendarFrontEvent(props) {
-  const {
-    initialData,
-    setInitialData,
-    displayData,
-    setDisplayData,
-    index,
-    startTime,
-    endTime,
-    event,
-    day,
-  } = props;
+  const { startTime, endTime, event, day } = props;
 
   return (
     <div

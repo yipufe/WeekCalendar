@@ -15,7 +15,7 @@ function Sidebar(props) {
           style={{
             width: '100%',
             height: '30px',
-            fontSize: '12pt',
+            fontSize: '10pt',
           }}
         />
         <button

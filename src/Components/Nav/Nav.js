@@ -5,10 +5,10 @@ function Nav() {
   return (
     <div className="nav-wrap">
       <div className="nav-body">
-        <a href="#">HOME</a>
-        <a href="#">CONTACT US</a>
-        <a href="#">CURRICULUM OFFICE</a>
-        <a href="#">CATALOG</a>
+        <p href="#">HOME</p>
+        <p href="#">CONTACT US</p>
+        <p href="#">CURRICULUM OFFICE</p>
+        <p href="#">CATALOG</p>
       </div>
     </div>
   );
