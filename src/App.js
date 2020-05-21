@@ -22,6 +22,7 @@ function App() {
   const handleChange = (e) => {
     const file = e.target.files[0]; // accesing file
     setFile(file); // storing file
+    console.log(file);
   };
 
   const csvFileHandler = (e) => {
