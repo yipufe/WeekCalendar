@@ -15,6 +15,7 @@ function CalendarFrontEvent(props) {
     >
       <p>{event.courseTitle}</p>
       <p>{event.meetingPattern}</p>
+      <p>{event.location}</p>
     </div>
   );
 }
