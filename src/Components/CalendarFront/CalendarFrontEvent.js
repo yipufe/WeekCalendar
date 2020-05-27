@@ -5,6 +5,8 @@ import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 function CalendarFrontEvent(props) {
   const { startTime, endTime, event, day } = props;
 
+  console.log(event)
+
   return (
     <div
       className="cal-front-item"
@@ -13,9 +15,9 @@ function CalendarFrontEvent(props) {
         gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
       }}
     >
+      <p>{event.course}</p>
       <p>{event.courseTitle}</p>
       <p>{event.meetingPattern}</p>
-      <p>{event.location}</p>
     </div>
   );
 }

@@ -59,6 +59,7 @@ function App() {
               block: item.field19,
               creditHours: item.field27,
               classId: item.field2,
+              course: item.field9,
             });
           }
         }
