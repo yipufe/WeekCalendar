@@ -35,6 +35,13 @@ function Sidebar(props) {
         </div>
         <Select
           className="select"
+          placeholder="Filter Course Number..."
+          value={props.courseNumberValue}
+          options={props.courseNumber}
+          onChange={props.handleCourseNumberChange}
+        />
+        <Select
+          className="select"
           placeholder="Filter Course..."
           value={props.courseValue}
           options={props.course}
