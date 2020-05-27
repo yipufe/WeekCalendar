@@ -5,8 +5,6 @@ import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 function CalendarFrontEvent(props) {
   const { startTime, endTime, event, day } = props;
 
-  console.log(event)
-
   return (
     <div
       className="cal-front-item"
