@@ -7,6 +7,9 @@ import Nav from './Components/Nav/Nav';
 import Footer from './Components/Footer/Footer';
 
 function App() {
+  // All of these useState items are the states or data for different parts of the calendar.
+  // This App component is the parent component to all of the other components.
+  // We have all the data and functions here and then we pass them to the child components through props.
   const [displayData, setDisplayData] = useState([]);
   const [initialData, setInitialData] = useState([]);
   const [file, setFile] = useState('');
@@ -19,12 +22,17 @@ function App() {
   const [block, setBlock] = useState([]);
   const [blockValue, setBlockValue] = useState([]);
 
+  // This function is for when the user uploads a file it stores the file in the file state.
   const handleChange = (e) => {
-    const file = e.target.files[0]; // accesing file
+    const file = e.target.files[0]; // accessing file
     setFile(file); // storing file
     console.log(file);
   };
 
+  /*
+    This function is the main function that actually uploads the file to the server,
+    then the function receives the response data (resData)
+  */
   const csvFileHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -44,13 +52,16 @@ function App() {
       })
       .then((resData) => {
         console.log(resData);
+        // These are all the empty arrays that will be filled with data after filtering through the resData.
         const dataArray = [];
         const roomArray = [];
         const instructorArray = [];
         const blockArray = [];
         const courseArray = [];
+        // This for loop is for filtering through the data and getting rid of all the heading rows and columns in the csv file.
         for (let item of resData) {
           if (item.field2 && item.field2 !== 'CLSS ID') {
+            // This pushes the classes into the dataArray state.
             dataArray.push({
               courseTitle: item.field11,
               instructor: item.field16.split(' (')[0],
@@ -63,6 +74,7 @@ function App() {
           }
         }
         console.log(dataArray);
+        // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
         for (let item of dataArray) {
           if (roomArray.length <= 0) {
             roomArray.push(item.location);
@@ -89,6 +101,8 @@ function App() {
             courseArray.push(item.courseTitle);
           }
         }
+        // These variables are for the filter dropdown options.
+        // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
         const courseOptions = courseArray.sort().map((item) => {
           return {
             value: item,
@@ -113,6 +127,7 @@ function App() {
             label: item,
           };
         });
+        // These then set the useState variables with the correct data to be used elsewhere in the app.
         setInitialData(dataArray);
         setDisplayData(dataArray);
         setCourse(courseOptions);
@@ -123,6 +138,9 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  // Each of these handle change functions are for when the user selects something in the filters.
+  // Whena  user selects something it filters through the specific filter data and sets the specific useStates with the new filtered data.
+  // Each function also resets the other filters back to 0.
   const handleBlockChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
     const blockFilteredData = initialData.filter(
