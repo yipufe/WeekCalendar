@@ -1,6 +1,8 @@
 import React from 'react';
 import './calendarTimes.scss';
 
+// These are the times on the left of the calendar and are positioned with CSS Grid
+
 function CalendarTimes() {
   return (
     <div className="full-cal-times">
