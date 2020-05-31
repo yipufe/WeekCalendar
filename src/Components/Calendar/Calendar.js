@@ -4,10 +4,10 @@ import './calendar.scss';
 import CalendarCells from '../CalendarCells/CalendarCells';
 import CalendarTimes from '../CalendarTimes/CalendarTimes';
 import CalendarFront from '../CalendarFront/CalendarFront';
-// import { calDays, calTimes } from '../../calendarDaysAndTimesData';
+
+// This component is the parent Calendar component that houses all of the other component for the calendar like the rows and columns and the times.
 
 function Calendar(props) {
-  // const { eventData } = props;
   return (
     <div className="calendar-wrap">
       <div className="dayname-row">

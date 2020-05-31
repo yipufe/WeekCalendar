@@ -138,8 +138,8 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  // Each of these handle change functions are for when the user selects something in the filters.
-  // Whena  user selects something it filters through the specific filter data and sets the specific useStates with the new filtered data.
+  // Each of these handle change functions do the same thing for each filter and are for when the user selects something in the filters.
+  // When a user selects something it filters through the specific filter data and sets the specific useState with the new filtered data.
   // Each function also resets the other filters back to 0.
   const handleBlockChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -194,15 +194,13 @@ function App() {
     setBlockValue({ label: 'Filter Block...', value: 0 });
   };
 
-  // console.log(initialData);
-  // console.log(block, instructor, room);
-
   return (
     <div className="App">
       <Header />
       <Nav />
       <div className="app-body">
         <Sidebar
+          // These are all of the props that are being sent to the Sidebar component
           fileHandler={csvFileHandler}
           handleChange={handleChange}
           course={course}
@@ -220,6 +218,7 @@ function App() {
           clearFilters={clearFilters}
         />
         <Calendar
+          // These are all the props being sent to the Calendar component
           initialData={initialData}
           setInitialData={setInitialData}
           displayData={displayData}

@@ -1,12 +1,14 @@
+// These are the days associated with a number for the CSS Grid columns.
 export const calDays = {
   M: 1,
   T: 2,
   W: 3,
   R: 4,
   F: 5,
-  Sa: 6
+  Sa: 6,
 };
 
+// These are the times associated with the number for the CSS Grid rows.
 export const calTimes = {
   '6am': 1,
   '6:05am': 2,
@@ -211,5 +213,5 @@ export const calTimes = {
   '10:40pm': 201,
   '10:45pm': 202,
   '10:50pm': 203,
-  '10:55pm': 204
+  '10:55pm': 204,
 };
