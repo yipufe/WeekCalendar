@@ -15,8 +15,6 @@ function App() {
   const [file, setFile] = useState('');
   const [course, setCourse] = useState([]);
   const [courseValue, setCourseValue] = useState([]);
-  const [courseNumber, setCourseNumber] = useState([]);
-  const [courseNumberValue, setCourseNumberValue] = useState([]);
   const [room, setRoom] = useState([]);
   const [roomValue, setRoomValue] = useState([]);
   const [instructor, setInstructor] = useState([]);
@@ -60,7 +58,6 @@ function App() {
         const instructorArray = [];
         const blockArray = [];
         const courseArray = [];
-        const courseNumberArray = [];
         // This for loop is for filtering through the data and getting rid of all the heading rows and columns in the csv file.
         for (let item of resData) {
           if (item.field2 && item.field2 !== 'CLSS ID') {
@@ -99,31 +96,27 @@ function App() {
             blockArray.push(item.block);
           }
           if (courseArray.length <= 0) {
-            courseArray.push(item.courseTitle);
+            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
           }
           if (!courseArray.includes(item.courseTitle)) {
-            courseArray.push(item.courseTitle);
-          }
-          if (courseNumberArray.length <= 0) {
-            courseNumberArray.push(item.course);
-          }
-          if (!courseNumberArray.includes(item.course)) {
-            courseNumberArray.push(item.course);
-          }
-          
+            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
+          }          
         }
+        
+        //Remove duplicates from courseArray
+        const courseArrayUnique = courseArray.filter((item, index, self) => {
+          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
+            return t.courseNumber === item.courseNumber && t.courseTitle === item.courseTitle;  //Finds index where this condition is true
+          })
+        });
+        
+
         // These variables are for the filter dropdown options.
         // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
-        const courseOptions = courseArray.sort().map((item) => {
+        const courseOptions = courseArrayUnique.sort().map((item) => {
           return {
-            value: item,
-            label: item,
-          };
-        });
-        const courseNumberOptions = courseNumberArray.sort().map((item) => {
-          return {
-            value: item,
-            label: item,
+            value: item.courseTitle,
+            label: item.courseNumber+" "+item.courseTitle,
           };
         });
         const roomOptions = roomArray.sort().map((item) => {
@@ -148,7 +141,6 @@ function App() {
         setInitialData(dataArray);
         setDisplayData(dataArray);
         setCourse(courseOptions);
-        setCourseNumber(courseNumberOptions);
         setRoom(roomOptions);
         setInstructor(instructorOptions);
         setBlock(blockOptions);
@@ -166,7 +158,6 @@ function App() {
     );
     setDisplayData(blockFilteredData);
     setBlockValue(selectedOption);
-    setCourseNumberValue({ label: 'Filter Course Number...', value: 0 });
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
@@ -178,7 +169,6 @@ function App() {
     );
     setDisplayData(instructorFilteredData);
     setInstructorValue(selectedOption);
-    setCourseNumberValue({ label: 'Filter Course Number...', value: 0 });
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
@@ -190,26 +180,10 @@ function App() {
     );
     setDisplayData(roomFilteredData);
     setRoomValue(selectedOption);
-    setCourseNumberValue({ label: 'Filter Course Number...', value: 0 });
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
   };
-  //Handle Course Number filtering
-  const handleCourseNumberChange = (selectedOption) => {
-    console.log(`Option selected:`, selectedOption);
-    const courseNumberFilteredData = initialData.filter(
-      (item) => item.course === selectedOption.value
-    );
-    setDisplayData(courseNumberFilteredData);
-    setCourseNumberValue(selectedOption);
-    
-    //Clear other filters
-    setCourseValue({ label: 'Filter Course...', value: 0 });
-    setRoomValue({ label: 'Filter Room...', value: 0 });
-    setInstructorValue({ label: 'Filter Instructor...', value: 0 });
-    setBlockValue({ label: 'Filter Block...', value: 0 });
-  };  
   const handleCourseChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
     const courseFilteredData = initialData.filter(
@@ -217,7 +191,6 @@ function App() {
     );
     setDisplayData(courseFilteredData);
     setCourseValue(selectedOption);
-    setCourseNumberValue({ label: 'Filter Course Number...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
@@ -225,7 +198,6 @@ function App() {
 
   const clearFilters = () => {
     setDisplayData(initialData);
-    setCourseNumberValue({ label: 'Filter Course Number...', value: 0 });
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
@@ -242,9 +214,8 @@ function App() {
           fileHandler={csvFileHandler}
           handleChange={handleChange}
           course={course}
-          courseNumber={courseNumber}
           courseValue={courseValue}
-          courseNumberValue={courseNumberValue}
+          courseAndNumber={course}
           room={room}
           roomValue={roomValue}
           instructor={instructor}
@@ -255,7 +226,6 @@ function App() {
           handleInstructorChange={handleInstructorChange}
           handleRoomChange={handleRoomChange}
           handleCourseChange={handleCourseChange}
-          handleCourseNumberChange={handleCourseNumberChange}
           clearFilters={clearFilters}
         />
         <Calendar
