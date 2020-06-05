@@ -16,6 +16,7 @@ function CalendarFrontEvent(props) {
         gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`, // For the row we use calTimes and the startTime and endTime which is then associated with a number, then we tell it what row to start on with the start time and what row to end on with the end time.
       }}
     >
+      <p>{event.course}</p>
       <p>{event.courseTitle}</p>
       <p>{event.meetingPattern}</p>
     </div>

@@ -70,6 +70,7 @@ function App() {
               block: item.field19,
               creditHours: item.field27,
               classId: item.field2,
+              course: item.field9,
             });
           }
         }
@@ -95,18 +96,27 @@ function App() {
             blockArray.push(item.block);
           }
           if (courseArray.length <= 0) {
-            courseArray.push(item.courseTitle);
+            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
           }
           if (!courseArray.includes(item.courseTitle)) {
-            courseArray.push(item.courseTitle);
-          }
+            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
+          }          
         }
+        
+        //Remove duplicates from courseArray
+        const courseArrayUnique = courseArray.filter((item, index, self) => {
+          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
+            return t.courseNumber === item.courseNumber && t.courseTitle === item.courseTitle;  //Finds index where this condition is true
+          })
+        });
+        
+
         // These variables are for the filter dropdown options.
         // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
-        const courseOptions = courseArray.sort().map((item) => {
+        const courseOptions = courseArrayUnique.sort().map((item) => {
           return {
-            value: item,
-            label: item,
+            value: item.courseTitle,
+            label: item.courseNumber+" "+item.courseTitle,
           };
         });
         const roomOptions = roomArray.sort().map((item) => {
@@ -205,6 +215,7 @@ function App() {
           handleChange={handleChange}
           course={course}
           courseValue={courseValue}
+          courseAndNumber={course}
           room={room}
           roomValue={roomValue}
           instructor={instructor}
