@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'http://localhost:8080/calendar/postcsv'//'https://schedge.dev/calendar/postcsv';
+    let url = 'https://schedge.dev/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -187,7 +187,8 @@ function App() {
       (item) => { 
         /* SelectedOption.value will be only the room number such as "CS 406" and 
         item.location will be the room number and may include details after such 
-        as "CS 406; Online Online" */
+        as "CS 406; Online Online" 
+        This will select all items that have the same room number in the front of the string*/
         return item.location.split(';')[0] === selectedOption.value
       }
     );
