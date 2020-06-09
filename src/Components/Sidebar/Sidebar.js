@@ -3,6 +3,13 @@ import './sidebar.scss';
 import Select from 'react-select';
 
 function Sidebar(props) {
+  const handleResetCalendar = () => {
+    props.setInitialData([]);
+    props.setDisplayData([]);
+    props.clearFilters();
+    props.setFile('');
+  };
+
   return (
     <div className="sidebar">
       <h1>Academic Scheduling Aid</h1>
@@ -24,6 +31,9 @@ function Sidebar(props) {
           className="upload-btn"
         >
           IMPORT
+        </button>
+        <button className="reset-calendar" onClick={handleResetCalendar}>
+          Reset Calendar
         </button>
       </div>
       <div className="filters">

@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'https://schedge.dev/calendar/postcsv';
+    let url = 'http://localhost:8080/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -96,27 +96,39 @@ function App() {
             blockArray.push(item.block);
           }
           if (courseArray.length <= 0) {
-            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
+            courseArray.push({
+              courseNumber: item.course,
+              courseTitle: item.courseTitle,
+            });
           }
           if (!courseArray.includes(item.courseTitle)) {
-            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
-          }          
+            courseArray.push({
+              courseNumber: item.course,
+              courseTitle: item.courseTitle,
+            });
+          }
         }
-        
+
         //Remove duplicates from courseArray
         const courseArrayUnique = courseArray.filter((item, index, self) => {
-          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
-            return t.courseNumber === item.courseNumber && t.courseTitle === item.courseTitle;  //Finds index where this condition is true
-          })
+          return (
+            index ===
+            self.findIndex((t) => {
+              //This will return the first index match so will be false for duplicates
+              return (
+                t.courseNumber === item.courseNumber &&
+                t.courseTitle === item.courseTitle
+              ); //Finds index where this condition is true
+            })
+          );
         });
-        
 
         // These variables are for the filter dropdown options.
         // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
         const courseOptions = courseArrayUnique.sort().map((item) => {
           return {
             value: item.courseTitle,
-            label: item.courseNumber+" "+item.courseTitle,
+            label: item.courseNumber + ' ' + item.courseTitle,
           };
         });
         const roomOptions = roomArray.sort().map((item) => {
@@ -227,6 +239,9 @@ function App() {
           handleRoomChange={handleRoomChange}
           handleCourseChange={handleCourseChange}
           clearFilters={clearFilters}
+          setFile={setFile}
+          setDisplayData={setDisplayData}
+          setInitialData={setInitialData}
         />
         <Calendar
           // These are all the props being sent to the Calendar component
