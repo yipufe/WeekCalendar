@@ -78,10 +78,12 @@ function App() {
         // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
         for (let item of dataArray) {
           if (roomArray.length <= 0) {
-            roomArray.push(item.location);
+            const room = item.location.split(';')[0];   //Remove extra information after the semicolon
+            roomArray.push(room);
           }
           if (!roomArray.includes(item.location)) {
-            roomArray.push(item.location);
+            const room = item.location.split(';')[0];   //Remove extra information after the semicolon
+            roomArray.push(room);
           }
           if (instructorArray.length <= 0) {
             instructorArray.push(item.instructor);
@@ -109,6 +111,12 @@ function App() {
             return t.courseNumber === item.courseNumber && t.courseTitle === item.courseTitle;  //Finds index where this condition is true
           })
         });
+        //Remove duplicates from roomArray
+        const roomArrayUnique = roomArray.filter((item, index, self) => {
+          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
+            return t === item;  //Finds index where this condition is true
+          });
+        });
         
 
         // These variables are for the filter dropdown options.
@@ -119,7 +127,7 @@ function App() {
             label: item.courseNumber+" "+item.courseTitle,
           };
         });
-        const roomOptions = roomArray.sort().map((item) => {
+        const roomOptions = roomArrayUnique.sort().map((item) => {
           return {
             value: item,
             label: item,
@@ -176,7 +184,13 @@ function App() {
   const handleRoomChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
     const roomFilteredData = initialData.filter(
-      (item) => item.location === selectedOption.value
+      (item) => { 
+        /* SelectedOption.value will be only the room number such as "CS 406" and 
+        item.location will be the room number and may include details after such 
+        as "CS 406; Online Online" 
+        This will select all items that have the same room number in the front of the string*/
+        return item.location.split(';')[0] === selectedOption.value
+      }
     );
     setDisplayData(roomFilteredData);
     setRoomValue(selectedOption);
