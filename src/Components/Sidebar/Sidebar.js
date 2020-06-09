@@ -25,6 +25,15 @@ function Sidebar(props) {
         >
           IMPORT
         </button>
+        <button
+          className="reset-calendar"
+          onClick={() => {
+            props.handleResetCalendar();
+            document.getElementById('csvfile').value = '';
+          }}
+        >
+          Reset Calendar
+        </button>
       </div>
       <div className="filters">
         <div className="filter-header">

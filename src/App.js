@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'https://schedge.dev/calendar/postcsv';
+    let url = 'http://localhost:8080/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -78,11 +78,11 @@ function App() {
         // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
         for (let item of dataArray) {
           if (roomArray.length <= 0) {
-            const room = item.location.split(';')[0];   //Remove extra information after the semicolon
+            const room = item.location.split(';')[0]; //Remove extra information after the semicolon
             roomArray.push(room);
           }
           if (!roomArray.includes(item.location)) {
-            const room = item.location.split(';')[0];   //Remove extra information after the semicolon
+            const room = item.location.split(';')[0]; //Remove extra information after the semicolon
             roomArray.push(room);
           }
           if (instructorArray.length <= 0) {
@@ -98,33 +98,49 @@ function App() {
             blockArray.push(item.block);
           }
           if (courseArray.length <= 0) {
-            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
+            courseArray.push({
+              courseNumber: item.course,
+              courseTitle: item.courseTitle,
+            });
           }
           if (!courseArray.includes(item.courseTitle)) {
-            courseArray.push({courseNumber:item.course,courseTitle:item.courseTitle});
-          }          
+            courseArray.push({
+              courseNumber: item.course,
+              courseTitle: item.courseTitle,
+            });
+          }
         }
-        
+
         //Remove duplicates from courseArray
         const courseArrayUnique = courseArray.filter((item, index, self) => {
-          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
-            return t.courseNumber === item.courseNumber && t.courseTitle === item.courseTitle;  //Finds index where this condition is true
-          })
+          return (
+            index ===
+            self.findIndex((t) => {
+              //This will return the first index match so will be false for duplicates
+              return (
+                t.courseNumber === item.courseNumber &&
+                t.courseTitle === item.courseTitle
+              ); //Finds index where this condition is true
+            })
+          );
         });
         //Remove duplicates from roomArray
         const roomArrayUnique = roomArray.filter((item, index, self) => {
-          return index === self.findIndex((t)=>{  //This will return the first index match so will be false for duplicates
-            return t === item;  //Finds index where this condition is true
-          });
+          return (
+            index ===
+            self.findIndex((t) => {
+              //This will return the first index match so will be false for duplicates
+              return t === item; //Finds index where this condition is true
+            })
+          );
         });
-        
 
         // These variables are for the filter dropdown options.
         // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
         const courseOptions = courseArrayUnique.sort().map((item) => {
           return {
             value: item.courseTitle,
-            label: item.courseNumber+" "+item.courseTitle,
+            label: item.courseNumber + ' ' + item.courseTitle,
           };
         });
         const roomOptions = roomArrayUnique.sort().map((item) => {
@@ -183,15 +199,13 @@ function App() {
   };
   const handleRoomChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
-    const roomFilteredData = initialData.filter(
-      (item) => { 
-        /* SelectedOption.value will be only the room number such as "CS 406" and 
-        item.location will be the room number and may include details after such 
-        as "CS 406; Online Online" 
+    const roomFilteredData = initialData.filter((item) => {
+      /* SelectedOption.value will be only the room number such as "CS 406" and
+        item.location will be the room number and may include details after such
+        as "CS 406; Online Online"
         This will select all items that have the same room number in the front of the string*/
-        return item.location.split(';')[0] === selectedOption.value
-      }
-    );
+      return item.location.split(';')[0] === selectedOption.value;
+    });
     setDisplayData(roomFilteredData);
     setRoomValue(selectedOption);
     setCourseValue({ label: 'Filter Course...', value: 0 });
@@ -217,6 +231,19 @@ function App() {
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
   };
+  const handleResetCalendar = () => {
+    setFile('');
+    setBlock([]);
+    setBlockValue([]);
+    setCourse([]);
+    setCourseValue([]);
+    setInstructor([]);
+    setInstructorValue([]);
+    setRoom([]);
+    setRoomValue([]);
+    setInitialData([]);
+    setDisplayData([]);
+  };
 
   return (
     <div className="App">
@@ -241,6 +268,10 @@ function App() {
           handleRoomChange={handleRoomChange}
           handleCourseChange={handleCourseChange}
           clearFilters={clearFilters}
+          setFile={setFile}
+          setDisplayData={setDisplayData}
+          setInitialData={setInitialData}
+          handleResetCalendar={handleResetCalendar}
         />
         <Calendar
           // These are all the props being sent to the Calendar component
