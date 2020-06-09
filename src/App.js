@@ -231,6 +231,19 @@ function App() {
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
   };
+  const handleResetCalendar = () => {
+    setFile('');
+    setBlock([]);
+    setBlockValue([]);
+    setCourse([]);
+    setCourseValue([]);
+    setInstructor([]);
+    setInstructorValue([]);
+    setRoom([]);
+    setRoomValue([]);
+    setInitialData([]);
+    setDisplayData([]);
+  };
 
   return (
     <div className="App">
@@ -258,6 +271,7 @@ function App() {
           setFile={setFile}
           setDisplayData={setDisplayData}
           setInitialData={setInitialData}
+          handleResetCalendar={handleResetCalendar}
         />
         <Calendar
           // These are all the props being sent to the Calendar component

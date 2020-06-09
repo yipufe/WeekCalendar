@@ -3,13 +3,6 @@ import './sidebar.scss';
 import Select from 'react-select';
 
 function Sidebar(props) {
-  const handleResetCalendar = () => {
-    props.setInitialData([]);
-    props.setDisplayData([]);
-    props.clearFilters();
-    props.setFile('');
-  };
-
   return (
     <div className="sidebar">
       <h1>Academic Scheduling Aid</h1>
@@ -32,7 +25,13 @@ function Sidebar(props) {
         >
           IMPORT
         </button>
-        <button className="reset-calendar" onClick={handleResetCalendar}>
+        <button
+          className="reset-calendar"
+          onClick={() => {
+            props.handleResetCalendar();
+            document.getElementById('csvfile').value = '';
+          }}
+        >
           Reset Calendar
         </button>
       </div>
