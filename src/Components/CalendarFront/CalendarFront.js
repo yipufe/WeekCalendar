@@ -6,8 +6,8 @@ import CalendarFrontEvent from './CalendarFrontEvent';
 
 function CalendarFront(props) {
   const { displayData } = props;
+  // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
   let meetingPatternArr = displayData.filter(
-    // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
     (course) => course.meetingPattern !== 'Does Not Meet'
   );
 

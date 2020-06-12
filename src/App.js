@@ -12,6 +12,7 @@ function App() {
   // We have all the data and functions here and then we pass them to the child components through props.
   const [displayData, setDisplayData] = useState([]);
   const [initialData, setInitialData] = useState([]);
+  const [scheduleChangesData, setScheduleChangesData] = useState([]);
   const [file, setFile] = useState('');
   const [course, setCourse] = useState([]);
   const [courseValue, setCourseValue] = useState([]);
@@ -272,6 +273,8 @@ function App() {
           setDisplayData={setDisplayData}
           setInitialData={setInitialData}
           handleResetCalendar={handleResetCalendar}
+          scheduleChangesData={scheduleChangesData}
+          setScheduleChangesData={setScheduleChangesData}
         />
         <Calendar
           // These are all the props being sent to the Calendar component
@@ -279,6 +282,8 @@ function App() {
           setInitialData={setInitialData}
           displayData={displayData}
           setDisplayData={setDisplayData}
+          scheduleChangesData={scheduleChangesData}
+          setScheduleChangesData={setScheduleChangesData}
         />
       </div>
       <Footer />

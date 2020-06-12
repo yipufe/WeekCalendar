@@ -26,14 +26,14 @@
 }
 .upload-btn {
   width: 100%;
-  height: 50px;
+  height: 40px;
   background: white;
   border: solid 2px $green1;
   border-radius: 10px;
   cursor: pointer;
   transition: ease-in-out 0.3s;
   margin-bottom: 15px;
-  font-size: 14pt;
+  font-size: 12pt;
   font-family: $Rajdhani;
   font-weight: 600;
   // margin-top: 10px;
@@ -42,26 +42,9 @@
     color: white;
   }
 }
-.reset-calendar {
-  width: 100%;
-  height: 40px;
-  color: white;
-  background: $coolGray;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: ease-in-out 0.3s;
-  font-family: Rajdhani;
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 15px;
-  &:hover {
-    background: lighten($coolGray, 10%);
-  }
-}
 .filters {
   width: 100%;
-  height: 400px;
+  height: 320px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +65,7 @@
 }
 .clear-filters-btn {
   width: 110px;
-  height: 30px;
+  height: 40px;
   color: $darkGray;
   border: none;
   border-radius: 12pc;
@@ -103,4 +86,93 @@
 }
 .css-yk16xz-control {
   border-radius: 0px !important;
+}
+.add-new-class-btn {
+  width: 100%;
+  height: 40px;
+  background: white;
+  border: solid 2px $blue;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  margin-top: 15px;
+  font-size: 12pt;
+  font-family: $Rajdhani;
+  font-weight: 600;
+  &:hover {
+    background: $blue;
+    color: white;
+  }
+}
+.add-class-modal {
+  width: 50vw;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ReactModal__Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #00000030 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-class-modal-wrap {
+  width: 50vw;
+  height: 400px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.add-class-modal-header {
+  width: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  h3 {
+    margin: 0;
+  }
+  button {
+    background: none;
+    border: none;
+    padding: 0px 5px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: $Rajdhani;
+    cursor: pointer;
+    transition: ease 0.3s;
+    &:hover {
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      color: $green1;
+    }
+  }
+}
+.reset-calendar {
+  width: 100%;
+  height: 40px;
+  background: white;
+  border: solid 2px $red;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  font-family: $Rajdhani;
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 15px;
+  &:hover {
+    background: $red;
+    color: white;
+  }
 }
