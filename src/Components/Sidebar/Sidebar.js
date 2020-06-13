@@ -91,6 +91,62 @@ function Sidebar(props) {
         <div className="add-class-modal-wrap">
           <div className="add-class-modal-header">
             <h3>Add Class</h3>
+            <div className="add-class-section-information">
+              <div className="section-info-left">
+                <label htmlFor="classTitle">
+                  <input type="text" />
+                </label>
+                <label htmlFor="classSection">
+                  <input type="text" />
+                </label>
+                <label htmlFor="creditHours">
+                  <input type="text" />
+                </label>
+                <label htmlFor="classStatus">
+                  <input type="text" />
+                </label>
+                <label htmlFor="specialApproval">
+                  <input type="text" />
+                </label>
+                <label htmlFor="GradeMode">
+                  <input type="text" />
+                </label>
+                <label htmlFor="crossListWith">
+                  <input type="text" />
+                </label>
+              </div>
+              <div className="section-info-left">
+                <label htmlFor="partOfTerm">
+                  <input type="text" />
+                </label>
+                <label htmlFor="campus">
+                  <input type="text" />
+                </label>
+                <label htmlFor="instructionMethod">
+                  <input type="text" />
+                </label>
+                <label htmlFor="isVisible">
+                  <input type="text" />
+                </label>
+                <label htmlFor="scheduleType">
+                  <input type="text" />
+                </label>
+                <label htmlFor="session">
+                  <input type="text" />
+                </label>
+              </div>
+            </div>
+            <div className="add-class-bottom">
+              <label htmlFor="classInstructor">
+                <input type="text" />
+              </label>
+              <label htmlFor="buildingAndRoom">
+                <input type="text" />
+              </label>
+              <label htmlFor="classSchedule">
+                <input type="text" />
+              </label>
+            </div>
             <button onClick={() => setOpenAddClassModal(false)}>X</button>
           </div>
         </div>
