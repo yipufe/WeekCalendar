@@ -13,7 +13,6 @@ function CalendarFront(props) {
 
   const eventData = meetingPatternArr.map((event) => {
     // Then we take the array after filtering out all the "Does Not Meet" classes and map through it and store this new array in eventData
-    const index = event.classId;
     const days = event.meetingPattern.split(' ')[0]; // This is splitting the meeting pattern and taking the first part which is the days like MWF
     const dayArray = days !== 'Sa' ? days.split('') : ['Sa']; // This is splitting the days into each individual day like so ["M", "W", "F"]
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0]; // This is splitting the meeting pattern and taking the second part, and then splitting that and taking the first part which is the start time.
@@ -23,8 +22,8 @@ function CalendarFront(props) {
       return (
         <CalendarFrontEvent
           {...props} // This is adding all the props from CalendarFront to this Component.
-          key={`${day}-${index}`}
-          index={index}
+          key={`${day}-${event.classId}`}
+          classId={event.classId}
           startTime={startTime}
           endTime={endTime}
           event={event}

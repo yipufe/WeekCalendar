@@ -90,64 +90,86 @@ function Sidebar(props) {
       >
         <div className="add-class-modal-wrap">
           <div className="add-class-modal-header">
-            <h3>Add Class</h3>
-            <div className="add-class-section-information">
+            <h2>New Class</h2>
+          </div>
+          <div className="add-class-section-information">
+            <h3>Section Information</h3>
+            <div className="section-info">
               <div className="section-info-left">
                 <label htmlFor="classTitle">
+                  Title
                   <input type="text" />
                 </label>
                 <label htmlFor="classSection">
+                  Section
                   <input type="text" />
                 </label>
                 <label htmlFor="creditHours">
+                  Credit Hours
                   <input type="text" />
                 </label>
                 <label htmlFor="classStatus">
+                  Status
                   <input type="text" />
                 </label>
                 <label htmlFor="specialApproval">
+                  Special Approval
                   <input type="text" />
                 </label>
                 <label htmlFor="GradeMode">
+                  Grade Mode
                   <input type="text" />
                 </label>
                 <label htmlFor="crossListWith">
+                  Cross List With
                   <input type="text" />
                 </label>
               </div>
-              <div className="section-info-left">
+              <div className="section-info-right">
                 <label htmlFor="partOfTerm">
+                  Part of Term
                   <input type="text" />
                 </label>
                 <label htmlFor="campus">
+                  Campus
                   <input type="text" />
                 </label>
                 <label htmlFor="instructionMethod">
+                  Instruction Method
                   <input type="text" />
                 </label>
                 <label htmlFor="isVisible">
+                  Visable
                   <input type="text" />
                 </label>
                 <label htmlFor="scheduleType">
+                  Schedule Type
                   <input type="text" />
                 </label>
                 <label htmlFor="session">
+                  Session
                   <input type="text" />
                 </label>
               </div>
             </div>
-            <div className="add-class-bottom">
-              <label htmlFor="classInstructor">
-                <input type="text" />
-              </label>
-              <label htmlFor="buildingAndRoom">
-                <input type="text" />
-              </label>
-              <label htmlFor="classSchedule">
-                <input type="text" />
-              </label>
-            </div>
-            <button onClick={() => setOpenAddClassModal(false)}>X</button>
+          </div>
+          <div className="add-class-bottom">
+            <label htmlFor="classInstructor">
+              Instructor
+              <input type="text" />
+            </label>
+            <label htmlFor="buildingAndRoom">
+              Building and Room
+              <input type="text" />
+            </label>
+            <label htmlFor="classSchedule">
+              Schedule
+              <input type="text" />
+            </label>
+          </div>
+          <div className="add-class-btns">
+            <button onClick={() => setOpenAddClassModal(false)}>Cancel</button>
+            <button>Save Section</button>
           </div>
         </div>
       </Modal>

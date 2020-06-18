@@ -105,7 +105,7 @@
   }
 }
 .add-class-modal {
-  width: 50vw;
+  width: 60vw;
   border: none;
   outline: none;
   display: flex;
@@ -121,26 +121,33 @@
   background-color: #00000030 !important;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 .add-class-modal-wrap {
-  width: 50vw;
-  height: 400px;
+  width: 60vw;
+  height: 600px;
   background: white;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 50px;
 }
 .add-class-modal-header {
-  width: 95%;
+  width: 100%;
+  height: 60px;
+  background: $green1;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
-  h3 {
+  border-radius: 5px 5px 0px 0px;
+  h2 {
     margin: 0;
+    margin-left: 25px;
+    font-weight: 400;
+    font-family: $Rajdhani;
   }
   button {
     background: none;
@@ -156,6 +163,42 @@
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
       border-radius: 5px;
       color: $green1;
+    }
+  }
+}
+.add-class-section-information {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.section-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.section-info-left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+    input {
+      width: 95%;
+    }
+  }
+}
+.section-info-right {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  label {
+    display: flex;
+    flex-direction: column;
+    input {
+      width: 95%;
     }
   }
 }
