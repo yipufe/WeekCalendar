@@ -79,6 +79,8 @@ function Sidebar(props) {
       >
         RESET CALENDAR
       </button>
+
+      {/*** MODAL ***/}
       <Modal
         isOpen={openAddClassModal}
         contentLabel="onRequestClose Example"
@@ -153,6 +155,16 @@ function Sidebar(props) {
               </div>
             </div>
           </div>
+          <div className="section-course-attributes">
+            <div className="section-attributes">
+              <h3>Section Attributes</h3>
+              <p>None selected</p>
+            </div>
+            <div className="course-attributes">
+              <h3>Course Attributes</h3>
+              <p>Lab access fee of $45</p>
+            </div>
+          </div>
           <div className="add-class-bottom">
             <label htmlFor="classInstructor">
               Instructor
@@ -173,6 +185,7 @@ function Sidebar(props) {
           </div>
         </div>
       </Modal>
+      {/*** MODAL END ***/}
     </div>
   );
 }
