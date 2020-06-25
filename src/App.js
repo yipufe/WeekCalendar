@@ -6,6 +6,20 @@ import Header from './Components/Header/Header';
 import Nav from './Components/Nav/Nav';
 import Footer from './Components/Footer/Footer';
 
+import Modal from 'react-modal';
+import ClassModal from './Components/ClassModal/classmodal';
+Modal.setAppElement('#root');  //Bind modal to app element
+const classModalShellStyle = {
+  content: {
+    padding: '0px',
+    bottom: 'auto',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    width: '800px',
+  }
+}
+
+
 function App() {
   // All of these useState items are the states or data for different parts of the calendar.
   // This App component is the parent component to all of the other components.
@@ -21,6 +35,112 @@ function App() {
   const [instructorValue, setInstructorValue] = useState([]);
   const [block, setBlock] = useState([]);
   const [blockValue, setBlockValue] = useState([]);
+
+  const [classModalIsOpen, setClassModalIsOpen] = useState(false);
+  const [classModalData, setClassModalData] = useState({});
+  
+  //Convert 24hour time to 12hour time were 09:00 would be 9am and 09:01 would be 9:01am
+  function convertTime(time24Hour) {
+    let meridiem = 'am';
+    let [hour, minute] = time24Hour.split(':');
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+
+    if(hour>=12) {
+      hour-=12;
+      meridiem = 'pm';
+    }
+    if(hour===0)
+      hour=12;
+    if(minute===0) {
+      return hour+meridiem;
+    }
+    if(minute<10)
+      minute = "0"+minute;
+    return hour+":"+minute+meridiem;
+  }
+
+  //Orders days in order they appear in the week
+  //Example: gets "SaWR" Returns "WRSa"
+  function orderDays(days) {
+    const dayLookup = {
+      'M':0,
+      'T':1,
+      'W':2,
+      'R':3,
+      'F':4,
+      'S':5,
+    }
+    days = days.replace('a', '');
+    const daysArray = days.split('');
+    daysArray.sort((a,b)=>{
+      return dayLookup[a]-dayLookup[b]
+    })
+    days = daysArray.join('');
+    days = days.replace('S', 'Sa');
+    return days;
+  }
+
+  //Called when class information changes in the modal due to the user changing an input field
+  //Uses the input id to identify what value is changing
+  function changeClassModal(event) {
+    //Look up table for inputs and the associated key in classModalData
+    const classModalFieldLookup = {
+      "course-title":"courseTitle",
+      "course-number":"course",
+      "course-instructor":"instructor",
+      "course-location":"location",
+      "course-credits":"creditHours",
+    }
+    const id = event.target.id;
+    const value = event.target.value;
+    const checked = event.target.checked;
+
+    const newClassModalData = {...classModalData};
+
+    if(id==="course-time-start") {
+      const timeStr = convertTime(value)
+      const [days, timeRange] = classModalData.meetingPattern.split(' ');
+      const endTime = timeRange.split('-')[1];
+      newClassModalData.meetingPattern = days+" "+timeStr+"-"+endTime;
+
+    } else if(id==="course-time-end") {
+      const timeStr = convertTime(value)
+      const [days, timeRange] = classModalData.meetingPattern.split(' ');
+      const startTime = timeRange.split('-')[0];
+      newClassModalData.meetingPattern = days+" "+startTime+"-"+timeStr;
+
+    } else if(id.substring(0,10)==="course-day") {
+      const day = id.substring(11);
+      let [days, timeRange] = classModalData.meetingPattern.split(' ');
+      if(checked) {
+        days += day;
+        days = orderDays(days);
+      } else {
+        days = days.replace(day,"");
+      }
+      newClassModalData.meetingPattern = days+" "+timeRange;
+
+    } else {
+      newClassModalData[classModalFieldLookup[id]]=value;
+    }
+
+    setClassModalData(newClassModalData);
+  }
+
+  //Opens Modal with appropriate class information
+  function openClassModal(classId) { 
+    const courseForModalDisplay = initialData.find(item=>{
+      return item.classId === classId;
+    });
+
+    setClassModalData(courseForModalDisplay)    
+    setClassModalIsOpen(true); 
+  }
+  function closeClassModal() { setClassModalIsOpen(false); }
+
+
+
 
   // This function is for when the user uploads a file it stores the file in the file state.
   const handleChange = (e) => {
@@ -247,6 +367,17 @@ function App() {
 
   return (
     <div className="App">
+      <Modal
+        isOpen={classModalIsOpen}
+        onRequestClose={closeClassModal}
+        style={classModalShellStyle}
+      >
+        <ClassModal 
+          closeClassModal={closeClassModal}
+          classModalData={classModalData}
+          changed={changeClassModal}
+        />
+      </Modal>
       <Header />
       <Nav />
       <div className="app-body">
@@ -279,6 +410,7 @@ function App() {
           setInitialData={setInitialData}
           displayData={displayData}
           setDisplayData={setDisplayData}
+          openClassModal={openClassModal}
         />
       </div>
       <Footer />
