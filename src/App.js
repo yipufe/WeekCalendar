@@ -45,6 +45,13 @@ function App() {
     let [hour, minute] = time24Hour.split(':');
     hour = parseInt(hour);
     minute = parseInt(minute);
+    
+    //Round minute to the nearest 5
+    const mod = minute%5;
+    if(mod > 2)
+      minute += 5-mod;
+    else
+      minute -= mod;
 
     if(hour>=12) {
       hour-=12;
@@ -59,6 +66,75 @@ function App() {
       minute = "0"+minute;
     return hour+":"+minute+meridiem;
   }
+
+  //Adds 5 minutes to the time
+  function addFiveMinutes(time) {
+    const time24Hour = convertTime24Hour(time);
+    const [hourStr, minuteStr] = time24Hour.split(':');
+    let [hour,minute] = [parseInt(hourStr), parseInt(minuteStr)];
+    minute+=5;
+    if(minute >= 60) {
+      minute -= 60;
+      hour += 1;
+    }
+    if(hour >=24)
+      hour -= 24;
+    if(hour < 10)
+      hour="0"+hour;
+    const time12Hour = convertTime( hour+":"+minute );
+    return time12Hour;
+  }
+
+  //returns -1: startTime<endTime
+  //returns  0: startTime=endTime
+  //returns  1: startTime>endTime
+  function timeCompare(startTime, endTime) {
+    if(startTime===endTime)
+      return 0;
+    const [startTimeNumber, endTimeNumber] = [timeCompareNumber(startTime), timeCompareNumber(endTime)];
+    if(startTimeNumber<endTimeNumber)
+      return -1;
+    return 1;
+  }
+
+  //Converts time into number for > and < comparison
+  function timeCompareNumber(time) {
+    const time24Hour = convertTime24Hour(time);
+    const onlyNumbers = time24Hour.replace(':', '');
+    return parseInt(onlyNumbers);
+  }
+
+  //Convert 12 hour to 24 hour time
+  function convertTime24Hour(time12Hour) {
+    let hour, minute, meridiem;
+
+    //Seperate out hour, minute, and meridiem
+    if(time12Hour.indexOf(':')>-1) {
+        hour = time12Hour.split(':')[0];
+        minute = time12Hour.split(':')[1];
+        meridiem = minute.substring(2);
+        minute = minute.substring(0,2);            
+    } else {
+        if(time12Hour.length === 3)
+            time12Hour = '0'+time12Hour;
+        hour = time12Hour.substring(0,2);
+        meridiem = time12Hour.substring(2);
+        minute = '00';
+    }
+
+    //Convert hour to 24 hour time
+    if(hour === '12')
+        hour = '0';
+    hour = parseInt(hour);
+    if(meridiem === 'pm')
+        hour += 12;
+    hour = hour.toString();
+    if(hour.length === 1)
+        hour = '0'+hour;
+
+    return hour+":"+minute;
+  }
+
 
   //Orders days in order they appear in the week
   //Example: gets "SaWR" Returns "WRSa"
@@ -102,13 +178,22 @@ function App() {
       const timeStr = convertTime(value)
       const [days, timeRange] = classModalData.meetingPattern.split(' ');
       const endTime = timeRange.split('-')[1];
-      newClassModalData.meetingPattern = days+" "+timeStr+"-"+endTime;
+      const timeCompareValue = timeCompare(timeStr,endTime);
+      if(timeCompareValue===0)
+        newClassModalData.meetingPattern = days+" "+timeStr+"-"+addFiveMinutes(endTime);
+      else
+        newClassModalData.meetingPattern = days+" "+timeStr+"-"+endTime;
 
     } else if(id==="course-time-end") {
       const timeStr = convertTime(value)
       const [days, timeRange] = classModalData.meetingPattern.split(' ');
       const startTime = timeRange.split('-')[0];
-      newClassModalData.meetingPattern = days+" "+startTime+"-"+timeStr;
+
+      const timeCompareValue = timeCompare(startTime, timeStr);
+      if(timeCompareValue===0)
+        newClassModalData.meetingPattern = days+" "+startTime+"-"+addFiveMinutes(timeStr);    
+      else
+        newClassModalData.meetingPattern = days+" "+startTime+"-"+timeStr;
 
     } else if(id.substring(0,10)==="course-day") {
       const day = id.substring(11);
@@ -130,7 +215,7 @@ function App() {
 
   //Opens Modal with appropriate class information
   function openClassModal(classId) { 
-    const courseForModalDisplay = initialData.find(item=>{
+    const courseForModalDisplay = displayData.find(item=>{
       return item.classId === classId;
     });
 
@@ -139,8 +224,47 @@ function App() {
   }
   function closeClassModal() { setClassModalIsOpen(false); }
 
+  //save class information entered into the class modal
+  function saveClass(classId) {
+    //set display data
+    const indexDisplayData = displayData.findIndex(item => {
+      return item.classId === classId
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData[indexDisplayData] = classModalData;
+    setDisplayData(tempDisplayData);
 
+    //set initial data
+    const indexInitialData = initialData.findIndex(item => {
+      return item.classId === classId
+    });
+    const tempInitialData = [...initialData];
+    tempInitialData[indexInitialData] = classModalData;
+    setInitialData(tempInitialData);
 
+    setClassModalIsOpen(false);
+  }
+
+  //delete class modal control
+  function deleteClass(classId) {
+    //remove class from display data
+    const indexDisplayData = displayData.findIndex(item => {
+      return item.classId === classId
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData.splice(indexDisplayData,1);
+    setDisplayData(tempDisplayData);
+
+    //remove class from initial data
+    const indexInitialData = initialData.findIndex(item => {
+      return item.classId === classId
+    });
+    const tempInitialData = [...initialData];
+    tempInitialData.splice(indexInitialData,1);
+    setInitialData(tempInitialData);
+
+    setClassModalIsOpen(false);
+  }
 
   // This function is for when the user uploads a file it stores the file in the file state.
   const handleChange = (e) => {
@@ -374,6 +498,8 @@ function App() {
       >
         <ClassModal 
           closeClassModal={closeClassModal}
+          saveClass={saveClass}
+          deleteClass={deleteClass}
           classModalData={classModalData}
           changed={changeClassModal}
         />

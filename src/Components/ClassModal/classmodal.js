@@ -2,8 +2,8 @@ import React from 'react';
 import './classmodal.scss';
 import ClassModalDays from './classModalDays'
 
-function ClassModal(props) {
-    const {meetingPattern} = props.classModalData;
+function ClassModal(props) {    
+    const {meetingPattern, classId} = props.classModalData;
     //console.log(meetingPattern);
     const [days, timeSpan] = meetingPattern.split(' ');  //Get days and time span
     const [startTime12Hour, endTime12Hour] = timeSpan.split('-');
@@ -78,21 +78,21 @@ function ClassModal(props) {
                             <br/>
 
                             <label htmlFor="course-time-start">Start Time</label>
-                            <input type="time" id="course-time-start" onChange={props.changed} value={startTime24Hour}/>
+                            <input type="time" step="300" id="course-time-start" onChange={props.changed} value={startTime24Hour}/>
                             <br/>
 
                             <label htmlFor="course-time-end">End Time</label>
-                            <input type="time" id="course-time-end" onChange={props.changed} value={endTime24Hour}/>
+                            <input type="time"step="300" id="course-time-end" onChange={props.changed} value={endTime24Hour}/>
                             <br/>
                         </div>
 
                     </div>
                     <div className="course-modal-buttons">
-                        <button className="red-btn">Delete Course</button>
+                        <button className="red-btn" onClick={()=>{props.deleteClass(classId)}}>Delete Course</button>
 
                         <div className="buttons-right">
                             <button className="gray-btn" onClick={props.closeClassModal}>Cancel</button>
-                            <button className="green-btn">Save Selection</button>
+                            <button className="green-btn" onClick={()=>{props.saveClass(classId)}}>Save Selection</button>
                         </div>
                     </div>
                 </form>
