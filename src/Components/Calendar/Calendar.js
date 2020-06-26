@@ -8,6 +8,7 @@ import CalendarFront from '../CalendarFront/CalendarFront';
 // This component is the parent Calendar component that houses all of the other component for the calendar like the rows and columns and the times.
 
 function Calendar(props) {
+  console.log(props.displayData);
   return (
     <div className="calendar-wrap">
       <div className="dayname-row">

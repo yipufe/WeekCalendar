@@ -245,7 +245,7 @@ function App() {
     setInitialData([]);
     setDisplayData([]);
   };
-
+  console.log(scheduleChangesData);
   return (
     <div className="App">
       <Header />

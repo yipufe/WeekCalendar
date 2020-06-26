@@ -19,7 +19,7 @@ function CalendarFrontEvent(props) {
       }}
     >
       <p>{event.course}</p>
-      <p>{event.courseTitle}</p>
+      <p>{event.courseTitle.substring(0, 15) + '...'}</p>
       <p>{event.meetingPattern}</p>
     </div>
   );
