@@ -4,7 +4,6 @@ import ClassModalDays from './classModalDays'
 
 function ClassModal(props) {    
     const {meetingPattern, classId} = props.classModalData;
-    //console.log(meetingPattern);
     const [days, timeSpan] = meetingPattern.split(' ');  //Get days and time span
     const [startTime12Hour, endTime12Hour] = timeSpan.split('-');
     const startTime24Hour = convertTime24Hour(startTime12Hour);

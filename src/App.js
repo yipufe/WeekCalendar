@@ -53,6 +53,7 @@ function App() {
     else
       minute -= mod;
 
+
     if(hour>=12) {
       hour-=12;
       meridiem = 'pm';
@@ -174,7 +175,7 @@ function App() {
 
     const newClassModalData = {...classModalData};
 
-    if(id==="course-time-start") {
+    if(id==="course-time-start") {  //if input is start time split meetingPattern apart into its parts and reconstruct it with the new time
       const timeStr = convertTime(value)
       const [days, timeRange] = classModalData.meetingPattern.split(' ');
       const endTime = timeRange.split('-')[1];
@@ -184,7 +185,7 @@ function App() {
       else
         newClassModalData.meetingPattern = days+" "+timeStr+"-"+endTime;
 
-    } else if(id==="course-time-end") {
+    } else if(id==="course-time-end") { //if input is end time split meetingPattern apart into its parts and reconstruct it with the new time
       const timeStr = convertTime(value)
       const [days, timeRange] = classModalData.meetingPattern.split(' ');
       const startTime = timeRange.split('-')[0];
@@ -195,19 +196,19 @@ function App() {
       else
         newClassModalData.meetingPattern = days+" "+startTime+"-"+timeStr;
 
-    } else if(id.substring(0,10)==="course-day") {
+    } else if(id.substring(0,10)==="course-day") {  //if input is one of the checkboxes for the day selection
       const day = id.substring(11);
       let [days, timeRange] = classModalData.meetingPattern.split(' ');
-      if(checked) {
+      if(checked) { //if the checkbox is checked
         days += day;
-        days = orderDays(days);
+        days = orderDays(days); //Sort days so they start at the begining of the week and move to the end of the week
       } else {
-        days = days.replace(day,"");
+        days = days.replace(day,"");  //Remove day from string
       }
       newClassModalData.meetingPattern = days+" "+timeRange;
 
     } else {
-      newClassModalData[classModalFieldLookup[id]]=value;
+      newClassModalData[classModalFieldLookup[id]]=value; //any other field look up and asign dirrectly
     }
 
     setClassModalData(newClassModalData);
