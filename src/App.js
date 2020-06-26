@@ -242,6 +242,39 @@ function App() {
     tempInitialData[indexInitialData] = classModalData;
     setInitialData(tempInitialData);
 
+    //Add room if unique
+    const tempRoom = [...room];
+    tempRoom.push({
+      value: classModalData.location,
+      label: classModalData.location,
+    });
+    //Remove duplicates
+    tempRoom.filter((item, index, self) => {
+      return (
+        index === self.findIndex((t) => {
+          return t === item;
+        })
+      );
+    });
+    setRoom(tempRoom);
+
+    //Add instructor if unique
+    const tempInstructors = [...instructor];
+    tempInstructors.push({
+      value: classModalData.instructor,
+      label: classModalData.instructor,
+    });
+    //Remove duplicates
+    tempInstructors.filter((item, index, self) => {
+      return (
+        index === self.findIndex((t) => {
+          return t === item;
+        })
+      );
+    });
+    setInstructor(tempInstructors)
+
+
     setClassModalIsOpen(false);
   }
 
