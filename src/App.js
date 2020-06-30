@@ -64,14 +64,29 @@ function App() {
           if (item.field2 && item.field2 !== 'CLSS ID') {
             // This pushes the classes into the dataArray state.
             dataArray.push({
-              courseTitle: item.field11,
-              instructor: item.field16.split(' (')[0],
-              meetingPattern: item.field14,
-              location: item.field17,
-              block: item.field19,
-              creditHours: item.field27,
               classId: item.field2,
               course: item.field9,
+              section: item.field10,
+              courseTitle: item.field11,
+              scheduleType: item.field12,
+              meetingPattern: item.field14,
+              instructor: item.field16.split(' (')[0],
+              location: item.field17,
+              status: item.field18,
+              block: item.field19,
+              session: item.field20,
+              campus: item.field21,
+              instructionMethod: item.field22,
+              visible: item.field24,
+              specialApproval: item.field25,
+              creditHours: item.field27,
+              gradeMode: item.field28,
+              sectionAttributes: item.field29,
+              courseAttributes: item.field30,
+              maxEnrollment: item.field33,
+              maxWaitlistEnrollment: item.field36,
+              sectionComments: item.field44,
+              sectionText: item.field46,
             });
           }
         }

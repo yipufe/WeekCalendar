@@ -7,7 +7,7 @@ import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 function CalendarFrontEvent(props) {
   const { startTime, endTime, event, day, classId } = props;
 
-  console.log(classId);
+  // console.log(classId);
 
   return (
     <div
