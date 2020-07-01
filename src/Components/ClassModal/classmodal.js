@@ -86,15 +86,15 @@ function ClassModal(props) {
                         </div>
 
                     </div>
-                    <div className="course-modal-buttons">
-                        <button className="red-btn" onClick={()=>{props.deleteClass(classId)}}>Delete Course</button>
-
-                        <div className="buttons-right">
-                            <button className="gray-btn" onClick={props.closeClassModal}>Cancel</button>
-                            <button className="green-btn" onClick={()=>{props.saveClass(classId)}}>Save Selection</button>
-                        </div>
-                    </div>
                 </form>
+            </div>
+            <div className="course-modal-buttons">
+                <button className="red-btn" onClick={()=>{props.deleteClass(classId)}}>Delete Course</button>
+
+                <div className="buttons-right">
+                    <button className="gray-btn" onClick={props.closeClassModal}>Cancel</button>
+                    <button className="green-btn" onClick={()=>{props.saveClass(classId)}}>Save Selection</button>
+                </div>
             </div>
         </div>
     );
