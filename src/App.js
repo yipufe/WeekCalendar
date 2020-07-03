@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './app.scss';
 import Calendar from './Components/Calendar/Calendar';
 import Sidebar from './Components/Sidebar/Sidebar';
@@ -10,8 +10,11 @@ function App() {
   // All of these useState items are the states or data for different parts of the calendar.
   // This App component is the parent component to all of the other components.
   // We have all the data and functions here and then we pass them to the child components through props.
-  const [displayData, setDisplayData] = useState([]);
   const [initialData, setInitialData] = useState([]);
+  const [initialDataAndChangedData, setInitialDataAndChangedData] = useState(
+    []
+  );
+  const [displayData, setDisplayData] = useState([]);
   const [scheduleChangesData, setScheduleChangesData] = useState([]);
   const [file, setFile] = useState('');
   const [course, setCourse] = useState([]);
@@ -55,138 +58,140 @@ function App() {
         console.log(resData);
         // These are all the empty arrays that will be filled with data after filtering through the resData.
         const dataArray = [];
-        const roomArray = [];
-        const instructorArray = [];
-        const blockArray = [];
-        const courseArray = [];
         // This for loop is for filtering through the data and getting rid of all the heading rows and columns in the csv file.
         for (let item of resData) {
           if (item.field2 && item.field2 !== 'CLSS ID') {
             // This pushes the classes into the dataArray state.
             dataArray.push({
+              block: item.field19,
+              campus: item.field21,
               classId: item.field2,
               course: item.field9,
-              section: item.field10,
+              courseAttributes: item.field30,
               courseTitle: item.field11,
-              scheduleType: item.field12,
-              meetingPattern: item.field14,
-              instructor: item.field16.split(' (')[0],
-              location: item.field17,
-              status: item.field18,
-              block: item.field19,
-              session: item.field20,
-              campus: item.field21,
-              instructionMethod: item.field22,
-              visible: item.field24,
-              specialApproval: item.field25,
               creditHours: item.field27,
               gradeMode: item.field28,
-              sectionAttributes: item.field29,
-              courseAttributes: item.field30,
+              instructionMethod: item.field22,
+              instructor: item.field16.split(' (')[0],
+              location: item.field17,
               maxEnrollment: item.field33,
               maxWaitlistEnrollment: item.field36,
+              meetingPattern: item.field14,
+              scheduleType: item.field12,
+              section: item.field10,
+              sectionAttributes: item.field29,
               sectionComments: item.field44,
               sectionText: item.field46,
+              session: item.field20,
+              specialApproval: item.field25,
+              status: item.field18,
+              visible: item.field24,
             });
           }
         }
         console.log(dataArray);
-        // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
-        for (let item of dataArray) {
-          if (roomArray.length <= 0) {
-            const room = item.location.split(';')[0]; //Remove extra information after the semicolon
-            roomArray.push(room);
-          }
-          if (!roomArray.includes(item.location)) {
-            const room = item.location.split(';')[0]; //Remove extra information after the semicolon
-            roomArray.push(room);
-          }
-          if (instructorArray.length <= 0) {
-            instructorArray.push(item.instructor);
-          }
-          if (!instructorArray.includes(item.instructor)) {
-            instructorArray.push(item.instructor);
-          }
-          if (blockArray.length <= 0) {
-            blockArray.push(item.block);
-          }
-          if (!blockArray.includes(item.block)) {
-            blockArray.push(item.block);
-          }
-          if (courseArray.length <= 0) {
-            courseArray.push({
-              courseNumber: item.course,
-              courseTitle: item.courseTitle,
-            });
-          }
-          if (!courseArray.includes(item.courseTitle)) {
-            courseArray.push({
-              courseNumber: item.course,
-              courseTitle: item.courseTitle,
-            });
-          }
-        }
-
-        //Remove duplicates from courseArray
-        const courseArrayUnique = courseArray.filter((item, index, self) => {
-          return (
-            index ===
-            self.findIndex((t) => {
-              //This will return the first index match so will be false for duplicates
-              return (
-                t.courseNumber === item.courseNumber &&
-                t.courseTitle === item.courseTitle
-              ); //Finds index where this condition is true
-            })
-          );
-        });
-        //Remove duplicates from roomArray
-        const roomArrayUnique = roomArray.filter((item, index, self) => {
-          return (
-            index ===
-            self.findIndex((t) => {
-              //This will return the first index match so will be false for duplicates
-              return t === item; //Finds index where this condition is true
-            })
-          );
-        });
-
-        // These variables are for the filter dropdown options.
-        // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
-        const courseOptions = courseArrayUnique.sort().map((item) => {
-          return {
-            value: item.courseTitle,
-            label: item.courseNumber + ' ' + item.courseTitle,
-          };
-        });
-        const roomOptions = roomArrayUnique.sort().map((item) => {
-          return {
-            value: item,
-            label: item,
-          };
-        });
-        const instructorOptions = instructorArray.sort().map((item) => {
-          return {
-            value: item,
-            label: item,
-          };
-        });
-        const blockOptions = blockArray.sort().map((item) => {
-          return {
-            value: item,
-            label: item,
-          };
-        });
-        // These then set the useState variables with the correct data to be used elsewhere in the app.
         setInitialData(dataArray);
+        setInitialDataAndChangedData(dataArray);
         setDisplayData(dataArray);
-        setCourse(courseOptions);
-        setRoom(roomOptions);
-        setInstructor(instructorOptions);
-        setBlock(blockOptions);
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    const roomArray = [];
+    const instructorArray = [];
+    const blockArray = [];
+    const courseArray = [];
+    // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
+    for (let item of initialDataAndChangedData) {
+      if (roomArray.length <= 0) {
+        const room = item.location.split(';')[0]; //Remove extra information after the semicolon
+        roomArray.push(room);
+      }
+      if (!roomArray.includes(item.location)) {
+        const room = item.location.split(';')[0]; //Remove extra information after the semicolon
+        roomArray.push(room);
+      }
+      if (instructorArray.length <= 0) {
+        instructorArray.push(item.instructor);
+      }
+      if (!instructorArray.includes(item.instructor)) {
+        instructorArray.push(item.instructor);
+      }
+      if (blockArray.length <= 0) {
+        blockArray.push(item.block);
+      }
+      if (!blockArray.includes(item.block)) {
+        blockArray.push(item.block);
+      }
+      if (courseArray.length <= 0) {
+        courseArray.push({
+          courseNumber: item.course,
+          courseTitle: item.courseTitle,
+        });
+      }
+      if (!courseArray.includes(item.courseTitle)) {
+        courseArray.push({
+          courseNumber: item.course,
+          courseTitle: item.courseTitle,
+        });
+      }
+    }
+    //Remove duplicates from courseArray
+    const courseArrayUnique = courseArray.filter((item, index, self) => {
+      return (
+        index ===
+        self.findIndex((t) => {
+          //This will return the first index match so will be false for duplicates
+          return (
+            t.courseNumber === item.courseNumber &&
+            t.courseTitle === item.courseTitle
+          ); //Finds index where this condition is true
+        })
+      );
+    });
+    //Remove duplicates from roomArray
+    const roomArrayUnique = roomArray.filter((item, index, self) => {
+      return (
+        index ===
+        self.findIndex((t) => {
+          //This will return the first index match so will be false for duplicates
+          return t === item; //Finds index where this condition is true
+        })
+      );
+    });
+    // These variables are for the filter dropdown options.
+    // They filter through the specific arrays for each filter and add the correct data for the value and label in the object.
+    const courseOptions = courseArrayUnique.sort().map((item) => {
+      return {
+        value: item.courseTitle,
+        label: item.courseNumber + ' ' + item.courseTitle,
+      };
+    });
+    const roomOptions = roomArrayUnique.sort().map((item) => {
+      return {
+        value: item,
+        label: item,
+      };
+    });
+    const instructorOptions = instructorArray.sort().map((item) => {
+      return {
+        value: item,
+        label: item,
+      };
+    });
+    const blockOptions = blockArray.sort().map((item) => {
+      return {
+        value: item,
+        label: item,
+      };
+    });
+    // These then set the useState variables with the correct data to be used elsewhere in the app.
+    setCourse(courseOptions);
+    setRoom(roomOptions);
+    setInstructor(instructorOptions);
+    setBlock(blockOptions);
+  }, [initialDataAndChangedData]);
 
   // Each of these handle change functions do the same thing for each filter and are for when the user selects something in the filters.
   // When a user selects something it filters through the specific filter data and sets the specific useState with the new filtered data.

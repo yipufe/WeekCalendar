@@ -20,15 +20,11 @@ export default function AddClass(props) {
           <div className="section-info-left">
             <label htmlFor="classTitle">
               Title
-              <input type="text" name="classTitle" onChange={handleAddClass} />
+              <input type="text" name="courseTitle" onChange={handleAddClass} />
             </label>
             <label htmlFor="classSection">
               Section
-              <input
-                type="text"
-                name="classSection"
-                onChange={handleAddClass}
-              />
+              <input type="text" name="section" onChange={handleAddClass} />
             </label>
             <label htmlFor="creditHours">
               Credit Hours
@@ -36,7 +32,7 @@ export default function AddClass(props) {
             </label>
             <label htmlFor="classStatus">
               Status
-              <input type="text" name="classStatus" onChange={handleAddClass} />
+              <input type="text" name="status" onChange={handleAddClass} />
             </label>
             <label htmlFor="specialApproval">
               Special Approval
@@ -62,7 +58,7 @@ export default function AddClass(props) {
           <div className="section-info-right">
             <label htmlFor="partOfTerm">
               Part of Term
-              <input type="text" name="partOfTerm" onChange={handleAddClass} />
+              <input type="text" name="block" onChange={handleAddClass} />
             </label>
             <label htmlFor="campus">
               Campus
@@ -78,7 +74,7 @@ export default function AddClass(props) {
             </label>
             <label htmlFor="isVisible">
               Visable
-              <input type="text" name="isVisible" onChange={handleAddClass} />
+              <input type="text" name="visible" onChange={handleAddClass} />
             </label>
             <label htmlFor="scheduleType">
               Schedule Type
@@ -128,7 +124,7 @@ export default function AddClass(props) {
           <input
             type="text"
             placeholder="e.g. CS 406"
-            name="buildingRoom"
+            name="location"
             onChange={handleAddClass}
           />
         </div>
@@ -137,7 +133,7 @@ export default function AddClass(props) {
           <input
             type="text"
             placeholder="e.g. MWF 8:30am - 9:45am"
-            name="schedule"
+            name="meetingPattern"
             onChange={handleAddClass}
           />
         </div>
@@ -146,21 +142,21 @@ export default function AddClass(props) {
         <div className="enrollment-section-text-column">
           <h3>Enrollment</h3>
           <div className="enrollment-section">
-            <label htmlFor="maxEnroll">
+            <label htmlFor="maxEnrollment">
               Maximum
               <input
                 type="text"
-                id="maxEnroll"
-                name="maxEnroll"
+                id="maxEnrollment"
+                name="maxEnrollment"
                 onChange={handleAddClass}
               />
             </label>
-            <label htmlFor="waitlistMaxEnroll">
+            <label htmlFor="maxWaitlistEnrollment">
               Waitlist Max.
               <input
                 type="text"
-                id="waitlistMaxEnroll"
-                name="waitlistMaxEnroll"
+                id="maxWaitlistEnrollment"
+                name="maxWaitlistEnrollment"
                 onChange={handleAddClass}
               />
             </label>
@@ -180,7 +176,7 @@ export default function AddClass(props) {
           <textarea
             type="text"
             rows="5"
-            name="comments"
+            name="sectionComments"
             onChange={handleAddClass}
           />
         </div>
