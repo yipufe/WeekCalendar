@@ -1,0 +1,63 @@
+@import '../../variables';
+
+.modalContentsShell {
+    .modalTitle {
+        background-color: $green1;
+        padding: 10px 20px;
+        margin: 0px;
+        color: #fff;
+        font-weight: 300;
+    }
+    .modalFormContainer {
+        padding: 0px 20px 20px;
+        .modalColumnContainer {
+            display: flex;
+            .col {
+                label {
+                    width: 175px;
+                    display: inline-block;
+                    padding: 8px 5px 8px 0px;
+                    text-align: right;
+                }
+                input {
+                    width: 175px;
+                }
+    
+                .course-days-container {
+                    display: inline-block;
+                    .course-days {
+                        display: flex;
+                        width: 175px;
+                        // display: inline-block;
+                        label, input {
+                            width: 30px;
+                            padding: 0px;
+                            margin: 0px;
+                            text-align: center;
+                        }
+                    }
+                }
+    
+            }
+        }
+
+        .course-modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            button {
+                padding: 5px 40px;
+                border: none;
+                color: #fff;
+                &:disabled {
+                    background-color: $coolGray;
+                }
+                cursor: pointer;
+            }
+            .red-btn { background-color: $red; }
+            .green-btn { background-color: $green3; }
+            .gray-btn { background-color: $gray; }
+        }
+
+    }
+}
