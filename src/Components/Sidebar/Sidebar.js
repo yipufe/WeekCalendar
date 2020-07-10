@@ -37,7 +37,7 @@ function Sidebar(props) {
           onClick={props.fileHandler}
           className="upload-btn"
         >
-          IMPORT
+          IMPORT CSV FILE
         </button>
       </div>
       <div className="filters">
