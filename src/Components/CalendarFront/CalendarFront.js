@@ -26,7 +26,6 @@ function CalendarFront(props) {
     const dayArray = days !== 'Sa' ? days.split('') : ['Sa']; // This is splitting the days into each individual day like so ["M", "W", "F"]
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0]; // This is splitting the meeting pattern and taking the second part, and then splitting that and taking the first part which is the start time.
     const endTime = event.meetingPattern.split(' ')[1].split('-')[1]; // This is splitting the meeting pattern and taking the second part, and then splitting that and taking the second part which is the end time.
-    console.log(meetingPatternArr.indexOf(event));
     const displayEvents = dayArray.map((day) => {
       return (
         <Container

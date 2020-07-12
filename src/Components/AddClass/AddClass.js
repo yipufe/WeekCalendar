@@ -1,5 +1,5 @@
 import React from 'react';
-import './sidebar.scss';
+import './addClass.scss';
 
 export default function AddClass(props) {
   const {

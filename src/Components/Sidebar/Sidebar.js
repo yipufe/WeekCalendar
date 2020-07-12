@@ -1,22 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './sidebar.scss';
 import Select from 'react-select';
-import Modal from 'react-modal';
-import AddClass from './AddClass';
 
 function Sidebar(props) {
-  const [openAddClassModal, setOpenAddClassModal] = useState(false);
-  const [addClassData, setAddClassData] = useState({});
-
-  const handleAddClass = (e) => {
-    setAddClassData({
-      ...addClassData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  console.log(addClassData);
-
   return (
     <div className="sidebar">
       <h1>Academic Scheduling Aid</h1>
@@ -37,7 +23,7 @@ function Sidebar(props) {
           onClick={props.fileHandler}
           className="upload-btn"
         >
-          IMPORT CSV FILE
+          IMPORT CALENDAR FILE
         </button>
       </div>
       <div className="filters">
@@ -77,12 +63,6 @@ function Sidebar(props) {
         />
       </div>
       <button
-        className="add-new-class-btn"
-        onClick={() => setOpenAddClassModal(true)}
-      >
-        ADD NEW CLASS
-      </button>
-      <button
         className="reset-calendar"
         onClick={() => {
           props.handleResetCalendar();
@@ -91,26 +71,6 @@ function Sidebar(props) {
       >
         RESET CALENDAR
       </button>
-
-      {/*** MODAL ***/}
-      <Modal
-        isOpen={openAddClassModal}
-        contentLabel="onRequestClose Example"
-        onRequestClose={() => setOpenAddClassModal(false)}
-        shouldCloseOnOverlayClick={true}
-        style={{ display: 'flex' }}
-        className="add-class-modal"
-        ariaHideApp={false}
-      >
-        <AddClass
-          handleAddClass={handleAddClass}
-          addClassData={addClassData}
-          setOpenAddClassModal={setOpenAddClassModal}
-          setScheduleChangesData={props.setScheduleChangesData}
-          scheduleChangesData={props.scheduleChangesData}
-        />
-      </Modal>
-      {/*** MODAL END ***/}
     </div>
   );
 }

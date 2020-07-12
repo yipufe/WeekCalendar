@@ -30,7 +30,6 @@ function App() {
   const handleChange = (e) => {
     const file = e.target.files[0]; // accessing file
     setFile(file); // storing file
-    console.log(file);
   };
 
   /*
@@ -265,7 +264,7 @@ function App() {
     setInitialData([]);
     setDisplayData([]);
   };
-  console.log(scheduleChangesData);
+
   return (
     <div className="App">
       <Header />
