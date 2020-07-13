@@ -1,6 +1,8 @@
 import React from 'react';
 import './calendarFront.scss';
-import CalendarFrontEvent from './CalendarFrontEvent';
+import styled from 'styled-components';
+import { calDays, calTimes, colors } from '../../calendarDaysAndTimesData';
+
 
 function CalendarFront(props) {
   const { displayData } = props;
@@ -8,8 +10,16 @@ function CalendarFront(props) {
     course => course.meetingPattern !== 'Does Not Meet'
   );
 
+  const Container = styled.div`
+	width: 85%;
+	background-color: ${(props) => colors[props.index]};
+	color: black;
+	border-radius: 5px;
+	padding: 5px;
+	cursor: pointer;
+  `;
+
   const eventData = meetingPatternArr.map(event => {
-    const index = event.classId;
     const days = event.meetingPattern.split(' ')[0];
     const dayArray = days !== 'Sa' ? days.split('') : ['Sa'];
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
@@ -17,15 +27,18 @@ function CalendarFront(props) {
 
     const displayEvents = dayArray.map(day => {
       return (
-        <CalendarFrontEvent
-          {...props}
-          key={`${day}-${index}`}
-          index={index}
-          startTime={startTime}
-          endTime={endTime}
-          event={event}
-          day={day}
-        />
+		<Container
+			key={`${day}-${event.classId}`}
+			index={meetingPatternArr.indexOf(event)}
+			style={{
+				gridColumn: `${calDays[day]}`,
+        		gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
+			}}
+		>
+			<p class="cal-front-item-p">{event.course}</p>
+			<p class="cal-front-item-p">{event.courseTitle.substring(0,15) + '...'}</p>
+			<p class="cal-front-item-p">{event.meetingPattern}</p>
+		</Container>
       );
     });
 
