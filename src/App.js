@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'https://schedge.dev/calendar/postcsv';
+    let url = 'http://localhost:8080/calendar/postcsv';//'https://schedge.dev/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -172,6 +172,36 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  const exportAsExcelFileHandler = (ev) => {
+    ev.preventDefault();
+    const formData = new FormData();
+    formData.append('displaydata', JSON.stringify( displayData ) );
+    let url = 'http://localhost:8080/export/postexcel';
+    let method = 'POST';
+
+    fetch(url, {
+      method: method,
+      body: formData,
+    })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error('Failed to create file!');
+        }
+        return res.blob();
+      })
+      .then((resData) => {
+        console.log("RES:",resData);
+
+        const downloadLink = document.createElement("a");
+        const url  = window.URL.createObjectURL(resData);
+        downloadLink.href=url;
+        downloadLink.download="Excel.xlsx"
+        downloadLink.click();
+
+      })
+  }
+
+
   // Each of these handle change functions do the same thing for each filter and are for when the user selects something in the filters.
   // When a user selects something it filters through the specific filter data and sets the specific useState with the new filtered data.
   // Each function also resets the other filters back to 0.
@@ -267,6 +297,7 @@ function App() {
           handleInstructorChange={handleInstructorChange}
           handleRoomChange={handleRoomChange}
           handleCourseChange={handleCourseChange}
+          handleExcelExport={exportAsExcelFileHandler}
           clearFilters={clearFilters}
           setFile={setFile}
           setDisplayData={setDisplayData}

@@ -34,6 +34,13 @@ function Sidebar(props) {
         >
           Reset Calendar
         </button>
+        <button
+          onClick={props.handleExcelExport
+          }
+          className="export-btn"
+        >
+          Export Excel File
+        </button>
       </div>
       <div className="filters">
         <div className="filter-header">
