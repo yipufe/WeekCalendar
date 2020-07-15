@@ -172,6 +172,7 @@ function App() {
       .catch((err) => console.log(err));
   };
 
+  //export to excel file and start download
   const exportAsExcelFileHandler = (ev) => {
     ev.preventDefault();
     const formData = new FormData();
@@ -192,6 +193,7 @@ function App() {
       .then((resData) => {
         console.log("RES:",resData);
 
+        //Create link to click for automatic download
         const downloadLink = document.createElement("a");
         const url  = window.URL.createObjectURL(resData);
         downloadLink.href=url;
