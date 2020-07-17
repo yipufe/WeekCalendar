@@ -20,7 +20,7 @@
   align-items: flex-start;
 }
 .add-class-modal-wrap {
-  width: 60vw;
+  width: 55vw;
   background: white;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -61,123 +61,62 @@
     }
   }
 }
-.add-class-section-information {
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.section-info {
+.add-class-body {
   width: 100%;
   display: flex;
   justify-content: space-between;
 }
-.section-info-left {
-  width: 48%;
+.add-class-left-section {
+  width: 45%;
   display: flex;
   flex-direction: column;
-  label {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 10pt;
-    input {
-      width: 65%;
-      height: 25px;
-      margin-left: 8px;
-      border-radius: 3px;
-      border: solid 1px $lightGray;
-      background: none;
-      font-size: 10pt;
-    }
-  }
-}
-.section-info-right {
-  width: 48%;
-  display: flex;
-  flex-direction: column;
-  label {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 10pt;
-    input {
-      width: 65%;
-      height: 25px;
-      margin-left: 8px;
-      border-radius: 3px;
-      border: solid 1px $lightGray;
-      background: none;
-      font-size: 10pt;
-    }
-  }
-}
-.section-course-attributes {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-.section-course-attribute {
-  width: 48%;
+  align-items: flex-end;
   h3 {
     width: 100%;
-    margin: 0px 0px 10px 0px;
-  }
-  textarea {
-    width: 100%;
+    text-align: center;
+    font-weight: 500;
   }
 }
-.schedule-section {
-  width: 95%;
+.left-section-item {
   display: flex;
-  justify-content: space-between;
+  margin-bottom: 20px;
+  input {
+    width: 200px;
+  }
 }
-.schedule-section-column {
-  width: 30%;
+.left-section-label {
+  margin: 0;
+  margin-right: 10px;
+}
+.add-class-right-section {
+  width: 45%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  margin-top: 20px;
+}
+.right-section-item {
+  margin-bottom: 10px;
   h3 {
-    width: 100%;
-    margin: 20px 0px 10px 0px;
+    margin: 0;
+    margin: 5px 0px;
+    font-weight: 500;
   }
   input {
-    width: 98%;
-    height: 25px;
-    border-radius: 3px;
-    border: solid 1px $lightGray;
-    background: none;
-    font-size: 10pt;
-  }
-}
-.enrollment-section-text {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-}
-.enrollment-section-text-column {
-  width: 30%;
-  h3 {
-    width: 100%;
-    border-bottom: solid 1px $lightGray;
-    margin: 20px 0px 10px 0px;
+    width: 200px;
   }
   textarea {
-    width: 100%;
+    width: 300px;
   }
 }
 .enrollment-section {
-  width: 100%;
   display: flex;
-  justify-content: space-between;
   label {
     display: flex;
     flex-direction: column;
+    margin-right: 30px;
+    font-size: 10pt;
     input {
-      width: 80px;
+      width: 70px;
     }
   }
 }

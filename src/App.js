@@ -11,9 +11,7 @@ function App() {
   // This App component is the parent component to all of the other components.
   // We have all the data and functions here and then we pass them to the child components through props.
   const [initialData, setInitialData] = useState([]);
-  const [initialDataAndChangedData, setInitialDataAndChangedData] = useState(
-    []
-  );
+  const [initialAndChangedData, setInitialAndChangedData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
   const [scheduleChangesData, setScheduleChangesData] = useState([]);
   const [file, setFile] = useState('');
@@ -90,7 +88,7 @@ function App() {
         }
         console.log(dataArray);
         setInitialData(dataArray);
-        setInitialDataAndChangedData(dataArray);
+        setInitialAndChangedData(dataArray);
         setDisplayData(dataArray);
       })
       .catch((err) => console.log(err));
@@ -102,7 +100,7 @@ function App() {
     const blockArray = [];
     const courseArray = [];
     // This for loop loops through the dataArray and pushes the correct data into each of the different useState data arrays.
-    for (let item of initialDataAndChangedData) {
+    for (let item of initialAndChangedData) {
       if (roomArray.length <= 0) {
         const room = item.location.split(';')[0]; //Remove extra information after the semicolon
         roomArray.push(room);
@@ -190,7 +188,7 @@ function App() {
     setRoom(roomOptions);
     setInstructor(instructorOptions);
     setBlock(blockOptions);
-  }, [initialDataAndChangedData]);
+  }, [initialAndChangedData]);
 
   // Each of these handle change functions do the same thing for each filter and are for when the user selects something in the filters.
   // When a user selects something it filters through the specific filter data and sets the specific useState with the new filtered data.
@@ -263,6 +261,7 @@ function App() {
     setRoomValue([]);
     setInitialData([]);
     setDisplayData([]);
+    setInitialAndChangedData([]);
   };
 
   return (
