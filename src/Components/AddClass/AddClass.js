@@ -31,6 +31,234 @@ export default function AddClass(props) {
     });
   };
 
+
+
+
+  //Same room at same time error checking
+  const allTimes = []
+  const timeObj = () => {
+    //Location
+    let locations = initialAndChangedData.map(obj => {
+      let joinLocation = obj.location.split(' ').join('').toLowerCase()
+      return joinLocation
+    })
+
+    //START TIMES
+    let startTimes = initialAndChangedData.map(obj => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      let combinedDaysTime = splitDays.concat(splitTime[1])
+
+      //split the times into 'time','p','m' for starting
+      let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
+
+      //start times to number
+      let splitStartHourMinute = splitStartTime[0].split(':')
+      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+        return Number(num)
+      })
+
+      return Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))
+    })
+
+    //START PM or AM
+    let startAMPM = initialAndChangedData.map(obj => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      let combinedDaysTime = splitDays.concat(splitTime[1])
+
+      //split the times into 'time','p','m' for starting
+      let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
+      return splitStartTime[1]
+    })
+
+    //END TIMES
+    let endTimes = initialAndChangedData.map(obj => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      let combinedDaysTime = splitDays.concat(splitTime[1])
+
+      //split the times into 'time','p','m' for ending time
+      let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
+
+      //end times to number
+      let splitEndHourMinute = splitEndTime[0].split(':')
+      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+        return Number(num)
+      })
+      return Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))
+    })
+
+    //End PM or AM
+    let endAMPM = initialAndChangedData.map(obj => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      let combinedDaysTime = splitDays.concat(splitTime[1])
+
+      //split the times into 'time','p','m' for ending time
+      let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
+      return splitEndTime[1]
+    })
+
+    //Days of Week
+    let weekDays = initialAndChangedData.map(obj => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      return splitDays[0].toLowerCase()
+    })
+
+    //Convert array to array of objects
+    let items = startTimes.map((time, index) => {
+      let newSTime
+      let newETime
+      if(startAMPM[index] === "p"){
+        newSTime = time * 10
+      }else {
+        newSTime = time
+      }
+      if(endAMPM[index] === "p"){
+        newETime = endTimes[index] * 10
+      }else {
+        newETime = endTimes[index]
+      }
+      return {
+        location: locations[index],
+        endampm: endAMPM[index],
+        endTime: newETime,
+        startampm: startAMPM[index],
+        startTime: newSTime,
+        days: weekDays[index]
+      }
+    })
+    
+    allTimes.push(items)
+  }
+  timeObj()
+
+  console.log('alltimes = ', allTimes)
+
+
+
+
+
+
+
+
+  //New added class selection to an object
+  const addClassObj = (str) => {
+    console.log('inside addClassObj ', str)
+
+    let splitTime = str.split('-')
+    let splitDays = splitTime[0].split(' ')
+    let combinedDaysTime = splitDays.concat(splitTime[1])
+
+    //split the times into 'time','p','m' for starting
+    let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
+
+    //start times to number
+    let splitStartHourMinute = splitStartTime[0].split(':')
+    let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+      return Number(num)
+    })
+
+    const startTime =  Number(splitStartHourMinuteNumber.join('').padEnd(4, 0)) //Start Time
+    console.log('startTime = ', startTime)
+
+
+    const startAMPM = splitStartTime[1]//Start AM PM
+    console.log('startAMPM = ', startAMPM)
+
+
+    //split the times into 'time','p','m' for ending time
+    let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
+
+    //end times to number
+    let splitEndHourMinute = splitEndTime[0].split(':')
+    let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+      return Number(num)
+    })
+    const endTime = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))//End Time
+    console.log('endTime = ', endTime)
+
+
+
+    const endAMPM = splitEndTime[1]//End AM PM
+    console.log('end am pm = ', endAMPM)
+
+    
+    const weekDays =  splitDays[0].toLowerCase()//weekDays
+    console.log('weekdays = ', weekDays)
+
+    //variables to change start time if they are pm
+    let newSTime
+    let newETime
+    if(startAMPM === "p"){
+      newSTime = startTime * 10
+    }else {
+      newSTime = startTime
+    }
+    if(endAMPM === "p"){
+      newETime = endTime * 10
+    }else {
+      newETime = endTime
+    }
+    //return object to make error checking easier
+    return {
+      endampm: endAMPM,
+      endTime: newETime,
+      startampm: startAMPM,
+      startTime: newSTime,
+      days: weekDays
+    }
+}
+
+
+  //Final conflict check
+  const conflictCheck = () => {
+    let conflict = false
+    const newLocation = addClassData.location.split(' ').join('').toLowerCase()
+    const ourNewAddedTime = addClassObj(addClassData.meetingPattern)
+    console.log("our new added time = ", ourNewAddedTime)
+
+    console.log('inside of error check')
+
+
+    allTimes[0].forEach(obj => {
+      console.log('obj = ', obj)
+      if(obj.location === newLocation) {
+        if(obj.days.includes(ourNewAddedTime.days)){
+          console.log('yes it includes the same day')
+          if(obj.startTime < ourNewAddedTime.startTime && obj.endTime < ourNewAddedTime.startTime){
+            console.log('no conflicts, start times are less')
+          }else if(obj.startTime > ourNewAddedTime.endTime && obj.endTime > ourNewAddedTime.endTime){
+            console.log('no conflicts, start times are greater')
+          }else{
+            console.log('TIME CONFLICT*********************', obj)
+            console.log('new added time', ourNewAddedTime)
+            return conflict = true
+          }
+        }else{
+          console.log('no time conflicts DAYS Included ')
+        }
+      }else {
+        console.log('no time conflicts LOCATION')
+      }
+
+    })
+    //close the modal and save class if no errors
+    conflict === true ? alert('Room time conflicts') : setOpenAddClassModal(false);
+  }
+
+
+
+
+
+
+
+
+
+  
+
   return (
     <div className="add-class-modal-wrap">
       <div className="add-class-modal-header">
@@ -219,17 +447,19 @@ export default function AddClass(props) {
         <button
           className="add-class-save-btn"
           onClick={() => {
-            if (Object.keys(addClassData).length === 23) {
-              setInitialAndChangedData([
-                ...initialAndChangedData,
-                addClassData,
-              ]);
-              setAddClassSuccess(true);
-              setAddClassFormError(false);
-            } else {
-              setAddClassSuccess(true); //delete this
-              // setAddClassFormError(true); //add this back in
-            }
+            conflictCheck() //check for errors
+
+            // if (Object.keys(addClassData).length === 23) {
+            //   setInitialAndChangedData([
+            //     ...initialAndChangedData,
+            //     addClassData,
+            //   ]);
+            //   setAddClassSuccess(true);
+            //   setAddClassFormError(false);
+            // } else {
+            //   setAddClassSuccess(true); //delete this
+            //   // setAddClassFormError(true); //add this back in
+            // }
           }}
         >
           Save Section
