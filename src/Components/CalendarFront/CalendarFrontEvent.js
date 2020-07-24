@@ -5,7 +5,7 @@ import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 // This is the component that CalendarFront uses for each class that it maps through.
 
 function CalendarFrontEvent(props) {
-  const { startTime, endTime, event, day, classId } = props;
+  const { startTime, endTime, event, day } = props;
 
   // console.log(classId);
 
