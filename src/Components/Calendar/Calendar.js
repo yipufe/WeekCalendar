@@ -5,6 +5,7 @@ import {
   faFileExport,
   faPrint,
   faPlusCircle,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import AddClass from '../AddClass/AddClass';
@@ -18,6 +19,7 @@ import CalendarFront from '../CalendarFront/CalendarFront';
 function Calendar(props) {
   const [openAddClassModal, setOpenAddClassModal] = useState(false);
   const [addClassData, setAddClassData] = useState({});
+  const [addClassSuccess, setAddClassSuccess] = useState(false);
 
   const handleAddClass = (e) => {
     setAddClassData({
@@ -25,6 +27,8 @@ function Calendar(props) {
       [e.target.name]: e.target.value,
     });
   };
+
+  console.log(Object.keys(addClassData).length);
 
   return (
     <div className="calendar-wrap">
@@ -78,6 +82,8 @@ function Calendar(props) {
               setInitialData={props.setInitialData}
               displayData={props.displayData}
               setDisplayData={props.setDisplayData}
+              initialAndChangedData={props.initialAndChangedData}
+              setInitialAndChangedData={props.setInitialAndChangedData}
             />
           </div>
         </div>
@@ -92,13 +98,41 @@ function Calendar(props) {
         className="add-class-modal"
         ariaHideApp={false}
       >
-        <AddClass
-          handleAddClass={handleAddClass}
-          addClassData={addClassData}
-          setOpenAddClassModal={setOpenAddClassModal}
-          setScheduleChangesData={props.setScheduleChangesData}
-          scheduleChangesData={props.scheduleChangesData}
-        />
+        {!addClassSuccess ? (
+          <AddClass
+            handleAddClass={handleAddClass}
+            addClassData={addClassData}
+            setOpenAddClassModal={setOpenAddClassModal}
+            setScheduleChangesData={props.setScheduleChangesData}
+            scheduleChangesData={props.scheduleChangesData}
+            setAddClassData={setAddClassData}
+            initialAndChangedData={props.initialAndChangedData}
+            setInitialAndChangedData={props.setInitialAndChangedData}
+            setAddClassSuccess={setAddClassSuccess}
+          />
+        ) : (
+          <div
+            className="add-class-modal-wrap"
+            style={{ height: '400px', justifyContent: 'center' }}
+          >
+            <FontAwesomeIcon
+              icon={faCheck}
+              className="calendar-header-icon"
+              size="6x"
+              style={{ color: '#275d38' }}
+            />
+            <h2 className="add-class-success-h2">Class Added Successfully!</h2>
+            <button
+              className="add-class-success-btn"
+              onClick={() => {
+                setOpenAddClassModal(false);
+                setAddClassSuccess(false);
+              }}
+            >
+              Fantastic!
+            </button>
+          </div>
+        )}
       </Modal>
       {/*** MODAL END **/}
     </div>

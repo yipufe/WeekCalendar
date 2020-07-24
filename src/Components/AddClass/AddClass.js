@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './addClass.scss';
+import Select from 'react-select';
+import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
 
 export default function AddClass(props) {
+  const { initialAndChangedData, setInitialAndChangedData } = props;
+  const [schedule, setSchedule] = useState('');
+  const [addClassFormError, setAddClassFormError] = useState(false);
+
   const {
     handleAddClass,
     addClassData,
     setOpenAddClassModal,
-    setScheduleChangesData,
-    scheduleChangesData,
+    setAddClassData,
+    setAddClassSuccess,
   } = props;
+
+  const handleSetDays = (selected) => {
+    setSchedule(selected.value);
+  };
+  const handleSetStartTime = (selected) => {
+    setSchedule(schedule.split(' ')[0] + ' ' + selected.value);
+  };
+  const handleSetEndTime = (selected) => {
+    setAddClassData({
+      ...addClassData,
+      meetingPattern: schedule.includes('-')
+        ? schedule.split('-')[0] + '-' + selected.value
+        : schedule + '-' + selected.value,
+    });
+  };
+
   return (
     <div className="add-class-modal-wrap">
       <div className="add-class-modal-header">
@@ -17,6 +39,10 @@ export default function AddClass(props) {
       <div className="add-class-body">
         <div className="add-class-left-section">
           <h3>Section Information</h3>
+          <div className="left-section-item">
+            <p className="left-section-label">Prefix & Number</p>
+            <input type="text" name="course" onChange={handleAddClass} />
+          </div>
           <div className="left-section-item">
             <p className="left-section-label">Title</p>
             <input type="text" name="courseTitle" onChange={handleAddClass} />
@@ -116,12 +142,29 @@ export default function AddClass(props) {
           </div>
           <div className="right-section-item">
             <h3>Schedule</h3>
-            <input
-              type="text"
-              placeholder="e.g. MWF 8:30am - 9:45am"
-              name="meetingPattern"
-              onChange={handleAddClass}
-            />
+            <div className="schedule-selects">
+              <Select
+                name="schedule-days"
+                options={selectDays}
+                className="schedule-select"
+                placeholder="Days"
+                onChange={handleSetDays}
+              />
+              <Select
+                name="schedule-start-time"
+                options={selectTimes}
+                className="schedule-select"
+                placeholder="Start Time"
+                onChange={handleSetStartTime}
+              />
+              <Select
+                name="schedule-end-time"
+                options={selectTimes}
+                className="schedule-select"
+                placeholder="End Time"
+                onChange={handleSetEndTime}
+              />
+            </div>
           </div>
           <div className="right-section-item">
             <h3>Enrollment</h3>
@@ -154,11 +197,16 @@ export default function AddClass(props) {
             <h3>Comments</h3>
             <textarea
               type="text"
-              rows="4"
+              rows="3"
               name="sectionComments"
               onChange={handleAddClass}
             />
           </div>
+          {addClassFormError && (
+            <div className="add-class-form-error">
+              ** All fields must be filled out **
+            </div>
+          )}
         </div>
       </div>
       <div className="add-class-btns">
@@ -171,8 +219,16 @@ export default function AddClass(props) {
         <button
           className="add-class-save-btn"
           onClick={() => {
-            setScheduleChangesData([...scheduleChangesData, addClassData]);
-            setOpenAddClassModal(false);
+            if (Object.keys(addClassData).length === 23) {
+              setInitialAndChangedData([
+                ...initialAndChangedData,
+                addClassData,
+              ]);
+              setAddClassSuccess(true);
+              setAddClassFormError(false);
+            } else {
+              setAddClassFormError(true);
+            }
           }}
         >
           Save Section

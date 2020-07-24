@@ -64,7 +64,7 @@
 .add-class-body {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .add-class-left-section {
   width: 45%;
@@ -108,6 +108,16 @@
     width: 300px;
   }
 }
+.schedule-selects {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.schedule-select {
+  width: 30%;
+  font-size: 11pt;
+}
 .enrollment-section {
   display: flex;
   label {
@@ -148,4 +158,35 @@
       background: lighten($green1, 10%);
     }
   }
+}
+.add-class-success-h2 {
+  font-family: $Raj;
+  color: $green1;
+}
+.add-class-success-btn {
+  width: 200px;
+  height: 35px;
+  background: $green1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 12pt;
+  font-family: $Raj;
+  font-weight: 600;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+  &:hover {
+    background: $green2;
+  }
+}
+.add-class-form-error {
+  width: 100%;
+  padding: 10px 0px;
+  border: solid 1px $red;
+  border-radius: 5px;
+  background: lighten($red, 35%);
+  color: $red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

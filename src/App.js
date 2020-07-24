@@ -13,7 +13,6 @@ function App() {
   const [initialData, setInitialData] = useState([]);
   const [initialAndChangedData, setInitialAndChangedData] = useState([]);
   const [displayData, setDisplayData] = useState([]);
-  const [scheduleChangesData, setScheduleChangesData] = useState([]);
   const [file, setFile] = useState('');
   const [course, setCourse] = useState([]);
   const [courseValue, setCourseValue] = useState([]);
@@ -195,7 +194,7 @@ function App() {
   // Each function also resets the other filters back to 0.
   const handleBlockChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
-    const blockFilteredData = initialData.filter(
+    const blockFilteredData = initialAndChangedData.filter(
       (item) => item.block === selectedOption.value
     );
     setDisplayData(blockFilteredData);
@@ -206,7 +205,7 @@ function App() {
   };
   const handleInstructorChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
-    const instructorFilteredData = initialData.filter(
+    const instructorFilteredData = initialAndChangedData.filter(
       (item) => item.instructor === selectedOption.value
     );
     setDisplayData(instructorFilteredData);
@@ -217,7 +216,7 @@ function App() {
   };
   const handleRoomChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
-    const roomFilteredData = initialData.filter((item) => {
+    const roomFilteredData = initialAndChangedData.filter((item) => {
       /* SelectedOption.value will be only the room number such as "CS 406" and
         item.location will be the room number and may include details after such
         as "CS 406; Online Online"
@@ -232,7 +231,7 @@ function App() {
   };
   const handleCourseChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
-    const courseFilteredData = initialData.filter(
+    const courseFilteredData = initialAndChangedData.filter(
       (item) => item.courseTitle === selectedOption.value
     );
     setDisplayData(courseFilteredData);
@@ -243,7 +242,7 @@ function App() {
   };
 
   const clearFilters = () => {
-    setDisplayData(initialData);
+    setDisplayData(initialAndChangedData);
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
@@ -263,6 +262,8 @@ function App() {
     setDisplayData([]);
     setInitialAndChangedData([]);
   };
+
+  console.log(initialAndChangedData);
 
   return (
     <div className="App">
@@ -291,17 +292,15 @@ function App() {
           setDisplayData={setDisplayData}
           setInitialData={setInitialData}
           handleResetCalendar={handleResetCalendar}
-          scheduleChangesData={scheduleChangesData}
-          setScheduleChangesData={setScheduleChangesData}
         />
         <Calendar
           // These are all the props being sent to the Calendar component
           initialData={initialData}
           setInitialData={setInitialData}
+          initialAndChangedData={initialAndChangedData}
+          setInitialAndChangedData={setInitialAndChangedData}
           displayData={displayData}
           setDisplayData={setDisplayData}
-          scheduleChangesData={scheduleChangesData}
-          setScheduleChangesData={setScheduleChangesData}
         />
       </div>
       <Footer />
