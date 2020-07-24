@@ -227,7 +227,8 @@ export default function AddClass(props) {
               setAddClassSuccess(true);
               setAddClassFormError(false);
             } else {
-              setAddClassFormError(true);
+              setAddClassSuccess(true); //delete this
+              // setAddClassFormError(true); //add this back in
             }
           }}
         >
