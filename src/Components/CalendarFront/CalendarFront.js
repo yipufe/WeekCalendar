@@ -5,11 +5,17 @@ import CalendarFrontEvent from './CalendarFrontEvent';
 // This component is the front of the calendar where the events are displays. It goes over top of the back of the calendar which is just the styling for the cells
 
 function CalendarFront(props) {
-  const { displayData } = props;
-  // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
-  let meetingPatternArr = displayData.filter(
-    (course) => course.meetingPattern !== 'Does Not Meet'
-  );
+  const { displayData, initialAndChangedData } = props; // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
+  let meetingPatternArr;
+  if (displayData) {
+    meetingPatternArr = displayData.filter(
+      (course) => course.meetingPattern !== 'Does Not Meet'
+    );
+  } else {
+    meetingPatternArr = initialAndChangedData.filter(
+      (course) => course.meetingPattern !== 'Does Not Meet'
+    );
+  }
 
   const eventData = meetingPatternArr.map((event) => {
     // Then we take the array after filtering out all the "Does Not Meet" classes and map through it and store this new array in eventData
