@@ -54,11 +54,33 @@ export default function AddClass(props) {
 
       //start times to number
       let splitStartHourMinute = splitStartTime[0].split(':')
-      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-        return Number(num)
-      })
+      console.log("splitStartHourMinute = ", splitStartHourMinute)
 
-      return Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))
+      let paddedNum
+
+      if(splitStartHourMinute[0].length === 1){
+        // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
+        // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
+        let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+          return Number(num)
+        })
+        
+        paddedNum =  Number(splitStartHourMinuteNumber.join('').padEnd(3, 0))
+
+      }else if (splitStartHourMinute[0].length === 2){
+        // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
+        // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
+        let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+          return Number(num)
+        })
+
+        paddedNum = Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))
+      }else{
+        paddedNum = NaN
+      }
+
+      console.log('padded Num = ', paddedNum)
+      return paddedNum
     })
 
     //START PM or AM
@@ -83,10 +105,30 @@ export default function AddClass(props) {
 
       //end times to number
       let splitEndHourMinute = splitEndTime[0].split(':')
-      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-        return Number(num)
-      })
-      return Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))
+      let paddedNum
+
+      if(splitEndHourMinute[0].length === 1){
+        // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
+        // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
+        let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+          return Number(num)
+        })
+        paddedNum =  Number(splitEndHourMinuteNumber.join('').padEnd(3, 0))
+
+      }else if (splitEndHourMinute[0].length === 2){
+        // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
+        // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
+        let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+          return Number(num)
+        })
+
+        paddedNum = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))
+      }else{
+        paddedNum = NaN
+      }
+
+      // console.log('padded Num = ', paddedNum)
+      return paddedNum
     })
 
     //End PM or AM
@@ -112,12 +154,13 @@ export default function AddClass(props) {
       let newSTime
       let newETime
       if(startAMPM[index] === "p"){
-        newSTime = time * 10
+        
+        newSTime = (Number(time.toString().padEnd(4, 0))) * 100
       }else {
         newSTime = time
       }
       if(endAMPM[index] === "p"){
-        newETime = endTimes[index] * 10
+        newETime = (Number(endTimes[index].toString().padEnd(4, 0))) * 100
       }else {
         newETime = endTimes[index]
       }
@@ -157,11 +200,28 @@ export default function AddClass(props) {
 
     //start times to number
     let splitStartHourMinute = splitStartTime[0].split(':')
-    let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-      return Number(num)
-    })
 
-    const startTime =  Number(splitStartHourMinuteNumber.join('').padEnd(4, 0)) //Start Time
+
+    let startTime
+    if(splitStartHourMinute[0].length === 1){
+      // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
+      // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
+      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+        return Number(num)
+      })
+      startTime =  Number(splitStartHourMinuteNumber.join('').padEnd(3, 0))//End Time
+
+    }else if (splitStartHourMinute[0].length === 2){
+      // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
+      // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
+      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
+        return Number(num)
+      })
+
+      startTime = Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))//StartTime
+    }else{
+      startTime = NaN
+    }
     console.log('startTime = ', startTime)
 
 
@@ -174,10 +234,27 @@ export default function AddClass(props) {
 
     //end times to number
     let splitEndHourMinute = splitEndTime[0].split(':')
-    let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-      return Number(num)
-    })
-    const endTime = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))//End Time
+    
+    let endTime
+    if(splitEndHourMinute[0].length === 1){
+      // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
+      // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
+      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+        return Number(num)
+      })
+      endTime =  Number(splitEndHourMinuteNumber.join('').padEnd(3, 0))//End Time
+
+    }else if (splitEndHourMinute[0].length === 2){
+      // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
+      // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
+      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
+        return Number(num)
+      })
+
+      endTime = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))//End Time
+    }else{
+      endTime = NaN
+    }
     console.log('endTime = ', endTime)
 
 
@@ -193,12 +270,12 @@ export default function AddClass(props) {
     let newSTime
     let newETime
     if(startAMPM === "p"){
-      newSTime = startTime * 10
+      newSTime = (Number(startTime.toString().padEnd(4, 0))) * 100
     }else {
       newSTime = startTime
     }
     if(endAMPM === "p"){
-      newETime = endTime * 10
+      newETime = (Number(endTime.toString().padEnd(4, 0))) * 100
     }else {
       newETime = endTime
     }
@@ -224,7 +301,6 @@ export default function AddClass(props) {
 
 
     allTimes[0].forEach(obj => {
-      console.log('obj = ', obj)
       if(obj.location === newLocation) {
         if(obj.days.includes(ourNewAddedTime.days)){
           console.log('yes it includes the same day')
