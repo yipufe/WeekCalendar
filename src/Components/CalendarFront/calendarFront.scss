@@ -10,17 +10,9 @@
   left: 0;
 }
 
-.cal-front-item {
-  width: 85%;
-  background-color: $blue;
-  color: white;
-  border-radius: 5px;
-  padding: 5px;
-  cursor: pointer;
-  p {
-    margin: 0;
-    font-size: 9pt;
-  }
+.cal-front-item-p {
+  margin: 0;
+  font-size: 9pt;
 }
 
 .course-modal {
@@ -144,7 +136,7 @@
 .cancel-btn {
   width: 120px;
   height: 35px;
-  font-family: $Rajdhani;
+  font-family: $Raj;
   background: $gray;
   transition: ease-in-out 0.2s;
   cursor: pointer;
@@ -156,7 +148,7 @@
 .save-btn {
   width: 120px;
   height: 35px;
-  font-family: $Rajdhani;
+  font-family: $Raj;
   background: $blue;
   color: white;
   margin-left: 20px;

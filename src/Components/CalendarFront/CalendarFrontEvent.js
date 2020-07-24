@@ -5,7 +5,9 @@ import { calDays, calTimes } from '../../calendarDaysAndTimesData';
 // This is the component that CalendarFront uses for each class that it maps through.
 
 function CalendarFrontEvent(props) {
-  const { startTime, endTime, event, day } = props;
+  const { startTime, endTime, event, day, classId } = props;
+
+  // console.log(classId);
 
   return (
     <div
@@ -17,7 +19,7 @@ function CalendarFrontEvent(props) {
       }}
     >
       <p>{event.course}</p>
-      <p>{event.courseTitle}</p>
+      <p>{event.courseTitle.substring(0, 15) + '...'}</p>
       <p>{event.meetingPattern}</p>
     </div>
   );
