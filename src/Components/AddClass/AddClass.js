@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './addClass.scss';
 import Select from 'react-select';
 import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 export default function AddClass(props) {
   const { initialAndChangedData, setInitialAndChangedData } = props;
@@ -31,309 +32,173 @@ export default function AddClass(props) {
     });
   };
 
-
-
-
+  
   //Same room at same time error checking
   const allTimes = []
   const timeObj = () => {
     //Location
     let locations = initialAndChangedData.map(obj => {
       let joinLocation = obj.location.split(' ').join('').toLowerCase()
-      return joinLocation
+      let filterSemi = joinLocation.split(';')
+      let filterJoins = filterSemi[0]
+
+      return filterJoins
     })
 
     //START TIMES
-    let startTimes = initialAndChangedData.map(obj => {
+    let startTimes = initialAndChangedData.map((obj, index) => {
       let splitTime = obj.meetingPattern.split('-')
       let splitDays = splitTime[0].split(' ')
       let combinedDaysTime = splitDays.concat(splitTime[1])
+      
 
-      //split the times into 'time','p','m' for starting
-      let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
+      const weekDays =  splitDays[0].toLowerCase()
 
-      //start times to number
-      let splitStartHourMinute = splitStartTime[0].split(':')
-      console.log("splitStartHourMinute = ", splitStartHourMinute)
 
-      let paddedNum
+      combinedDaysTime.shift()
 
-      if(splitStartHourMinute[0].length === 1){
-        // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
-        // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
-        let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-          return Number(num)
-        })
-        
-        paddedNum =  Number(splitStartHourMinuteNumber.join('').padEnd(3, 0))
+      let formattedArr = []
+      combinedDaysTime.forEach(time => {
+        if(time && time.length){
+          if(time.length <= 4){
+            let splitTime = time.split('')
+            if(splitTime.length === 4){
+              splitTime.splice(2, 0, ':00')
+              let joinedTime = splitTime.join('')
+              formattedArr.push(joinedTime)
+            }else {
+              splitTime.splice(1, 0, ':00')
+              let joinedTime = splitTime.join('')
+              formattedArr.push(joinedTime)
+            }
+          }if(time.length > 4){
+            formattedArr.push(time)
+          }
+        }
+      })
 
-      }else if (splitStartHourMinute[0].length === 2){
-        // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
-        // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
-        let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-          return Number(num)
-        })
+      let firstFormat = formattedArr[0]
+      let spaceFirstAP = firstFormat.split('')
+      spaceFirstAP.splice(-2, 0, " ")
+      let joinedFirstAP = spaceFirstAP.join('')
 
-        paddedNum = Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))
-      }else{
-        paddedNum = NaN
-      }
 
-      console.log('padded Num = ', paddedNum)
-      return paddedNum
-    })
+      let secondFormat = formattedArr[1]
+      let spaceSecondAP = secondFormat.split('')
+      spaceSecondAP.splice(-2, 0, " ")
+      let joinedSecondAP = spaceSecondAP.join('')
 
-    //START PM or AM
-    let startAMPM = initialAndChangedData.map(obj => {
-      let splitTime = obj.meetingPattern.split('-')
-      let splitDays = splitTime[0].split(' ')
-      let combinedDaysTime = splitDays.concat(splitTime[1])
 
-      //split the times into 'time','p','m' for starting
-      let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
-      return splitStartTime[1]
-    })
+      let arbitraryDate = '2020/01/01 '
+      let start = arbitraryDate.concat(joinedFirstAP)
+      let end = arbitraryDate.concat(joinedSecondAP)
 
-    //END TIMES
-    let endTimes = initialAndChangedData.map(obj => {
-      let splitTime = obj.meetingPattern.split('-')
-      let splitDays = splitTime[0].split(' ')
-      let combinedDaysTime = splitDays.concat(splitTime[1])
 
-      //split the times into 'time','p','m' for ending time
-      let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
+      let startDate = new Date(Date.parse(start))
+      let endDate = new Date(Date.parse(end))
 
-      //end times to number
-      let splitEndHourMinute = splitEndTime[0].split(':')
-      let paddedNum
-
-      if(splitEndHourMinute[0].length === 1){
-        // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
-        // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
-        let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-          return Number(num)
-        })
-        paddedNum =  Number(splitEndHourMinuteNumber.join('').padEnd(3, 0))
-
-      }else if (splitEndHourMinute[0].length === 2){
-        // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
-        // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
-        let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-          return Number(num)
-        })
-
-        paddedNum = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))
-      }else{
-        paddedNum = NaN
-      }
-
-      // console.log('padded Num = ', paddedNum)
-      return paddedNum
-    })
-
-    //End PM or AM
-    let endAMPM = initialAndChangedData.map(obj => {
-      let splitTime = obj.meetingPattern.split('-')
-      let splitDays = splitTime[0].split(' ')
-      let combinedDaysTime = splitDays.concat(splitTime[1])
-
-      //split the times into 'time','p','m' for ending time
-      let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
-      return splitEndTime[1]
-    })
-
-    //Days of Week
-    let weekDays = initialAndChangedData.map(obj => {
-      let splitTime = obj.meetingPattern.split('-')
-      let splitDays = splitTime[0].split(' ')
-      return splitDays[0].toLowerCase()
-    })
-
-    //Convert array to array of objects
-    let items = startTimes.map((time, index) => {
-      let newSTime
-      let newETime
-      if(startAMPM[index] === "p"){
-        
-        newSTime = (Number(time.toString().padEnd(4, 0))) * 100
-      }else {
-        newSTime = time
-      }
-      if(endAMPM[index] === "p"){
-        newETime = (Number(endTimes[index].toString().padEnd(4, 0))) * 100
-      }else {
-        newETime = endTimes[index]
-      }
-      return {
+      allTimes.push({
         location: locations[index],
-        endampm: endAMPM[index],
-        endTime: newETime,
-        startampm: startAMPM[index],
-        startTime: newSTime,
-        days: weekDays[index]
-      }
-    })
+        startTime: startDate,
+        endTime: endDate,
+        days: weekDays
+      })
+
+  })
     
-    allTimes.push(items)
   }
   timeObj()
-
-  console.log('alltimes = ', allTimes)
-
-
-
-
-
-
 
 
   //New added class selection to an object
   const addClassObj = (str) => {
-    console.log('inside addClassObj ', str)
 
     let splitTime = str.split('-')
     let splitDays = splitTime[0].split(' ')
     let combinedDaysTime = splitDays.concat(splitTime[1])
 
-    //split the times into 'time','p','m' for starting
-    let splitStartTime = combinedDaysTime[1].split(/([ap])/i)
+    const weekDays =  splitDays[0].toLowerCase()
 
-    //start times to number
-    let splitStartHourMinute = splitStartTime[0].split(':')
+    combinedDaysTime.shift()
 
+    let formattedArr = []
+    combinedDaysTime.forEach(time => {
+      if(time && time.length){
+        if(time.length <= 4){
+          let splitTime = time.split('')
+          if(splitTime.length === 4){
+            splitTime.splice(2, 0, ':00')
+            let joinedTime = splitTime.join('')
+            formattedArr.push(joinedTime)
+          }else {
+            splitTime.splice(1, 0, ':00')
+            let joinedTime = splitTime.join('')
+            formattedArr.push(joinedTime)
+          }
+        }if(time.length > 4){
+          formattedArr.push(time)
+        }
+      }
+    })
 
-    let startTime
-    if(splitStartHourMinute[0].length === 1){
-      // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
-      // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
-      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-        return Number(num)
-      })
-      startTime =  Number(splitStartHourMinuteNumber.join('').padEnd(3, 0))//End Time
-
-    }else if (splitStartHourMinute[0].length === 2){
-      // console.log('splitStartHourMinute first =', splitStartHourMinute[0])
-      // console.log('splitStartHourMinute first length =', splitStartHourMinute[0].length)
-      let splitStartHourMinuteNumber = splitStartHourMinute.map(num => {
-        return Number(num)
-      })
-
-      startTime = Number(splitStartHourMinuteNumber.join('').padEnd(4, 0))//StartTime
-    }else{
-      startTime = NaN
-    }
-    console.log('startTime = ', startTime)
-
-
-    const startAMPM = splitStartTime[1]//Start AM PM
-    console.log('startAMPM = ', startAMPM)
+    let firstFormat = formattedArr[0]
+    let spaceFirstAP = firstFormat.split('')
+    spaceFirstAP.splice(-2, 0, " ")
+    let joinedFirstAP = spaceFirstAP.join('')
 
 
-    //split the times into 'time','p','m' for ending time
-    let splitEndTime = combinedDaysTime[2].split(/([ap])/i)
-
-    //end times to number
-    let splitEndHourMinute = splitEndTime[0].split(':')
-    
-    let endTime
-    if(splitEndHourMinute[0].length === 1){
-      // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
-      // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
-      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-        return Number(num)
-      })
-      endTime =  Number(splitEndHourMinuteNumber.join('').padEnd(3, 0))//End Time
-
-    }else if (splitEndHourMinute[0].length === 2){
-      // console.log('splitEndHourMinute first =', splitEndHourMinute[0])
-      // console.log('splitEndHourMinute first length =', splitEndHourMinute[0].length)
-      let splitEndHourMinuteNumber = splitEndHourMinute.map(num => {
-        return Number(num)
-      })
-
-      endTime = Number(splitEndHourMinuteNumber.join('').padEnd(4, 0))//End Time
-    }else{
-      endTime = NaN
-    }
-    console.log('endTime = ', endTime)
+    let secondFormat = formattedArr[1]
+    let spaceSecondAP = secondFormat.split('')
+    spaceSecondAP.splice(-2, 0, " ")
+    let joinedSecondAP = spaceSecondAP.join('')
 
 
+    let arbitraryDate = '2020/01/01 '
+    let start = arbitraryDate.concat(joinedFirstAP)
+    let end = arbitraryDate.concat(joinedSecondAP)
 
-    const endAMPM = splitEndTime[1]//End AM PM
-    console.log('end am pm = ', endAMPM)
 
-    
-    const weekDays =  splitDays[0].toLowerCase()//weekDays
-    console.log('weekdays = ', weekDays)
+    let startDate = new Date(Date.parse(start))
+    let endDate = new Date(Date.parse(end))
 
-    //variables to change start time if they are pm
-    let newSTime
-    let newETime
-    if(startAMPM === "p"){
-      newSTime = (Number(startTime.toString().padEnd(4, 0))) * 100
-    }else {
-      newSTime = startTime
-    }
-    if(endAMPM === "p"){
-      newETime = (Number(endTime.toString().padEnd(4, 0))) * 100
-    }else {
-      newETime = endTime
-    }
-    //return object to make error checking easier
-    return {
-      endampm: endAMPM,
-      endTime: newETime,
-      startampm: startAMPM,
-      startTime: newSTime,
+    return({
+      startTime: startDate,
+      endTime: endDate,
       days: weekDays
-    }
+    })
 }
 
-
-  //Final conflict check
-  const conflictCheck = () => {
+  //final error check
+  const checkConflicts = () => {
     let conflict = false
-    const newLocation = addClassData.location.split(' ').join('').toLowerCase()
-    const ourNewAddedTime = addClassObj(addClassData.meetingPattern)
-    console.log("our new added time = ", ourNewAddedTime)
+    let newLocation = addClassData.location.split(' ').join('').toLowerCase()
+    let filterNewSemi = newLocation.split(';')
+    let filterNewLocation = filterNewSemi[0]
 
-    console.log('inside of error check')
+    let ourNewAddedTime = addClassObj(addClassData.meetingPattern)
+    let daysFiltered = ourNewAddedTime.days.split('').sort()
 
-
-    allTimes[0].forEach(obj => {
-      if(obj.location === newLocation) {
-        if(obj.days.includes(ourNewAddedTime.days)){
-          console.log('yes it includes the same day')
+    allTimes.forEach(obj => {
+      if(obj.location === filterNewLocation) {
+        if(daysFiltered.includes(obj.days.split('').sort()[0]) || daysFiltered.includes(obj.days.split('').sort()[1]) || daysFiltered.includes(obj.days.split('').sort()[2])){
           if(obj.startTime < ourNewAddedTime.startTime && obj.endTime < ourNewAddedTime.startTime){
-            console.log('no conflicts, start times are less')
           }else if(obj.startTime > ourNewAddedTime.endTime && obj.endTime > ourNewAddedTime.endTime){
-            console.log('no conflicts, start times are greater')
           }else{
-            console.log('TIME CONFLICT*********************', obj)
-            console.log('new added time', ourNewAddedTime)
             return conflict = true
           }
-        }else{
-          console.log('no time conflicts DAYS Included ')
         }
-      }else {
-        console.log('no time conflicts LOCATION')
       }
 
     })
     //close the modal and save class if no errors
-    conflict === true ? alert('Room time conflicts') : setOpenAddClassModal(false);
+    if(conflict === true) {
+      alert('Room time conflicts') 
+      return false
+    }else {
+      return true
+    }
   }
 
-
-
-
-
-
-
-
-
-  
 
   return (
     <div className="add-class-modal-wrap">
@@ -523,19 +388,19 @@ export default function AddClass(props) {
         <button
           className="add-class-save-btn"
           onClick={() => {
-            conflictCheck() //check for errors
-
-            // if (Object.keys(addClassData).length === 23) {
-            //   setInitialAndChangedData([
-            //     ...initialAndChangedData,
-            //     addClassData,
-            //   ]);
-            //   setAddClassSuccess(true);
-            //   setAddClassFormError(false);
-            // } else {
-            //   setAddClassSuccess(true); //delete this
-            //   // setAddClassFormError(true); //add this back in
-            // }
+            if (checkConflicts()){
+              if (Object.keys(addClassData).length === 23) {
+                setInitialAndChangedData([
+                  ...initialAndChangedData,
+                  addClassData,
+                ]);
+                setAddClassSuccess(true);
+                setAddClassFormError(false);
+              } else {
+                setAddClassSuccess(true); //delete this
+                // setAddClassFormError(true); //add this back in
+              }
+            }
           }}
         >
           Save Section
