@@ -190,7 +190,7 @@ export default function AddClass(props) {
       }
 
     })
-    //close the modal and save class if no errors
+    //close the modal and check for form errors
     if(conflict === true) {
       alert('Room Time Conflicts') 
       return false
