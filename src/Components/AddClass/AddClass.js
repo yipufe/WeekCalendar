@@ -32,7 +32,7 @@ export default function AddClass(props) {
     });
   };
 
-  
+
   //Same room at same time error checking
   const allTimes = []
   const timeObj = () => {
@@ -192,7 +192,7 @@ export default function AddClass(props) {
     })
     //close the modal and save class if no errors
     if(conflict === true) {
-      alert('Room time conflicts') 
+      alert('Room Time Conflicts') 
       return false
     }else {
       return true
@@ -397,8 +397,7 @@ export default function AddClass(props) {
                 setAddClassSuccess(true);
                 setAddClassFormError(false);
               } else {
-                setAddClassSuccess(true); //delete this
-                // setAddClassFormError(true); //add this back in
+                setAddClassFormError(true);
               }
             }
           }}
