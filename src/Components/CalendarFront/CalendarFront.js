@@ -26,6 +26,15 @@ function CalendarFront(props) {
   cursor: pointer;
   `;
 
+  const Container = styled.div`
+	width: 85%;
+	background-color: ${(props) => colors[props.index]};
+	color: black;
+	border-radius: 5px;
+	padding: 5px;
+	cursor: pointer;
+  `;
+
   const eventData = meetingPatternArr.map(event => {
     const days = event.meetingPattern.split(' ')[0];
     const dayArray = days !== 'Sa' ? days.split('') : ['Sa'];
