@@ -34,20 +34,20 @@ function CalendarFront(props) {
 
     const displayEvents = dayArray.map((day) => {
       return (
-        <Container
-          key={`${day}-${event.classId}`}
-          index={meetingPatternArr.indexOf(event)}
-          style={{
-            gridColumn: `${calDays[day]}`,
-            gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
-          }}
-        >
-          <p class="cal-front-item-p">{event.course}</p>
-          <p class="cal-front-item-p">
-            {event.courseTitle.substring(0, 15) + '...'}
-          </p>
-          <p class="cal-front-item-p">{event.meetingPattern}</p>
-        </Container>
+    <Container
+      key={`${day}-${event.classId}`}
+      index={meetingPatternArr.indexOf(event)}
+      style={{
+        gridColumn: `${calDays[day]}`,
+        gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
+      }}
+    >
+      <p class="cal-front-item-p">{event.course}</p>
+      <p class="cal-front-item-p">
+        {event.courseTitle.substring(0, 15) + '...'}
+      </p>
+      <p class="cal-front-item-p">{event.meetingPattern}</p>
+    </Container>
       );
     });
 
