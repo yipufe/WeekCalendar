@@ -43,9 +43,7 @@ function CalendarFront(props) {
       }}
     >
       <p class="cal-front-item-p">{event.course}</p>
-      <p class="cal-front-item-p">
-        {event.courseTitle.substring(0, 15) + '...'}
-      </p>
+      <p class="cal-front-item-p">{event.courseTitle.substring(0, 15) + '...'}</p>
       <p class="cal-front-item-p">{event.meetingPattern}</p>
     </Container>
       );
