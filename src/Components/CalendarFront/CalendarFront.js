@@ -3,8 +3,6 @@ import './calendarFront.scss';
 import styled from 'styled-components';
 import { calDays, calTimes, colors } from '../../calendarDaysAndTimesData';
 
-// This component is the front of the calendar where the events are displays. It goes over top of the back of the calendar which is just the styling for the cells
-
 function CalendarFront(props) {
   const { displayData, initialAndChangedData } = props; // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
   let meetingPatternArr;
