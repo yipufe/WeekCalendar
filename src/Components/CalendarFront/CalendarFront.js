@@ -39,7 +39,7 @@ function CalendarFront(props) {
 			index={meetingPatternArr.indexOf(event)}
 			style={{
 				gridColumn: `${calDays[day]}`,
-        				gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
+        			gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
 			}}
 		>
 			<p class="cal-front-item-p">{event.course}</p>
