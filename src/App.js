@@ -228,7 +228,12 @@ function App() {
 
   //save class information entered into the class modal
   function saveClass(classId) {
-    
+
+    //If meeting pattern has no days default to Saturday
+    if( classModalData.meetingPattern.split(' ')[0].length === 0 ) {
+      classModalData.meetingPattern = 'Sa'+classModalData.meetingPattern;
+    }
+
     //set Changed data
     const indexChangedData = initialAndChangedData.findIndex(item => {
       return item.classId === classId
