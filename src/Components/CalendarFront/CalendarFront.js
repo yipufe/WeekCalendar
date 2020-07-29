@@ -26,8 +26,15 @@ function CalendarFront(props) {
   `;
 
   const eventData = meetingPatternArr.map((event) => {
-    const days = event.meetingPattern.split(' ')[0];
-    const dayArray = days !== 'Sa' ? days.split('') : ['Sa'];
+    let days = event.meetingPattern.split(' ')[0];
+    days = days.replace('a', '');
+    let dayArray = days.split('');
+    dayArray = dayArray.map( day => {
+      if(day==='S')
+        return 'Sa';
+      return day;
+    })
+
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
     const endTime = event.meetingPattern.split(' ')[1].split('-')[1];
 
@@ -40,6 +47,7 @@ function CalendarFront(props) {
             gridColumn: `${calDays[day]}`,
             gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
           }}
+          onClick={()=>{props.openClassModal(event.classId)} }
         >
           <p class="cal-front-item-p">{event.course}</p>
           <p class="cal-front-item-p">

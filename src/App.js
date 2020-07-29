@@ -217,7 +217,7 @@ function App() {
 
   //Opens Modal with appropriate class information
   function openClassModal(classId) { 
-    const courseForModalDisplay = displayData.find(item=>{
+    const courseForModalDisplay = initialAndChangedData.find(item=>{
       return item.classId === classId;
     });
 
@@ -228,7 +228,16 @@ function App() {
 
   //save class information entered into the class modal
   function saveClass(classId) {
-    //set display data
+    
+    //set Changed data
+    const indexChangedData = initialAndChangedData.findIndex(item => {
+      return item.classId === classId
+    });
+    const tempChangedData = [...initialAndChangedData];
+    tempChangedData[indexChangedData] = classModalData;
+    setInitialAndChangedData(tempChangedData);
+
+    //Set Display data
     const indexDisplayData = displayData.findIndex(item => {
       return item.classId === classId
     });
@@ -236,7 +245,9 @@ function App() {
     tempDisplayData[indexDisplayData] = classModalData;
     setDisplayData(tempDisplayData);
 
+
     //set initial data
+/*
     const indexInitialData = initialData.findIndex(item => {
       return item.classId === classId
     });
@@ -275,7 +286,7 @@ function App() {
       );
     });
     setInstructor(tempInstructors)
-
+*/
 
     setClassModalIsOpen(false);
   }
