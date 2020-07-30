@@ -318,7 +318,6 @@ function App() {
           handleInstructorChange={handleInstructorChange}
           handleRoomChange={handleRoomChange}
           handleCourseChange={handleCourseChange}
-          handleExcelExport={exportAsExcelFileHandler}
           clearFilters={clearFilters}
           setFile={setFile}
           setDisplayData={setDisplayData}
@@ -333,6 +332,7 @@ function App() {
           setInitialAndChangedData={setInitialAndChangedData}
           displayData={displayData}
           setDisplayData={setDisplayData}
+          handleExcelExport={exportAsExcelFileHandler}
         />
       </div>
       <Footer />
