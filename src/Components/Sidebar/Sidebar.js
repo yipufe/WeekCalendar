@@ -28,12 +28,6 @@ function Sidebar(props) {
         >
           IMPORT CALENDAR FILE
         </button>
-        <button 
-          onClick={props.handlePrint}
-          className="print-btn"
-        >
-          Print
-        </button>
       </div>
       <div className="filters">
         <div className="filter-header">

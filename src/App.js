@@ -308,7 +308,6 @@ function App() {
           setDisplayData={setDisplayData}
           setInitialData={setInitialData}
           handleResetCalendar={handleResetCalendar}
-          handlePrint={handlePrint}
         />
 
         <Printable ref={componentRef}>
@@ -325,6 +324,7 @@ function App() {
             setInitialAndChangedData={setInitialAndChangedData}
             displayData={displayData}
             setDisplayData={setDisplayData}
+            handlePrint={handlePrint}
           />
           <ClassDetailsList 
             displayData={displayData}
