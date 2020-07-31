@@ -43,7 +43,7 @@ function ClassModal(props) {
     return (
         <div className="add-class-modal-wrap">
         <div className="add-class-modal-header">
-          <h2>New Class</h2>
+          <h2>Edit Class</h2>
         </div>
         <div className="add-class-body">
           <div className="add-class-left-section">
