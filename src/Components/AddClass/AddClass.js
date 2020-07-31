@@ -46,7 +46,7 @@ export default function AddClass(props) {
     })
 
     //START TIMES
-    let startTimes = initialAndChangedData.map((obj, index) => {
+    initialAndChangedData.forEach((obj, index) => {
       let splitTime = obj.meetingPattern.split('-')
       let splitDays = splitTime[0].split(' ')
       let combinedDaysTime = splitDays.concat(splitTime[1])
