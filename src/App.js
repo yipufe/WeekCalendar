@@ -15,7 +15,7 @@ const classModalShellStyle = {
     bottom: 'auto',
     marginRight: 'auto',
     marginLeft: 'auto',
-    width: '800px',
+    width: '845px',
   }
 }
 
@@ -162,15 +162,8 @@ function App() {
   //Called when class information changes in the modal due to the user changing an input field
   //Uses the input id to identify what value is changing
   function changeClassModal(event) {
-    //Look up table for inputs and the associated key in classModalData
-    const classModalFieldLookup = {
-      "course-title":"courseTitle",
-      "course-number":"course",
-      "course-instructor":"instructor",
-      "course-location":"location",
-      "course-credits":"creditHours",
-    }
     const id = event.target.id;
+    const name = event.target.name;
     const value = event.target.value;
     const checked = event.target.checked;
 
@@ -209,7 +202,7 @@ function App() {
       newClassModalData.meetingPattern = days+" "+timeRange;
 
     } else {
-      newClassModalData[classModalFieldLookup[id]]=value; //any other field look up and asign dirrectly
+      newClassModalData[name]=value; //any other field look up and asign dirrectly
     }
 
     setClassModalData(newClassModalData);
