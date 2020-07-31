@@ -84,6 +84,7 @@ function Calendar(props) {
               setDisplayData={props.setDisplayData}
               initialAndChangedData={props.initialAndChangedData}
               setInitialAndChangedData={props.setInitialAndChangedData}
+              openClassModal={props.openClassModal}
             />
           </div>
         </div>
