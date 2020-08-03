@@ -1,44 +1,26 @@
 import React from 'react';
 import './classmodal.scss';
-import ClassModalDays from './classModalDays'
+import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
+import Select from 'react-select';
 
 function ClassModal(props) {    
     const {meetingPattern, classId} = props.classModalData;
     const [days, timeSpan] = meetingPattern.split(' ');  //Get days and time span
     const [startTime12Hour, endTime12Hour] = timeSpan.split('-');
-    const startTime24Hour = convertTime24Hour(startTime12Hour);
-    const endTime24Hour = convertTime24Hour(endTime12Hour);
-
-    //Convert 12 hour to 24 hour time
-    function convertTime24Hour(time12Hour) {
-        let hour, minute, meridiem;
-
-        //Seperate out hour, minute, and meridiem
-        if(time12Hour.indexOf(':')>-1) {
-            hour = time12Hour.split(':')[0];
-            minute = time12Hour.split(':')[1];
-            meridiem = minute.substring(2);
-            minute = minute.substring(0,2);            
-        } else {
-            if(time12Hour.length === 3)
-                time12Hour = '0'+time12Hour;
-            hour = time12Hour.substring(0,2);
-            meridiem = time12Hour.substring(2);
-            minute = '00';
-        }
-
-        //Convert hour to 24 hour time
-        if(hour === '12')
-            hour = '0';
-        hour = parseInt(hour);
-        if(meridiem === 'pm')
-            hour += 12;
-        hour = hour.toString();
-        if(hour.length === 1)
-            hour = '0'+hour;
-
-        return hour+":"+minute;
-    }
+    
+    const selectedDaysIndex = selectDays.findIndex(value=>value.value === days);
+    const selectedStartTimeIndex = selectTimes.findIndex(value=>value.value === startTime12Hour);
+    const selectedEndTimeIndex = selectTimes.findIndex(value=>value.value === endTime12Hour);
+    
+    const handleSetDays = (selected) => {
+      props.changeMeetingPattern(selected.value+" "+timeSpan);
+    };
+    const handleSetStartTime = (selected) => {
+      props.changeMeetingPattern(days+" "+selected.value+"-"+endTime12Hour);
+    };;
+    const handleSetEndTime = (selected) => {
+      props.changeMeetingPattern(days+" "+startTime12Hour+"-"+selected.value);
+    };;
 
     return (
         <div className="add-class-modal-wrap">
@@ -155,27 +137,32 @@ function ClassModal(props) {
             </div>
             <div className="right-section-item">
               <h3>Schedule</h3>
-
-
-              <label>Days</label>
-                <br/>
-                <ClassModalDays
-                    days={days}
-                    changed={props.changed}
+              <div className="schedule-selects">
+                <Select
+                  name="schedule-days"
+                  options={selectDays}
+                  defaultValue={selectDays[selectedDaysIndex]}
+                  className="schedule-select"
+                  placeholder="Days"
+                  onChange={handleSetDays}
                 />
-                <br/>
-
-                <label htmlFor="course-time-start">Start Time</label>
-                <br/>
-                <input type="time" step="300" id="course-time-start" onChange={props.changed} value={startTime24Hour}/>
-                <br/>
-
-                <label htmlFor="course-time-end">End Time</label>
-                <br/>
-                <input type="time" step="300" id="course-time-end" onChange={props.changed} value={endTime24Hour}/>
-                <br/>
-
-
+                <Select
+                  name="schedule-start-time"
+                  options={selectTimes}
+                  className="schedule-select"
+                  defaultValue={selectTimes[selectedStartTimeIndex]}
+                  placeholder="Start Time"
+                  onChange={handleSetStartTime}
+                />
+                <Select
+                  name="schedule-end-time"
+                  options={selectTimes}
+                  className="schedule-select"
+                  defaultValue={selectTimes[selectedEndTimeIndex]}
+                  placeholder="End Time"
+                  onChange={handleSetEndTime}
+                />
+              </div>
             </div>
             <div className="right-section-item">
               <h3>Enrollment</h3>
