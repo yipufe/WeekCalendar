@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './addClass.scss';
 import Select from 'react-select';
 import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
-import { isCompositeComponent } from 'react-dom/test-utils';
 
 export default function AddClass(props) {
   const { initialAndChangedData, setInitialAndChangedData } = props;
