@@ -263,8 +263,6 @@ function App() {
     setInitialAndChangedData([]);
   };
 
-  console.log(initialAndChangedData);
-
   return (
     <div className="App">
       <Header />

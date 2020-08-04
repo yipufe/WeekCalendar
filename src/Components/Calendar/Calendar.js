@@ -28,8 +28,6 @@ function Calendar(props) {
     });
   };
 
-  console.log(Object.keys(addClassData).length);
-
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
