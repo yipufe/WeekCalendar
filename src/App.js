@@ -8,7 +8,7 @@ import Footer from './Components/Footer/Footer';
 
 import Modal from 'react-modal';
 import ClassModal from './Components/ClassModal/classmodal';
-Modal.setAppElement('#root');  //Bind modal to app element
+Modal.setAppElement('#root'); //Bind modal to app element
 const classModalShellStyle = {
   content: {
     padding: '0px',
@@ -16,9 +16,8 @@ const classModalShellStyle = {
     marginRight: 'auto',
     marginLeft: 'auto',
     width: '845px',
-  }
-}
-
+  },
+};
 
 function App() {
   // All of these useState items are the states or data for different parts of the calendar.
@@ -39,10 +38,10 @@ function App() {
 
   const [classModalIsOpen, setClassModalIsOpen] = useState(false);
   const [classModalData, setClassModalData] = useState({});
-  
+
   function changeClassModalMeetingPattern(pattern) {
-    const newClassModalData = {...classModalData};
-    newClassModalData.meetingPattern=pattern;
+    const newClassModalData = { ...classModalData };
+    newClassModalData.meetingPattern = pattern;
     setClassModalData(newClassModalData);
   }
 
@@ -52,41 +51,42 @@ function App() {
     const name = event.target.name;
     const value = event.target.value;
 
-    const newClassModalData = {...classModalData};
-    newClassModalData[name]=value; //any other field look up and asign dirrectly
+    const newClassModalData = { ...classModalData };
+    newClassModalData[name] = value; //any other field look up and asign dirrectly
     setClassModalData(newClassModalData);
   }
 
   //Opens Modal with appropriate class information
-  function openClassModal(classId) { 
-    const courseForModalDisplay = initialAndChangedData.find(item=>{
+  function openClassModal(classId) {
+    const courseForModalDisplay = initialAndChangedData.find((item) => {
       return item.classId === classId;
     });
 
-    setClassModalData(courseForModalDisplay)    
-    setClassModalIsOpen(true); 
+    setClassModalData(courseForModalDisplay);
+    setClassModalIsOpen(true);
   }
-  function closeClassModal() { setClassModalIsOpen(false); }
+  function closeClassModal() {
+    setClassModalIsOpen(false);
+  }
 
   //save class information entered into the class modal
   function saveClass(classId) {
-
     //If meeting pattern has no days default to Saturday
-    if( classModalData.meetingPattern.split(' ')[0].length === 0 ) {
-      classModalData.meetingPattern = 'Sa'+classModalData.meetingPattern;
+    if (classModalData.meetingPattern.split(' ')[0].length === 0) {
+      classModalData.meetingPattern = 'Sa' + classModalData.meetingPattern;
     }
 
     //set Changed data
-    const indexChangedData = initialAndChangedData.findIndex(item => {
-      return item.classId === classId
+    const indexChangedData = initialAndChangedData.findIndex((item) => {
+      return item.classId === classId;
     });
     const tempChangedData = [...initialAndChangedData];
     tempChangedData[indexChangedData] = classModalData;
     setInitialAndChangedData(tempChangedData);
 
     //Set Display data
-    const indexDisplayData = displayData.findIndex(item => {
-      return item.classId === classId
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
     });
     const tempDisplayData = [...displayData];
     tempDisplayData[indexDisplayData] = classModalData;
@@ -99,19 +99,19 @@ function App() {
   //delete class modal control
   function deleteClass(classId) {
     //remove class from display data
-    const indexDisplayData = displayData.findIndex(item => {
-      return item.classId === classId
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
     });
     const tempDisplayData = [...displayData];
-    tempDisplayData.splice(indexDisplayData,1);
+    tempDisplayData.splice(indexDisplayData, 1);
     setDisplayData(tempDisplayData);
 
     //remove class from initial data
-    const indexInitialData = initialData.findIndex(item => {
-      return item.classId === classId
+    const indexInitialData = initialData.findIndex((item) => {
+      return item.classId === classId;
     });
     const tempInitialData = [...initialData];
-    tempInitialData.splice(indexInitialData,1);
+    tempInitialData.splice(indexInitialData, 1);
     setInitialData(tempInitialData);
 
     setClassModalIsOpen(false);
@@ -357,16 +357,16 @@ function App() {
     setInitialAndChangedData([]);
   };
 
-  console.log(initialAndChangedData);
-
   return (
     <div className="App">
       <Modal
         isOpen={classModalIsOpen}
         onRequestClose={closeClassModal}
-        style={classModalShellStyle}
+        style={{ display: 'flex' }}
+        className="add-class-modal"
+        shouldCloseOnOverlayClick={false}
       >
-        <ClassModal 
+        <ClassModal
           closeClassModal={closeClassModal}
           saveClass={saveClass}
           deleteClass={deleteClass}
