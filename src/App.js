@@ -9,15 +9,6 @@ import Footer from './Components/Footer/Footer';
 import Modal from 'react-modal';
 import ClassModal from './Components/ClassModal/classmodal';
 Modal.setAppElement('#root'); //Bind modal to app element
-const classModalShellStyle = {
-  content: {
-    padding: '0px',
-    bottom: 'auto',
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    width: '845px',
-  },
-};
 
 function App() {
   // All of these useState items are the states or data for different parts of the calendar.
