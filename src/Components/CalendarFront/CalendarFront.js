@@ -35,7 +35,13 @@ function CalendarFront(props) {
     });
 
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
-    const endTime = event.meetingPattern.split(' ')[1].split('-')[1];
+    let endTime = event.meetingPattern.split(' ')[1].split('-')[1];
+    if (endTime.includes(';')) {
+      endTime = endTime.substring(0, endTime.length - 1);
+    }
+
+    console.log(startTime);
+    console.log(endTime);
 
     const displayEvents = dayArray.map((day) => {
       return (
@@ -50,7 +56,9 @@ function CalendarFront(props) {
             props.openClassModal(event.classId);
           }}
         >
-          <p className="cal-front-item-p">{event.course}</p>
+          <p className="cal-front-item-course">
+            {event.course}-{event.section}
+          </p>
           <p className="cal-front-item-p">
             {event.courseTitle.substring(0, 15) + '...'}
           </p>
