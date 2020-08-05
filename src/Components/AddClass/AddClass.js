@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './addClass.scss';
 import Select from 'react-select';
 import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
+// import { isCompositeComponent } from 'react-dom/test-utils';
 
 export default function AddClass(props) {
   const { initialAndChangedData, setInitialAndChangedData } = props;
@@ -30,7 +31,6 @@ export default function AddClass(props) {
         : schedule + '-' + selected.value,
     });
   };
-
 
   //Same room at same time error checking
   const allTimes = []
@@ -197,7 +197,6 @@ export default function AddClass(props) {
       return true
     }
   }
-
 
   return (
     <div className="add-class-modal-wrap">
