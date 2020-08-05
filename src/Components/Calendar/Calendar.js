@@ -28,8 +28,6 @@ function Calendar(props) {
     });
   };
 
-  console.log(Object.keys(addClassData).length);
-
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
@@ -84,6 +82,7 @@ function Calendar(props) {
               setDisplayData={props.setDisplayData}
               initialAndChangedData={props.initialAndChangedData}
               setInitialAndChangedData={props.setInitialAndChangedData}
+              openClassModal={props.openClassModal}
             />
           </div>
         </div>
