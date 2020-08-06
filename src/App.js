@@ -52,10 +52,10 @@ function App() {
   }
 
   //Opens Modal with appropriate class information
-  function openClassModal(classId) {
-    const courseForModalDisplay = initialAndChangedData.find((item) => {
-      return item.classId === classId;
-    });
+  // function openClassModal(classId) {
+  //   const courseForModalDisplay = initialAndChangedData.find((item) => {
+  //     return item.classId === classId;
+  //   });
 
     setClassModalData(courseForModalDisplay);
     setClassModalIsOpen(true);
@@ -399,7 +399,7 @@ function App() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  
+
   return (
     <div className="App">
       <Modal
