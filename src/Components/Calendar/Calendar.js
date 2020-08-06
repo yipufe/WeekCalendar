@@ -28,8 +28,6 @@ function Calendar(props) {
     });
   };
 
-  console.log(Object.keys(addClassData).length);
-
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
@@ -44,10 +42,7 @@ function Calendar(props) {
           />
           <p>Add Class</p>
         </div>
-        <div 
-          className="calendar-header-icon-wrap"
-          onClick={props.handlePrint}
-        >
+        <div className="calendar-header-icon-wrap" onClick={props.handlePrint}>
           <FontAwesomeIcon
             icon={faPrint}
             className="calendar-header-icon"

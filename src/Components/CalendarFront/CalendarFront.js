@@ -3,6 +3,15 @@ import './calendarFront.scss';
 import styled from 'styled-components';
 import { calDays, calTimes, colors } from '../../calendarDaysAndTimesData';
 
+const Container = styled.div`
+  width: 85%;
+  background-color: ${(props) => colors[props.index]};
+  color: black;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+`;
+
 function CalendarFront(props) {
   const { displayData, initialAndChangedData } = props; // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
   let meetingPatternArr;
@@ -15,15 +24,6 @@ function CalendarFront(props) {
       (course) => course.meetingPattern !== 'Does Not Meet'
     );
   }
-
-  const Container = styled.div`
-    width: 85%;
-    background-color: ${(props) => colors[props.index]};
-    color: black;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-  `;
 
   const eventData = meetingPatternArr.map((event) => {
     const days = event.meetingPattern.split(' ')[0];
@@ -41,11 +41,11 @@ function CalendarFront(props) {
             gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
           }}
         >
-          <p class="cal-front-item-p">{event.course}</p>
-          <p class="cal-front-item-p">
+          <p className="cal-front-item-p">{event.course}</p>
+          <p className="cal-front-item-p">
             {event.courseTitle.substring(0, 15) + '...'}
           </p>
-          <p class="cal-front-item-p">{event.meetingPattern}</p>
+          <p className="cal-front-item-p">{event.meetingPattern}</p>
         </Container>
       );
     });
