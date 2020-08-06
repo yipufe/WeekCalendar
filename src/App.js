@@ -170,6 +170,41 @@ function App() {
             });
           }
         }
+        //time and instructor schedule
+        const filterArray = [];
+        var uniqueObj = [];
+        var bool = true;
+        dataArray.forEach((data) => {
+          if (
+            !filterArray.find(
+              (dat) =>
+                dat.instructor === data.instructor &&
+                dat.course === data.course &&
+                dat.meetingPattern === data.meetingPattern
+            )
+          ) {
+            const { instructor, course, meetingPattern } = data;
+            filterArray.push({ instructor, course, meetingPattern });
+          }
+        });
+
+        for (var i = 0; i < filterArray.length; i++) {
+          if (
+            uniqueObj.indexOf(filterArray[i].instructor) === -1 &&
+            uniqueObj.indexOf(filterArray[i].course) === -1 &&
+            uniqueObj.indexOf(filterArray[i].meetingPattern) === -1
+          ) {
+            bool = true;
+          } else {
+            bool = false;
+          }
+        }
+        if (bool === true) {
+          alert('No schedule intersects');
+        } else {
+          alert('schedule intersects');
+          return;
+        }
         console.log(dataArray);
         setInitialData(dataArray);
         setInitialAndChangedData(dataArray);
@@ -218,6 +253,7 @@ function App() {
         });
       }
     }
+
     //Remove duplicates from courseArray
     const courseArrayUnique = courseArray.filter((item, index, self) => {
       return (
