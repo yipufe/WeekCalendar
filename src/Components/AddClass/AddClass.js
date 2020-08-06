@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './addClass.scss';
 import Select from 'react-select';
 import { selectDays, selectTimes } from '../../calendarDaysAndTimesData';
+// import { isCompositeComponent } from 'react-dom/test-utils';
 
 export default function AddClass(props) {
   const { initialAndChangedData, setInitialAndChangedData } = props;
@@ -30,6 +31,172 @@ export default function AddClass(props) {
         : schedule + '-' + selected.value,
     });
   };
+
+  //Same room at same time error checking
+  const allTimes = []
+  const timeObj = () => {
+    //Location
+    let locations = initialAndChangedData.map(obj => {
+      let joinLocation = obj.location.split(' ').join('').toLowerCase()
+      let filterSemi = joinLocation.split(';')
+      let filterJoins = filterSemi[0]
+
+      return filterJoins
+    })
+
+    //START TIMES
+    initialAndChangedData.forEach((obj, index) => {
+      let splitTime = obj.meetingPattern.split('-')
+      let splitDays = splitTime[0].split(' ')
+      let combinedDaysTime = splitDays.concat(splitTime[1])
+      
+
+      const weekDays =  splitDays[0].toLowerCase()
+
+
+      combinedDaysTime.shift()
+
+      let formattedArr = []
+      combinedDaysTime.forEach(time => {
+        if(time && time.length){
+          if(time.length <= 4){
+            let splitTime = time.split('')
+            if(splitTime.length === 4){
+              splitTime.splice(2, 0, ':00')
+              let joinedTime = splitTime.join('')
+              formattedArr.push(joinedTime)
+            }else {
+              splitTime.splice(1, 0, ':00')
+              let joinedTime = splitTime.join('')
+              formattedArr.push(joinedTime)
+            }
+          }if(time.length > 4){
+            formattedArr.push(time)
+          }
+        }
+      })
+
+      let firstFormat = formattedArr[0]
+      let spaceFirstAP = firstFormat.split('')
+      spaceFirstAP.splice(-2, 0, " ")
+      let joinedFirstAP = spaceFirstAP.join('')
+
+
+      let secondFormat = formattedArr[1]
+      let spaceSecondAP = secondFormat.split('')
+      spaceSecondAP.splice(-2, 0, " ")
+      let joinedSecondAP = spaceSecondAP.join('')
+
+
+      let arbitraryDate = '2020/01/01 '
+      let start = arbitraryDate.concat(joinedFirstAP)
+      let end = arbitraryDate.concat(joinedSecondAP)
+
+
+      let startDate = new Date(Date.parse(start))
+      let endDate = new Date(Date.parse(end))
+
+      allTimes.push({
+        location: locations[index],
+        startTime: startDate,
+        endTime: endDate,
+        days: weekDays
+      })
+
+  })
+    
+  }
+  timeObj()
+
+
+  //New added class selection to an object
+  const addClassObj = (str) => {
+
+    let splitTime = str.split('-')
+    let splitDays = splitTime[0].split(' ')
+    let combinedDaysTime = splitDays.concat(splitTime[1])
+
+    const weekDays =  splitDays[0].toLowerCase()
+
+    combinedDaysTime.shift()
+
+    let formattedArr = []
+    combinedDaysTime.forEach(time => {
+      if(time && time.length){
+        if(time.length <= 4){
+          let splitTime = time.split('')
+          if(splitTime.length === 4){
+            splitTime.splice(2, 0, ':00')
+            let joinedTime = splitTime.join('')
+            formattedArr.push(joinedTime)
+          }else {
+            splitTime.splice(1, 0, ':00')
+            let joinedTime = splitTime.join('')
+            formattedArr.push(joinedTime)
+          }
+        }if(time.length > 4){
+          formattedArr.push(time)
+        }
+      }
+    })
+
+    let firstFormat = formattedArr[0]
+    let spaceFirstAP = firstFormat.split('')
+    spaceFirstAP.splice(-2, 0, " ")
+    let joinedFirstAP = spaceFirstAP.join('')
+
+
+    let secondFormat = formattedArr[1]
+    let spaceSecondAP = secondFormat.split('')
+    spaceSecondAP.splice(-2, 0, " ")
+    let joinedSecondAP = spaceSecondAP.join('')
+
+
+    let arbitraryDate = '2020/01/01 '
+    let start = arbitraryDate.concat(joinedFirstAP)
+    let end = arbitraryDate.concat(joinedSecondAP)
+
+
+    let startDate = new Date(Date.parse(start))
+    let endDate = new Date(Date.parse(end))
+
+    return({
+      startTime: startDate,
+      endTime: endDate,
+      days: weekDays
+    })
+}
+
+  //final error check
+  const checkConflicts = () => {
+    let conflict = false
+    let newLocation = addClassData.location.split(' ').join('').toLowerCase()
+    let filterNewSemi = newLocation.split(';')
+    let filterNewLocation = filterNewSemi[0]
+
+    let ourNewAddedTime = addClassObj(addClassData.meetingPattern)
+    let daysFiltered = ourNewAddedTime.days.split('').sort()
+
+    allTimes.forEach(obj => {
+      if(obj.location === filterNewLocation) {
+        if(daysFiltered.includes(obj.days.split('').sort()[0]) || daysFiltered.includes(obj.days.split('').sort()[1]) || daysFiltered.includes(obj.days.split('').sort()[2])){
+          if(obj.startTime < ourNewAddedTime.startTime && obj.endTime < ourNewAddedTime.startTime){
+          }else if(obj.startTime > ourNewAddedTime.endTime && obj.endTime > ourNewAddedTime.endTime){
+          }else{
+            return conflict = true
+          }
+        }
+      }
+
+    })
+    //close the modal and check for form errors
+    if(conflict === true) {
+      alert('Room Time Conflicts') 
+      return false
+    }else {
+      return true
+    }
+  }
 
   return (
     <div className="add-class-modal-wrap">
@@ -219,15 +386,17 @@ export default function AddClass(props) {
         <button
           className="add-class-save-btn"
           onClick={() => {
-            if (Object.keys(addClassData).length === 23) {
-              setInitialAndChangedData([
-                ...initialAndChangedData,
-                addClassData,
-              ]);
-              setAddClassSuccess(true);
-              setAddClassFormError(false);
-            } else {
-              setAddClassFormError(true);
+            if (checkConflicts()){
+              if (Object.keys(addClassData).length === 23) {
+                setInitialAndChangedData([
+                  ...initialAndChangedData,
+                  addClassData,
+                ]);
+                setAddClassSuccess(true);
+                setAddClassFormError(false);
+              } else {
+                setAddClassFormError(true);
+              }
             }
           }}
         >

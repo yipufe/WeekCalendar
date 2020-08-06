@@ -6,6 +6,10 @@ import Header from './Components/Header/Header';
 import Nav from './Components/Nav/Nav';
 import Footer from './Components/Footer/Footer';
 
+import Modal from 'react-modal';
+import ClassModal from './Components/ClassModal/classmodal';
+Modal.setAppElement('#root'); //Bind modal to app element
+
 function App() {
   // All of these useState items are the states or data for different parts of the calendar.
   // This App component is the parent component to all of the other components.
@@ -22,6 +26,87 @@ function App() {
   const [instructorValue, setInstructorValue] = useState([]);
   const [block, setBlock] = useState([]);
   const [blockValue, setBlockValue] = useState([]);
+
+  const [classModalIsOpen, setClassModalIsOpen] = useState(false);
+  const [classModalData, setClassModalData] = useState({});
+
+  function changeClassModalMeetingPattern(pattern) {
+    const newClassModalData = { ...classModalData };
+    newClassModalData.meetingPattern = pattern;
+    setClassModalData(newClassModalData);
+  }
+
+  //Called when class information changes in the modal due to the user changing an input field
+  //Uses the input id to identify what value is changing
+  function changeClassModal(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    const newClassModalData = { ...classModalData };
+    newClassModalData[name] = value; //any other field look up and asign dirrectly
+    setClassModalData(newClassModalData);
+  }
+
+  //Opens Modal with appropriate class information
+  function openClassModal(classId) {
+    const courseForModalDisplay = initialAndChangedData.find((item) => {
+      return item.classId === classId;
+    });
+
+    setClassModalData(courseForModalDisplay);
+    setClassModalIsOpen(true);
+  }
+  function closeClassModal() {
+    setClassModalIsOpen(false);
+  }
+
+  //save class information entered into the class modal
+  function saveClass(classId) {
+    //If meeting pattern has no days default to Saturday
+    if (classModalData.meetingPattern.split(' ')[0].length === 0) {
+      classModalData.meetingPattern = 'Sa' + classModalData.meetingPattern;
+    }
+
+    //set Changed data
+    const indexChangedData = initialAndChangedData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempChangedData = [...initialAndChangedData];
+    tempChangedData[indexChangedData] = classModalData;
+    setInitialAndChangedData(tempChangedData);
+
+    //Set Display data
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData[indexDisplayData] = classModalData;
+    setDisplayData(tempDisplayData);
+
+    //Hide modal
+    setClassModalIsOpen(false);
+  }
+
+  //delete class modal control
+  function deleteClass(classId) {
+    //remove class from display data
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData.splice(indexDisplayData, 1);
+    setDisplayData(tempDisplayData);
+
+    //remove class from initial data
+    const indexInitialData = initialData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempInitialData = [...initialData];
+    tempInitialData.splice(indexInitialData, 1);
+    setInitialData(tempInitialData);
+
+    setClassModalIsOpen(false);
+  }
 
   // This function is for when the user uploads a file it stores the file in the file state.
   const handleChange = (e) => {
@@ -301,6 +386,22 @@ function App() {
 
   return (
     <div className="App">
+      <Modal
+        isOpen={classModalIsOpen}
+        onRequestClose={closeClassModal}
+        style={{ display: 'flex' }}
+        className="add-class-modal"
+        shouldCloseOnOverlayClick={false}
+      >
+        <ClassModal
+          closeClassModal={closeClassModal}
+          saveClass={saveClass}
+          deleteClass={deleteClass}
+          classModalData={classModalData}
+          changed={changeClassModal}
+          changeMeetingPattern={changeClassModalMeetingPattern}
+        />
+      </Modal>
       <Header />
       <Nav />
       <div className="app-body">
@@ -335,6 +436,7 @@ function App() {
           setInitialAndChangedData={setInitialAndChangedData}
           displayData={displayData}
           setDisplayData={setDisplayData}
+          openClassModal={openClassModal}
         />
       </div>
       <Footer />
