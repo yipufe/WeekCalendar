@@ -57,9 +57,9 @@ function App() {
   //     return item.classId === classId;
   //   });
 
-    setClassModalData(courseForModalDisplay);
-    setClassModalIsOpen(true);
-  }
+  //   setClassModalData(courseForModalDisplay);
+  //   setClassModalIsOpen(true);
+  // }
   function closeClassModal() {
     setClassModalIsOpen(false);
   }
