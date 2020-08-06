@@ -99,6 +99,7 @@ function Sidebar(props) {
               onClick={() => {
                 props.handleResetCalendar();
                 document.getElementById('csvfile').value = '';
+                setOpenClearCalendarModal(false);
               }}
             >
               Clear Calendar

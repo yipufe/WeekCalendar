@@ -18,14 +18,16 @@
   padding: 5px;
   cursor: pointer;
 }
-
-.cal-front-item-p {
-	margin: 0;
-	font-size: 9.5pt;
-	font-weight: 500;
+.cal-front-item-course {
+  margin: 0;
+  font-size: 9pt;
+  font-weight: 600;
 }
-
-
+.cal-front-item-p {
+  margin: 0;
+  font-size: 7.5pt;
+  font-weight: 500;
+}
 .course-modal {
   width: 100vw;
   border: none;
