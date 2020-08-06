@@ -171,3 +171,11 @@
     background: darken($blue, 10%);
   }
 }
+
+@media print {
+  .calendar-front div {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid black;
+  }
+}

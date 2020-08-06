@@ -42,7 +42,7 @@ function Calendar(props) {
           />
           <p>Add Class</p>
         </div>
-        <div className="calendar-header-icon-wrap">
+        <div className="calendar-header-icon-wrap" onClick={props.handlePrint}>
           <FontAwesomeIcon
             icon={faPrint}
             className="calendar-header-icon"
