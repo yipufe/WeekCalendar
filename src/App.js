@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './app.scss';
 import Calendar from './Components/Calendar/Calendar';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Header from './Components/Header/Header';
 import Nav from './Components/Nav/Nav';
 import Footer from './Components/Footer/Footer';
+import { useReactToPrint } from 'react-to-print';
+import Printable from './Components/Print/printable';
+import ClassDetailsList from './Components/ClassDetailsList/classdetailslist';
+
+import Modal from 'react-modal';
+import ClassModal from './Components/ClassModal/classmodal';
+Modal.setAppElement('#root'); //Bind modal to app element
 
 function App() {
   // All of these useState items are the states or data for different parts of the calendar.
@@ -22,6 +29,88 @@ function App() {
   const [instructorValue, setInstructorValue] = useState([]);
   const [block, setBlock] = useState([]);
   const [blockValue, setBlockValue] = useState([]);
+  const [activeFilter, setActiveFilter] = useState('');
+
+  const [classModalIsOpen, setClassModalIsOpen] = useState(false);
+  const [classModalData, setClassModalData] = useState({});
+
+  function changeClassModalMeetingPattern(pattern) {
+    const newClassModalData = { ...classModalData };
+    newClassModalData.meetingPattern = pattern;
+    setClassModalData(newClassModalData);
+  }
+
+  //Called when class information changes in the modal due to the user changing an input field
+  //Uses the input id to identify what value is changing
+  function changeClassModal(event) {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    const newClassModalData = { ...classModalData };
+    newClassModalData[name] = value; //any other field look up and asign dirrectly
+    setClassModalData(newClassModalData);
+  }
+
+  //Opens Modal with appropriate class information
+  // function openClassModal(classId) {
+  //   const courseForModalDisplay = initialAndChangedData.find((item) => {
+  //     return item.classId === classId;
+  //   });
+
+  //   setClassModalData(courseForModalDisplay);
+  //   setClassModalIsOpen(true);
+  // }
+  function closeClassModal() {
+    setClassModalIsOpen(false);
+  }
+
+  //save class information entered into the class modal
+  function saveClass(classId) {
+    //If meeting pattern has no days default to Saturday
+    if (classModalData.meetingPattern.split(' ')[0].length === 0) {
+      classModalData.meetingPattern = 'Sa' + classModalData.meetingPattern;
+    }
+
+    //set Changed data
+    const indexChangedData = initialAndChangedData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempChangedData = [...initialAndChangedData];
+    tempChangedData[indexChangedData] = classModalData;
+    setInitialAndChangedData(tempChangedData);
+
+    //Set Display data
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData[indexDisplayData] = classModalData;
+    setDisplayData(tempDisplayData);
+
+    //Hide modal
+    setClassModalIsOpen(false);
+  }
+
+  //delete class modal control
+  function deleteClass(classId) {
+    //remove class from display data
+    const indexDisplayData = displayData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempDisplayData = [...displayData];
+    tempDisplayData.splice(indexDisplayData, 1);
+    setDisplayData(tempDisplayData);
+
+    //remove class from initial data
+    const indexInitialData = initialData.findIndex((item) => {
+      return item.classId === classId;
+    });
+    const tempInitialData = [...initialData];
+    tempInitialData.splice(indexInitialData, 1);
+    setInitialData(tempInitialData);
+
+    setClassModalIsOpen(false);
+  }
 
   // This function is for when the user uploads a file it stores the file in the file state.
   const handleChange = (e) => {
@@ -84,6 +173,41 @@ function App() {
               visible: item.field24,
             });
           }
+        }
+        //time and instructor schedule
+        const filterArray = [];
+        var uniqueObj = [];
+        var bool = true;
+        dataArray.forEach((data) => {
+          if (
+            !filterArray.find(
+              (dat) =>
+                dat.instructor === data.instructor &&
+                dat.course === data.course &&
+                dat.meetingPattern === data.meetingPattern
+            )
+          ) {
+            const { instructor, course, meetingPattern } = data;
+            filterArray.push({ instructor, course, meetingPattern });
+          }
+        });
+
+        for (var i = 0; i < filterArray.length; i++) {
+          if (
+            uniqueObj.indexOf(filterArray[i].instructor) === -1 &&
+            uniqueObj.indexOf(filterArray[i].course) === -1 &&
+            uniqueObj.indexOf(filterArray[i].meetingPattern) === -1
+          ) {
+            bool = true;
+          } else {
+            bool = false;
+          }
+        }
+        if (bool === true) {
+          alert('No schedule intersects');
+        } else {
+          alert('schedule intersects');
+          return;
         }
         console.log(dataArray);
         setInitialData(dataArray);
@@ -163,6 +287,7 @@ function App() {
         });
       }
     }
+
     //Remove duplicates from courseArray
     const courseArrayUnique = courseArray.filter((item, index, self) => {
       return (
@@ -232,6 +357,7 @@ function App() {
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
+    setActiveFilter('Block: ' + selectedOption.label);
   };
   const handleInstructorChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -243,6 +369,7 @@ function App() {
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
+    setActiveFilter('Instructor: ' + selectedOption.label);
   };
   const handleRoomChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -258,6 +385,7 @@ function App() {
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
+    setActiveFilter('Room: ' + selectedOption.label);
   };
   const handleCourseChange = (selectedOption) => {
     console.log(`Option selected:`, selectedOption);
@@ -269,6 +397,7 @@ function App() {
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
+    setActiveFilter('Course: ' + selectedOption.label);
   };
 
   const clearFilters = () => {
@@ -277,6 +406,7 @@ function App() {
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
     setBlockValue({ label: 'Filter Block...', value: 0 });
+    setActiveFilter('');
   };
   const handleResetCalendar = () => {
     setFile('');
@@ -290,11 +420,34 @@ function App() {
     setRoomValue([]);
     setInitialData([]);
     setDisplayData([]);
+    setActiveFilter('');
     setInitialAndChangedData([]);
   };
 
+  //Print handler
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <div className="App">
+      <Modal
+        isOpen={classModalIsOpen}
+        onRequestClose={closeClassModal}
+        style={{ display: 'flex' }}
+        className="add-class-modal"
+        shouldCloseOnOverlayClick={false}
+      >
+        <ClassModal
+          closeClassModal={closeClassModal}
+          saveClass={saveClass}
+          deleteClass={deleteClass}
+          classModalData={classModalData}
+          changed={changeClassModal}
+          changeMeetingPattern={changeClassModalMeetingPattern}
+        />
+      </Modal>
       <Header />
       <Nav />
       <div className="app-body">
@@ -321,16 +474,24 @@ function App() {
           setInitialData={setInitialData}
           handleResetCalendar={handleResetCalendar}
         />
-        <Calendar
-          // These are all the props being sent to the Calendar component
-          initialData={initialData}
-          setInitialData={setInitialData}
-          initialAndChangedData={initialAndChangedData}
-          setInitialAndChangedData={setInitialAndChangedData}
-          displayData={displayData}
-          setDisplayData={setDisplayData}
-          handleExcelExport={exportAsExcelFileHandler}
-        />
+        <Printable ref={componentRef}>
+          <div className="printOnly">
+            <div className="calTitleContainer">
+              <div className="calTitle bold">{activeFilter}</div>
+            </div>
+          </div>
+          <Calendar
+            // These are all the props being sent to the Calendar component
+            initialData={initialData}
+            setInitialData={setInitialData}
+            initialAndChangedData={initialAndChangedData}
+            setInitialAndChangedData={setInitialAndChangedData}
+            displayData={displayData}
+            setDisplayData={setDisplayData}
+            handlePrint={handlePrint}
+          />
+          <ClassDetailsList displayData={displayData} title={activeFilter} />
+        </Printable>
       </div>
       <Footer />
     </div>

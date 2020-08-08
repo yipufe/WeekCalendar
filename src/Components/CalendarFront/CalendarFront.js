@@ -26,10 +26,22 @@ function CalendarFront(props) {
   }
 
   const eventData = meetingPatternArr.map((event) => {
-    const days = event.meetingPattern.split(' ')[0];
-    const dayArray = days !== 'Sa' ? days.split('') : ['Sa'];
+    let days = event.meetingPattern.split(' ')[0];
+    days = days.replace('a', '');
+    let dayArray = days.split('');
+    dayArray = dayArray.map((day) => {
+      if (day === 'S') return 'Sa';
+      return day;
+    });
+
     const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
-    const endTime = event.meetingPattern.split(' ')[1].split('-')[1];
+    let endTime = event.meetingPattern.split(' ')[1].split('-')[1];
+    if (endTime.includes(';')) {
+      endTime = endTime.substring(0, endTime.length - 1);
+    }
+
+    console.log(startTime);
+    console.log(endTime);
 
     const displayEvents = dayArray.map((day) => {
       return (
@@ -40,8 +52,13 @@ function CalendarFront(props) {
             gridColumn: `${calDays[day]}`,
             gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
           }}
+          onClick={() => {
+            props.openClassModal(event.classId);
+          }}
         >
-          <p className="cal-front-item-p">{event.course}</p>
+          <p className="cal-front-item-course">
+            {event.course}-{event.section}
+          </p>
           <p className="cal-front-item-p">
             {event.courseTitle.substring(0, 15) + '...'}
           </p>
