@@ -28,8 +28,6 @@ function Calendar(props) {
     });
   };
 
-  console.log(Object.keys(addClassData).length);
-
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
@@ -52,7 +50,7 @@ function Calendar(props) {
           />
           <p>Print</p>
         </div>
-        <div 
+        <div
           className="calendar-header-icon-wrap"
           onClick={props.handleExcelExport}
         >

@@ -37,7 +37,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'http://localhost:8080/calendar/postcsv';//'https://schedge.dev/calendar/postcsv';
+    let url = 'http://localhost:8080/calendar/postcsv'; //'https://schedge.dev/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -97,7 +97,7 @@ function App() {
   const exportAsExcelFileHandler = (ev) => {
     ev.preventDefault();
     const formData = new FormData();
-    formData.append('displaydata', JSON.stringify( displayData ) );
+    formData.append('displaydata', JSON.stringify(displayData));
     let url = 'http://localhost:8080/export/postexcel';
     let method = 'POST';
 
@@ -112,17 +112,16 @@ function App() {
         return res.blob();
       })
       .then((resData) => {
-        console.log("RES:",resData);
+        console.log('RES:', resData);
 
         //Create link to click for automatic download
-        const downloadLink = document.createElement("a");
-        const url  = window.URL.createObjectURL(resData);
-        downloadLink.href=url;
-        downloadLink.download="Excel.xlsx"
+        const downloadLink = document.createElement('a');
+        const url = window.URL.createObjectURL(resData);
+        downloadLink.href = url;
+        downloadLink.download = 'Excel.xlsx';
         downloadLink.click();
-
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     const roomArray = [];
@@ -293,8 +292,6 @@ function App() {
     setDisplayData([]);
     setInitialAndChangedData([]);
   };
-
-  console.log(initialAndChangedData);
 
   return (
     <div className="App">
