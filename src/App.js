@@ -126,7 +126,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('csvfile', file);
-    let url = 'http://localhost:8080/calendar/postcsv'; //'https://schedge.dev/calendar/postcsv';
+    let url = 'https://schedge.dev/calendar/postcsv'; //'https://schedge.dev/calendar/postcsv';
     let method = 'POST';
 
     fetch(url, {
@@ -222,7 +222,7 @@ function App() {
     ev.preventDefault();
     const formData = new FormData();
     formData.append('displaydata', JSON.stringify(displayData));
-    let url = 'http://localhost:8080/export/postexcel';
+    let url = 'https://schedge.dev/export/postexcel';
     let method = 'POST';
 
     fetch(url, {
@@ -489,6 +489,7 @@ function App() {
             displayData={displayData}
             setDisplayData={setDisplayData}
             handlePrint={handlePrint}
+            handleExcelExport={exportAsExcelFileHandler}
           />
           <ClassDetailsList displayData={displayData} title={activeFilter} />
         </Printable>
