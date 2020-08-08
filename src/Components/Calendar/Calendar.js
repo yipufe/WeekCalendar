@@ -50,7 +50,10 @@ function Calendar(props) {
           />
           <p>Print</p>
         </div>
-        <div className="calendar-header-icon-wrap">
+        <div
+          className="calendar-header-icon-wrap"
+          onClick={props.handleExcelExport}
+        >
           <FontAwesomeIcon
             icon={faFileExport}
             className="calendar-header-icon"
