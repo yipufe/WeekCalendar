@@ -52,14 +52,14 @@ function App() {
   }
 
   //Opens Modal with appropriate class information
-  // function openClassModal(classId) {
-  //   const courseForModalDisplay = initialAndChangedData.find((item) => {
-  //     return item.classId === classId;
-  //   });
+  function openClassModal(classId) {
+    const courseForModalDisplay = initialAndChangedData.find((item) => {
+      return item.classId === classId;
+    });
 
-  //   setClassModalData(courseForModalDisplay);
-  //   setClassModalIsOpen(true);
-  // }
+    setClassModalData(courseForModalDisplay);
+    setClassModalIsOpen(true);
+  }
   function closeClassModal() {
     setClassModalIsOpen(false);
   }
@@ -490,6 +490,7 @@ function App() {
             setDisplayData={setDisplayData}
             handlePrint={handlePrint}
             handleExcelExport={exportAsExcelFileHandler}
+            openClassModal={openClassModal}
           />
           <ClassDetailsList displayData={displayData} title={activeFilter} />
         </Printable>
