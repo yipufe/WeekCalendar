@@ -1,7 +1,7 @@
 import React from 'react';
 import './calendarFront.scss';
 import styled from 'styled-components';
-import { calDays, calTimes, colors } from '../../calendarDaysAndTimesData';
+import { calDays, calDaysLeft, calDaysRight, calTimes, colors } from '../../calendarDaysAndTimesData';
 
 const Container = styled.div`
   width: 85%;
@@ -13,8 +13,9 @@ const Container = styled.div`
 `;
 
 function CalendarFront(props) {
-  const { displayData, initialAndChangedData } = props; // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
+  const { initialDataFiltered ,displayData, initialAndChangedData, compareSchedule } = props; // This is filtering through the displayData and filtering out all the data that say "Does Not Meet"
   let meetingPatternArr;
+  let meetingPatternArrOriginal;
   if (displayData) {
     meetingPatternArr = displayData.filter(
       (course) => course.meetingPattern !== 'Does Not Meet'
@@ -24,6 +25,10 @@ function CalendarFront(props) {
       (course) => course.meetingPattern !== 'Does Not Meet'
     );
   }
+
+  meetingPatternArrOriginal = initialDataFiltered.filter(
+    (course) => course.meetingPattern !== 'Does Not Meet'
+  );
 
   const eventData = meetingPatternArr.map((event) => {
     let days = event.meetingPattern.split(' ')[0];
@@ -49,7 +54,7 @@ function CalendarFront(props) {
           key={`${day}-${event.classId}`}
           index={meetingPatternArr.indexOf(event)}
           style={{
-            gridColumn: `${calDays[day]}`,
+            gridColumn: compareSchedule?`${calDaysRight[day]}`:`${calDays[day]}`,
             gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
           }}
           onClick={() => {
@@ -59,9 +64,15 @@ function CalendarFront(props) {
           <p className="cal-front-item-course">
             {event.course}-{event.section}
           </p>
-          <p className="cal-front-item-p">
-            {event.courseTitle.substring(0, 15) + '...'}
-          </p>
+          {
+            !compareSchedule? 
+            <p className="cal-front-item-p">
+              {event.courseTitle.substring(0, 15) + '...'}
+            </p>:
+            <p className="cal-front-item-p">
+              {event.courseTitle.substring(0, 8) + '...'}
+            </p>
+          }
           <p className="cal-front-item-p">{event.meetingPattern}</p>
         </Container>
       );
@@ -70,7 +81,55 @@ function CalendarFront(props) {
     return displayEvents;
   });
 
-  return <div className="calendar-front">{eventData}</div>;
+  const eventDataOriginal = meetingPatternArrOriginal.map((event) => {
+    let days = event.meetingPattern.split(' ')[0];
+    days = days.replace('a', '');
+    let dayArray = days.split('');
+    dayArray = dayArray.map((day) => {
+      if (day === 'S') return 'Sa';
+      return day;
+    });
+
+    const startTime = event.meetingPattern.split(' ')[1].split('-')[0];
+    let endTime = event.meetingPattern.split(' ')[1].split('-')[1];
+    if (endTime.includes(';')) {
+      endTime = endTime.substring(0, endTime.length - 1);
+    }
+
+    console.log(startTime);
+    console.log(endTime);
+
+    const displayEvents = dayArray.map((day) => {
+      return (
+        <div
+          key={`${day}-${event.classId}`}
+          index={meetingPatternArr.indexOf(event)}
+          style={{
+            gridColumn: `${calDaysLeft[day]}`,
+            gridRow: `${calTimes[startTime]} / ${calTimes[endTime]}`,
+          }}
+          className="cal-front-item"
+        >
+          <p className="cal-front-item-course">
+            {event.course}-{event.section}
+          </p>
+          <p className="cal-front-item-p">
+            {event.courseTitle.substring(0, 8) + '...'}
+          </p>
+          <p className="cal-front-item-p">{event.meetingPattern}</p>
+        </div>
+      );
+    });
+
+    return displayEvents;
+  });
+
+  if(compareSchedule) {
+    return <div className="calendar-front compare">{eventData.concat(eventDataOriginal)}</div>;
+  } else {
+    return <div className="calendar-front">{eventData}</div>;
+  }
+
 }
 
 export default CalendarFront;

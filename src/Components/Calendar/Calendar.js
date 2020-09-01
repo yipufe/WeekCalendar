@@ -6,6 +6,8 @@ import {
   faPrint,
   faPlusCircle,
   faCheck,
+  faBalanceScale,
+  faArrowCircleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
 import AddClass from '../AddClass/AddClass';
@@ -20,6 +22,7 @@ function Calendar(props) {
   const [openAddClassModal, setOpenAddClassModal] = useState(false);
   const [addClassData, setAddClassData] = useState({});
   const [addClassSuccess, setAddClassSuccess] = useState(false);
+  const [compareSchedule, setCompareSchedule] = useState(false);
 
   const handleAddClass = (e) => {
     setAddClassData({
@@ -31,6 +34,7 @@ function Calendar(props) {
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
+      {!compareSchedule &&
         <div
           className="calendar-header-icon-wrap"
           onClick={() => setOpenAddClassModal(openAddClassModal ? false : true)}
@@ -42,6 +46,32 @@ function Calendar(props) {
           />
           <p>Add Class</p>
         </div>
+      }
+        {compareSchedule?
+          <div
+          className="calendar-header-icon-wrap"
+          onClick={()=>{setCompareSchedule(false)}}
+        >
+          <FontAwesomeIcon
+            icon={faArrowCircleLeft}
+            className="calendar-header-icon"
+            size="lg"
+          />
+          <p>Back</p>
+        </div>:
+          <div
+          className="calendar-header-icon-wrap"
+          onClick={()=>{setCompareSchedule(true)}}
+        >
+          <FontAwesomeIcon
+            icon={faBalanceScale}
+            className="calendar-header-icon"
+            size="lg"
+          />
+          <p>Compare</p>
+        </div>    
+      }
+      {!compareSchedule &&
         <div className="calendar-header-icon-wrap" onClick={props.handlePrint}>
           <FontAwesomeIcon
             icon={faPrint}
@@ -50,6 +80,8 @@ function Calendar(props) {
           />
           <p>Print</p>
         </div>
+      }
+      {!compareSchedule &&
         <div
           className="calendar-header-icon-wrap"
           onClick={props.handleExcelExport}
@@ -61,6 +93,7 @@ function Calendar(props) {
           />
           <p>Export</p>
         </div>
+      }
       </section>
       <div className="calendar">
         <div className="dayname-row">
@@ -80,12 +113,14 @@ function Calendar(props) {
             <CalendarCells />
             <CalendarFront
               initialData={props.initialData}
+              initialDataFiltered={props.initialDataFiltered}
               setInitialData={props.setInitialData}
               displayData={props.displayData}
               setDisplayData={props.setDisplayData}
               initialAndChangedData={props.initialAndChangedData}
               setInitialAndChangedData={props.setInitialAndChangedData}
               openClassModal={props.openClassModal}
+              compareSchedule={compareSchedule}
             />
           </div>
         </div>

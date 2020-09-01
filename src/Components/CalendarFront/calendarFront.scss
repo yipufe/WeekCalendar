@@ -10,9 +10,13 @@
   left: 0;
 }
 
+.compare {
+  grid-template-columns: repeat(12, 1fr) !important;
+}
+
 .cal-front-item {
   width: 85%;
-  background-color: $blue;
+  background-color: #555;
   color: white;
   border-radius: 5px;
   padding: 5px;

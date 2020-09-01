@@ -8,6 +8,24 @@ export const calDays = {
   Sa: 6,
 };
 
+export const calDaysLeft = {
+  M: 1,
+  T: 3,
+  W: 5,
+  R: 7,
+  F: 9,
+  Sa: 11,
+};
+
+export const calDaysRight = {
+  M: 2,
+  T: 4,
+  W: 6,
+  R: 8,
+  F: 10,
+  Sa: 12,
+};
+
 // These are the times associated with the number for the CSS Grid rows.
 export const calTimes = {
   '6am': 1,

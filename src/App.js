@@ -19,6 +19,7 @@ function App() {
   // We have all the data and functions here and then we pass them to the child components through props.
   const [initialData, setInitialData] = useState([]);
   const [initialAndChangedData, setInitialAndChangedData] = useState([]);
+  const [initialDataFiltered, setInitialDataFiltered] = useState([]);
   const [displayData, setDisplayData] = useState([]);
   const [file, setFile] = useState('');
   const [course, setCourse] = useState([]);
@@ -211,6 +212,7 @@ function App() {
         }
         console.log(dataArray);
         setInitialData(dataArray);
+        setInitialDataFiltered(dataArray);
         setInitialAndChangedData(dataArray);
         setDisplayData(dataArray);
       })
@@ -352,6 +354,10 @@ function App() {
     const blockFilteredData = initialAndChangedData.filter(
       (item) => item.block === selectedOption.value
     );
+    const blockFilteredInitialData = initialData.filter(
+      (item) => item.block === selectedOption.value
+    );
+    setInitialDataFiltered(blockFilteredInitialData);
     setDisplayData(blockFilteredData);
     setBlockValue(selectedOption);
     setCourseValue({ label: 'Filter Course...', value: 0 });
@@ -364,6 +370,11 @@ function App() {
     const instructorFilteredData = initialAndChangedData.filter(
       (item) => item.instructor === selectedOption.value
     );
+    const instructorFilteredInitialData = initialData.filter(
+      (item) => item.instructor === selectedOption.value
+    );
+    
+    setInitialDataFiltered(instructorFilteredInitialData);
     setDisplayData(instructorFilteredData);
     setInstructorValue(selectedOption);
     setCourseValue({ label: 'Filter Course...', value: 0 });
@@ -380,6 +391,14 @@ function App() {
         This will select all items that have the same room number in the front of the string*/
       return item.location.split(';')[0] === selectedOption.value;
     });
+    const roomFilteredInitialData = initialData.filter((item) => {
+      /* SelectedOption.value will be only the room number such as "CS 406" and
+        item.location will be the room number and may include details after such
+        as "CS 406; Online Online"
+        This will select all items that have the same room number in the front of the string*/
+      return item.location.split(';')[0] === selectedOption.value;
+    });
+    setInitialDataFiltered(roomFilteredInitialData);
     setDisplayData(roomFilteredData);
     setRoomValue(selectedOption);
     setCourseValue({ label: 'Filter Course...', value: 0 });
@@ -392,6 +411,10 @@ function App() {
     const courseFilteredData = initialAndChangedData.filter(
       (item) => item.courseTitle === selectedOption.value
     );
+    const courseFilteredInitailData = initialData.filter(
+      (item) => item.courseTitle === selectedOption.value
+    );
+    setInitialDataFiltered(courseFilteredInitailData);
     setDisplayData(courseFilteredData);
     setCourseValue(selectedOption);
     setRoomValue({ label: 'Filter Room...', value: 0 });
@@ -402,6 +425,7 @@ function App() {
 
   const clearFilters = () => {
     setDisplayData(initialAndChangedData);
+    setInitialDataFiltered(initialData);
     setCourseValue({ label: 'Filter Course...', value: 0 });
     setRoomValue({ label: 'Filter Room...', value: 0 });
     setInstructorValue({ label: 'Filter Instructor...', value: 0 });
@@ -483,6 +507,7 @@ function App() {
           <Calendar
             // These are all the props being sent to the Calendar component
             initialData={initialData}
+            initialDataFiltered={initialDataFiltered}
             setInitialData={setInitialData}
             initialAndChangedData={initialAndChangedData}
             setInitialAndChangedData={setInitialAndChangedData}
