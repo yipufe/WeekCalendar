@@ -2,6 +2,7 @@ import React from 'react';
 import './calendarFront.scss';
 import styled from 'styled-components';
 import { calDays, calDaysLeft, calDaysRight, calTimes, colors } from '../../calendarDaysAndTimesData';
+import { getTimeRange } from '../../time';
 
 const Container = styled.div`
   width: 85%;
@@ -45,8 +46,7 @@ function CalendarFront(props) {
       endTime = endTime.substring(0, endTime.length - 1);
     }
 
-    console.log(startTime);
-    console.log(endTime);
+    const timeSpan = getTimeRange( startTime, endTime);
 
     const displayEvents = dayArray.map((day) => {
       return (
@@ -73,7 +73,9 @@ function CalendarFront(props) {
               {event.courseTitle.substring(0, 8) + '...'}
             </p>
           }
-          <p className="cal-front-item-p">{event.meetingPattern}</p>
+          
+          { timeSpan>1.5 && <p className="cal-front-item-p">{event.meetingPattern}</p> }
+          
         </Container>
       );
     });
@@ -96,8 +98,7 @@ function CalendarFront(props) {
       endTime = endTime.substring(0, endTime.length - 1);
     }
 
-    console.log(startTime);
-    console.log(endTime);
+    const timeSpan = getTimeRange( startTime, endTime);
 
     const displayEvents = dayArray.map((day) => {
       return (
@@ -116,7 +117,9 @@ function CalendarFront(props) {
           <p className="cal-front-item-p">
             {event.courseTitle.substring(0, 8) + '...'}
           </p>
-          <p className="cal-front-item-p">{event.meetingPattern}</p>
+
+          { timeSpan>1.5 && <p className="cal-front-item-p">{event.meetingPattern}</p> }
+        
         </div>
       );
     });

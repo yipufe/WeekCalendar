@@ -34,6 +34,7 @@ function Calendar(props) {
   return (
     <div className="calendar-wrap">
       <section className="calendar-header">
+      {/* {compareSchedule && <div className="comparison-legend"><div className="legend-left-container"><span className="legend-left">Left</span> - Original Schedule</div><div className="legend-right-container"><span className="legend-right">Right</span> - Modified Schedule</div></div> } */}
       {!compareSchedule &&
         <div
           className="calendar-header-icon-wrap"

@@ -176,3 +176,26 @@
     background: darken($red, 10%);
   }
 }
+
+.comparison-legend {
+  padding-right: 200px;
+  padding-bottom: 15px;
+  display: flex;
+  font-size: 11px;
+  .legend-left-container {
+    padding-right: 20px;
+    .legend-left {
+      background-color: #555;
+      padding: 7px 11px;
+      color: white;
+      border-radius: 5px;
+    }  
+  }
+  .legend-right-container {
+    .legend-right {
+        padding: 6px 10px;
+        border-radius: 5px;
+        border: 1px solid;
+    }
+  }
+}
